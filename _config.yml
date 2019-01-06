@@ -88,6 +88,6 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:90vFan/blog.git
+  repo: git@github.com:90vFan/90vfan.github.io.git 
   branch: master
 
