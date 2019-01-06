@@ -90,4 +90,3 @@ deploy:
   type: git
   repo: git@github.com:90vFan/90vfan.github.io.git 
   branch: master
-
