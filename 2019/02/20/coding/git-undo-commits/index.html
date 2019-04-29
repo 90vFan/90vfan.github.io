@@ -96,30 +96,25 @@
 
 
 
-  <meta name="description" content="Part 4. 决策树 Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型  if-then规则集合，每一条路径构建一条规则  内部节点：特征/属性，规则的条件  叶节点：　类，规则的结论   条件概率分布 将特征空间划分为互不相交的单元（cell）或区域（region） $P(Y=+1|X=c)&amp;gt;0.5$, 单元cell　属于正类">
-<meta name="keywords" content="xiguashu,hexo-asset-image">
+  <meta name="description" content="refer to: https://stackoverflow.com/questions/927358/how-do-i-undo-the-most-recent-commits-in-git 12345$ git commit -m &quot;Something terribly misguided&quot;             # (1)$ git reset HEAD~">
+<meta name="keywords" content="git">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Decistion Tree">
-<meta property="og:url" content="http:/2019/01/31/xiguashu/decision-tree/index.html">
+<meta property="og:title" content="git undo commit">
+<meta property="og:url" content="http:/2019/02/20/coding/git-undo-commits/index.html">
 <meta property="og:site_name" content="SAILOR">
-<meta property="og:description" content="Part 4. 决策树 Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型  if-then规则集合，每一条路径构建一条规则  内部节点：特征/属性，规则的条件  叶节点：　类，规则的结论   条件概率分布 将特征空间划分为互不相交的单元（cell）或区域（region） $P(Y=+1|X=c)&amp;gt;0.5$, 单元cell　属于正类">
+<meta property="og:description" content="refer to: https://stackoverflow.com/questions/927358/how-do-i-undo-the-most-recent-commits-in-git 12345$ git commit -m &quot;Something terribly misguided&quot;             # (1)$ git reset HEAD~">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:/2019/01/31/xiguashu/decision-tree/tree_basic.png">
-<meta property="og:image" content="http:/2019/01/31/xiguashu/decision-tree/feature-space.png">
-<meta property="og:image" content="http:/2019/01/31/xiguashu/decision-tree/1548940132559.png">
-<meta property="og:image" content="http:/2019/01/31/xiguashu/decision-tree/1548940093157.png">
-<meta property="og:updated_time" content="2019-02-20T02:23:39.435Z">
+<meta property="og:updated_time" content="2019-02-20T02:44:20.642Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Decistion Tree">
-<meta name="twitter:description" content="Part 4. 决策树 Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型  if-then规则集合，每一条路径构建一条规则  内部节点：特征/属性，规则的条件  叶节点：　类，规则的结论   条件概率分布 将特征空间划分为互不相交的单元（cell）或区域（region） $P(Y=+1|X=c)&amp;gt;0.5$, 单元cell　属于正类">
-<meta name="twitter:image" content="http:/2019/01/31/xiguashu/decision-tree/tree_basic.png">
+<meta name="twitter:title" content="git undo commit">
+<meta name="twitter:description" content="refer to: https://stackoverflow.com/questions/927358/how-do-i-undo-the-most-recent-commits-in-git 12345$ git commit -m &quot;Something terribly misguided&quot;             # (1)$ git reset HEAD~">
 
 
 
 
 
 
-  <link rel="canonical" href="http:/2019/01/31/xiguashu/decision-tree/">
+  <link rel="canonical" href="http:/2019/02/20/coding/git-undo-commits/">
 
 
 
@@ -129,7 +124,7 @@
   };
 </script>
 
-  <title>Decistion Tree | SAILOR</title>
+  <title>git undo commit | SAILOR</title>
   
 
 
@@ -332,7 +327,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/01/31/xiguashu/decision-tree/">
+    <link itemprop="mainEntityOfPage" href="http:/2019/02/20/coding/git-undo-commits/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joseph.Fan">
@@ -349,7 +344,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Decistion Tree
+          <h1 class="post-title" itemprop="name headline">git undo commit
 
               
             
@@ -375,24 +370,12 @@
                 
               
 
-              <time title="创建时间：2019-01-31 20:33:05" itemprop="dateCreated datePublished" datetime="2019-01-31T20:33:05+08:00">2019-01-31</time>
+              <time title="创建时间：2019-02-20 20:33:05 / 修改时间：10:44:20" itemprop="dateCreated datePublished" datetime="2019-02-20T20:33:05+08:00">2019-02-20</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-02-20 10:23:39" itemprop="dateModified" datetime="2019-02-20T10:23:39+08:00">2019-02-20</time>
               
             
           </span>
@@ -409,7 +392,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/xiguashu/" itemprop="url" rel="index"><span itemprop="name">xiguashu</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/coding/" itemprop="url" rel="index"><span itemprop="name">coding</span></a></span>
 
                 
                 
@@ -451,22 +434,38 @@
       
 
       
-        <h2 id="Part-4-决策树"><a href="#Part-4-决策树" class="headerlink" title="Part 4. 决策树"></a>Part 4. 决策树</h2><hr>
-<p>Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型</p>
-<p><img src="/2019/01/31/xiguashu/decision-tree/tree_basic.png" alt="1548939696690"></p>
-<p>if-then规则集合，每一条路径构建一条规则</p>
-<ul>
-<li><p>内部节点：特征/属性，规则的条件</p>
-</li>
-<li><p>叶节点：　类，规则的结论</p>
-</li>
-</ul>
-<p>条件概率分布</p>
-<p>将特征空间划分为互不相交的单元（cell）或区域（region）</p>
-<p>$P(Y=+1|X=c)&gt;0.5$, 单元cell　属于正类</p>
-<p><img src="/2019/01/31/xiguashu/decision-tree/feature-space.png" alt="1548940003249"></p>
-<p><img src="/2019/01/31/xiguashu/decision-tree/1548940132559.png" alt="1548940132559"></p>
-<p><img src="/2019/01/31/xiguashu/decision-tree/1548940093157.png" alt="1548940093157"></p>
+        <p>refer to: <a href="https://stackoverflow.com/questions/927358/how-do-i-undo-the-most-recent-commits-in-git" target="_blank" rel="noopener">https://stackoverflow.com/questions/927358/how-do-i-undo-the-most-recent-commits-in-git</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m <span class="string">"Something terribly misguided"</span>             <span class="comment"># (1)</span></span><br><span class="line">$ git reset HEAD~                                          <span class="comment"># (2)</span></span><br><span class="line">&lt;&lt; edit files as necessary &gt;&gt;                              <span class="comment"># (3)</span></span><br><span class="line">$ git add ...                                              <span class="comment"># (4)</span></span><br><span class="line">$ git commit -c ORIG_HEAD                                  <span class="comment"># (5)</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>This is what you want to undo.</li>
+<li>This leaves your working tree (the state of your files on disk) unchanged but undoes the commit and leaves the changes you committed unstaged (so they’ll appear as “Changes not staged for commit” in <code>git status</code>, so you’ll need to add them again before committing). If you <em>only</em> want to <em>add</em> more changes to the previous commit, or change the commit message1, you could use <code>git reset --soft HEAD~</code> instead, which is like <code>git reset HEAD~</code> (where <code>HEAD~</code> is the same as <code>HEAD~1</code>) but leaves your existing changes staged.</li>
+<li>Make corrections to working tree files.</li>
+<li><code>git add</code> anything that you want to include in your new commit.</li>
+<li>Commit the changes, reusing the old commit message. <code>reset</code> copied the old head to <code>.git/ORIG_HEAD</code>; <code>commit</code> with <code>-c ORIG_HEAD</code> will open an editor, which initially contains the log message from the old commit and allows you to edit it. If you do not need to edit the message, you could use the <code>-C</code> option.</li>
+</ol>
+<p>Beware however that if you have added any new changes to the index, using commit –amend will add them to your previous commit.</p>
+<h2 id="HOW"><a href="#HOW" class="headerlink" title="HOW"></a>HOW</h2><p>Undoing a commit is a little scary if you don’t know how it works. But it’s actually amazingly easy if you do understand.</p>
+<p>Say you have this, where C is your HEAD and (F) is the state of your files.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   (F)</span><br><span class="line">A-B-C</span><br><span class="line">    ↑</span><br><span class="line">  master</span><br></pre></td></tr></table></figure>
+<p>You want to <strong>nuke commit C and never see it again</strong>. You do this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD~1</span><br></pre></td></tr></table></figure>
+<p>The result is:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> (F)</span><br><span class="line">A-B</span><br><span class="line">  ↑</span><br><span class="line">master</span><br></pre></td></tr></table></figure>
+<p>Now B is the HEAD. Because you used <code>--hard</code>, your files are reset to their state at commit B.</p>
+<p>Ah, but suppose commit C wasn’t a disaster, but just a bit off. You want to <strong>undo the commit but keep your changes</strong> for a bit of editing before you do a better commit. Starting again from here, with C as your HEAD:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   (F)</span><br><span class="line">A-B-C</span><br><span class="line">    ↑</span><br><span class="line">  master</span><br></pre></td></tr></table></figure>
+<p>You can do this, leaving off the <code>--hard</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD~1</span><br></pre></td></tr></table></figure>
+<p>In this case the result is:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   (F)</span><br><span class="line">A-B-C</span><br><span class="line">  ↑</span><br><span class="line">master</span><br></pre></td></tr></table></figure>
+<p>In both cases, HEAD is just a pointer to the latest commit. When you do a <code>git reset HEAD~1</code>, you tell Git to move the HEAD pointer back one commit. But (unless you use <code>--hard</code>) you leave your files as they were. So now <code>git status</code> shows the changes you had checked into C. You haven’t lost a thing!</p>
+<p>For the lightest touch, you can even <strong>undo your commit but leave your files and your index</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD~1</span><br></pre></td></tr></table></figure>
+<p>This not only leaves your files alone, it even leaves your <em>index</em> alone. When you do <code>git status</code>, you’ll see that the same files are in the index as before. In fact, right after this command, you could do <code>git commit</code> and you’d be redoing the same commit you just had.</p>
+<p>One more thing: <strong>Suppose you destroy a commit</strong> as in the first example, <strong>but then discover you needed it after all</strong>? Tough luck, right?</p>
+<p>Nope, there’s <em>still</em> a way to get it back. Type <code>git reflog</code> and you’ll see a list of (partial) commit <a href="https://en.wikipedia.org/wiki/SHA-1#Data_integrity" target="_blank" rel="noopener">shas</a> (that is, hashes) that you’ve moved around in. Find the commit you destroyed, and do this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b someNewBranchName shaYouDestroyed</span><br></pre></td></tr></table></figure>
+<p>You’ve now resurrected that commit. Commits don’t actually get destroyed in Git for some 90 days, so you can usually go back and rescue one you didn’t mean to get rid of.</p>
 
       
     </div>
@@ -490,9 +489,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/xiguashu/" rel="tag"># xiguashu</a>
-          
-            <a href="/tags/hexo-asset-image/" rel="tag"># hexo-asset-image</a>
+            <a href="/tags/git/" rel="tag"># git</a>
           
         </div>
       
@@ -505,8 +502,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/31/xiguashu/index/" rel="next" title="xiguashu">
-                <i class="fa fa-chevron-left"></i> xiguashu
+              <a href="/2019/01/31/xiguashu/decision-tree/" rel="next" title="Decistion Tree">
+                <i class="fa fa-chevron-left"></i> Decistion Tree
               </a>
             
           </div>
@@ -515,8 +512,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/02/20/coding/git-undo-commits/" rel="prev" title="git undo commit">
-                git undo commit <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/23/Untitled/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -665,7 +662,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-4-决策树"><span class="nav-number">1.</span> <span class="nav-text">Part 4. 决策树</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HOW"><span class="nav-number">1.</span> <span class="nav-text">HOW</span></a></li></ol></div>
             
 
           </div>
@@ -865,43 +862,6 @@
   
   
 
-  
-    
-      <script type="text/x-mathjax-config">
-  
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      
-      equationNumbers: {
-        autoNumber: "AMS"
-      }
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-      for (i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-  });
-</script>
-<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<style>
-.MathJax_Display {
-  overflow: auto hidden;
-}
-</style>
-
-    
   
 
 
