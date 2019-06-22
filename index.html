@@ -323,7 +323,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/04/29/statitics/estimate/">
+    <link itemprop="mainEntityOfPage" href="http:/2019/06/17/deep-learning/nn_cs231n_note/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joseph.Fan">
@@ -343,7 +343,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/04/29/statitics/estimate/" class="post-title-link" itemprop="url">无偏估计和有偏估计</a>
+                <a href="/2019/06/17/deep-learning/nn_cs231n_note/" class="post-title-link" itemprop="url">Neuron Network</a>
               
             
           </h1>
@@ -368,12 +368,46 @@
                 
               
 
-              <time title="创建时间：2019-04-29 22:43:59" itemprop="dateCreated datePublished" datetime="2019-04-29T22:43:59+08:00">2019-04-29</time>
+              <time title="创建时间：2019-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">2019-06-17</time>
             
 
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-21 01:30:26" itemprop="dateModified" datetime="2019-06-21T01:30:26+08:00">2019-06-21</time>
+              
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -405,7 +439,165 @@
       
         
           
-            
+            <h2 id="深度学习和神经网络-CS231n-Note"><a href="#深度学习和神经网络-CS231n-Note" class="headerlink" title="深度学习和神经网络(CS231n Note)"></a>深度学习和神经网络(CS231n Note)</h2><p>[TOC]</p>
+<h2 id="1-神经元模型与数学模型（Neuron-Network-Unit）"><a href="#1-神经元模型与数学模型（Neuron-Network-Unit）" class="headerlink" title="1. 神经元模型与数学模型（Neuron Network Unit）"></a>1. 神经元模型与数学模型（Neuron Network Unit）</h2><p>大脑的基本计算单位是神经元（neuron<strong>）</strong>。人类的神经系统中大约有860亿个神经元，它们被大约$10^{14}-10^{15}$个<strong>突触（synapses）</strong>连接起来。下面图表的左边展示了一个生物学的神经元，右边展示了一个常用的数学模型。每个神经元都从它的<strong>树突</strong>获得输入信号，然后沿着它唯一的<strong>轴突（axon）</strong>产生输出信号。轴突在末端会逐渐分枝，通过突触和其他神经元的树突相连。</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/d0cbce2f2654b8e70fe201fec2982c7d_hd.png" alt="img"></p>
+<p>神经元（Neuron）通过树突（Dendrites）接收输入信号，沿着轴突（axon）产生输出信号。轴突在末端分叉，通过突触和其他神经元的树突相连。</p>
+<p>输入信号（$x_0,x_1,…,x_n$）传递到其他神经元的树突，基于突触的突触强度相乘（$w_0x_0,w_1x_1,…,w_nx_n$）。突触的强度（权重$w$）可以控制一个神经元对另一个神经元的影响强度，使其兴奋（正权重）或抑制（负权重）。输出信号如果高于阈值，则神经元激活（对应于激活函数$f(\sum_{i}w_ix_i+b)$）。</p>
+<ol>
+<li><p>1 多层感知机</p>
+<p>输入层  -&gt; 隐藏层 -&gt; 输出层</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/ccb56c1fb267bc632d6d88459eb14ace_hd.png" alt="img"></p>
+</li>
+</ol>
+<h2 id="2-常用激活函数"><a href="#2-常用激活函数" class="headerlink" title="2. 常用激活函数"></a>2. 常用激活函数</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>函数</th>
+<th>值域</th>
+<th>导数</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sigmoid</td>
+<td>$ \sigma(x)=\frac{1}{1+e^{-x}} $</td>
+<td>[0,1]</td>
+<td>[0, 0.25]</td>
+<td>分类概率</td>
+</tr>
+<tr>
+<td>tanh</td>
+<td>$tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$</td>
+<td>[-1,1]</td>
+<td>[0, 1]</td>
+<td></td>
+</tr>
+<tr>
+<td>relu</td>
+<td>$relu(x)=max(0, x)$</td>
+<td>$[0,+\infty]$</td>
+<td>$f’_x=\begin{cases}0, x&lt;0\1, x&gt;0\undefinded, x=0\end{cases}$</td>
+</tr>
+</tbody>
+</table>
+<h4 id="sigmoid"><a href="#sigmoid" class="headerlink" title="sigmoid"></a>sigmoid</h4><p>优点：</p>
+<ol>
+<li>分类概率</li>
+</ol>
+<p>缺点</p>
+<ol>
+<li>梯度容易饱和而丢失，激活函数在接近0,1时会饱和，如果权重过大，很容易失去梯度</li>
+<li>函数不经过0，不以0点对称，在中间点0.5附近的的梯度较小（0.25），梯度总体较小，不利于梯度传播</li>
+<li>激活值永远全为正（负），下一神经元的输入总是正数（负数），则反向传播过程中梯度更新呈z字型</li>
+<li>exp指数函数计算复杂</li>
+</ol>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1560776135809.png" alt="1560776135809"></p>
+<h4 id="tanh"><a href="#tanh" class="headerlink" title="tanh"></a>tanh</h4><p>$tanh(x)=2\sigma(2x)-1$</p>
+<p>优点：</p>
+<ol>
+<li>范围更大 [0, 1]</li>
+<li>以 0 为中心点</li>
+<li>中间部分梯度更大，有利于梯度传播</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>梯度饱和而丢失的情况仍然存在</li>
+</ol>
+<h3 id="relu"><a href="#relu" class="headerlink" title="relu"></a>relu</h3><p>优点</p>
+<ol>
+<li>收敛速度更快（e.g. 6x than sigmoid/tanh)</li>
+<li>计算简单</li>
+<li>梯度不会饱和</li>
+</ol>
+<p>缺点</p>
+<ol>
+<li>可能导致部分神经元“死掉”，永远不会被激活。输出值始终为负，激活值为0，梯度为0，反向传播不更新此神经元的梯度。降低学习率来降低神经元“死掉”的概率。</li>
+</ol>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/677187e96671a4cac9c95352743b3806_hd.png" alt="677187e96671a4cac9c95352743b3806_hd"></p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/42.png" alt="img"></p>
+<h4 id="Leaky-Relu"><a href="#Leaky-Relu" class="headerlink" title="Leaky Relu"></a>Leaky Relu</h4><p>解决Relu死亡的问题</p>
+<p>$$f(x)=\begin{cases}x, x&gt;0\\alpha x, x&lt;0\end{cases}$$, $\alpha=0.01​$</p>
+<h4 id="ELU"><a href="#ELU" class="headerlink" title="ELU"></a>ELU</h4><p>$$f(x)=\begin{cases} x, x&gt;0\ \alpha(e^x-1), x\leq0\end{cases}$$</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1560776449074.png" alt="1560776449074"></p>
+<h4 id="Maxout"><a href="#Maxout" class="headerlink" title="Maxout"></a>Maxout</h4><p>$$max(w_{1}^Tx+b_1, w_{2}^Tx+b_2)$$</p>
+<h2 id="3-损失函数"><a href="#3-损失函数" class="headerlink" title="3. 损失函数"></a>3. 损失函数</h2><h4 id="损失函数-Loss-function-代价函数-Cost-function"><a href="#损失函数-Loss-function-代价函数-Cost-function" class="headerlink" title="损失函数 Loss function / 代价函数 Cost function"></a>损失函数 Loss function / 代价函数 Cost function</h4><h4 id="均方损失"><a href="#均方损失" class="headerlink" title="均方损失"></a>均方损失</h4><p>$L(x)=\sum_{i}(y_i - y_j)^2$</p>
+<h4 id="交叉熵损失（cross-entropy-loss"><a href="#交叉熵损失（cross-entropy-loss" class="headerlink" title="交叉熵损失（cross-entropy loss)"></a>交叉熵损失（cross-entropy loss)</h4><p>$$L(x)=\sum_{i}p_i\log \frac{1}{q_i}$$</p>
+<p>交叉熵作为代价函数可以避免均方代价函数带来的学习减速</p>
+<h4 id="Softmax-函数"><a href="#Softmax-函数" class="headerlink" title="Softmax 函数"></a>Softmax 函数</h4><p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1561034699845.png" alt="1561034699845"></p>
+<p>$$y_i=\frac{e^{z_i}}{\sum_{i}{e^{z_i}}}$$</p>
+<h2 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h2><p>损失函数 L 的 3D 图：</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1561035128653.png" alt="1561035128653"></p>
+<p>Gradient: 损失函数 L 在某一点的梯度（斜率，一阶导数）</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1561035151992.png" alt="1561035151992"></p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/v2-bcdf4fdd7d2f7a8784a2cfe098f14a8c_r-1561050312112.jpg" alt="preview"></p>
+<p>梯度下降法：某一点沿着斜坡在当前点梯度最大的方向($f’(x)​$)移动一个步长(learning rate)，在下一次更新中就会更接近最小点。</p>
+<p>$$w = w - \eta dw$$</p>
+<h2 id="4-数据预处理"><a href="#4-数据预处理" class="headerlink" title="4. 数据预处理"></a>4. 数据预处理</h2><h3 id="归一化-Normalization"><a href="#归一化-Normalization" class="headerlink" title="归一化 Normalization"></a>归一化 Normalization</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 数据归一化</span><br><span class="line">X = X / np.std(X, axis=0)</span><br><span class="line"># 维度归一化</span><br><span class="line">X = X / np.std(X, axis=1)</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/e743b6777775b1671c3b5503d7afbbc4_hd.png" alt="img"></p>
+<h3 id="PCA-白化（很少在深度学习中使用）"><a href="#PCA-白化（很少在深度学习中使用）" class="headerlink" title="PCA 白化（很少在深度学习中使用）"></a>PCA 白化（很少在深度学习中使用）</h3><p>PCA/白化。<strong>左边</strong>是二维的原始数据。<strong>中间</strong>：经过PCA操作的数据。可以看出数据首先是零中心的，然后变换到了数据协方差矩阵的基准轴上。这样就对数据进行了解相关（协方差矩阵变成对角阵）。<strong>右边</strong>：每个维度都被特征值调整数值范围，将数据协方差矩阵变为单位矩阵。从几何上看，就是对数据在各个方向上拉伸压缩，使之变成服从高斯分布的一个数据点分布。</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/aae11de6e6a29f50d46b9ea106fbb02a_hd.png" alt="img"></p>
+<h3 id="CIFAR-数据PCA"><a href="#CIFAR-数据PCA" class="headerlink" title="CIFAR 数据PCA"></a>CIFAR 数据PCA</h3><p>nx3072 维向量（图片32x32x3）,协方差矩阵：3072x3072</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/8608c06086fc196228f4dda78499a2d9_hd.png" alt="img"></p>
+<p>1: 49张图片。2: 3072个特征值向量中的前144个。3: 49张PCA降维的图片（U.transpose()[:144,:]）。4: 白化后的数据。144个维度的方差都压缩到相同的数值范围（U.transpose()[:144,:]）。现在较低的频率（代表了大多数方差）可以忽略不计了，较高的频率（代表相对少的方差）就被夸大了。</p>
+<h2 id="4-权重初始化"><a href="#4-权重初始化" class="headerlink" title="4. 权重初始化"></a>4. 权重初始化</h2><h4 id="小随机数初始化"><a href="#小随机数初始化" class="headerlink" title="小随机数初始化"></a>小随机数初始化</h4><p>基于均值为0，标准差为1的高斯分布</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">W = 0.01 * np.random.randn(N, D)</span><br></pre></td></tr></table></figure>
+<h4 id="使用-frac-1-sqrt-n-校准方差"><a href="#使用-frac-1-sqrt-n-校准方差" class="headerlink" title="使用$\frac{1}{\sqrt{n}} $校准方差"></a>使用$\frac{1}{\sqrt{n}} $校准方差</h4><p>数据量增大，随机初始化的神经元输出数据分布的方差也增大</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">W = np.random.randn(N, D) / np.sqrt(N)</span><br></pre></td></tr></table></figure>
+<h4 id="He-Normal"><a href="#He-Normal" class="headerlink" title="He Normal"></a>He Normal</h4><p>网络中神经元的方差应该是$\frac{2}{n}$</p>
+<p>当前的推荐是使用ReLU激活函数，并且使用<strong>w = np.random.randn(n) * sqrt(2.0/n)</strong>来进行权重初始化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">W = np.random.randn(n) * sqrt(<span class="number">2.0</span>/n)</span><br></pre></td></tr></table></figure>
+<h4 id="偏置初始化-biases"><a href="#偏置初始化-biases" class="headerlink" title="偏置初始化 biases"></a>偏置初始化 biases</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b = np.zeros(n,)</span><br></pre></td></tr></table></figure>
+<h2 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h2><h4 id="L1-正则"><a href="#L1-正则" class="headerlink" title="L1 正则"></a>L1 正则</h4><h4 id="L2正则"><a href="#L2正则" class="headerlink" title="L2正则"></a>L2正则</h4><p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1561037588255.png" alt="1561037588255"></p>
+<h2 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h2><p><img src="/2019/06/17/deep-learning/nn_cs231n_note/63fcf4cc655cb04f21a37e86aca333cf_hd.png" alt="img"></p>
+<ol>
+<li>Bagging 集成模型，随机抽样神经网络的子集。很多个共享参数的子网络组成。</li>
+<li>增强单个神经元独立学习特征的能力，减少神经元之间的依赖（避免学习某些固定组合才产生的特征，有意识的让神经网络去学习一些普遍的共性）</li>
+<li>加性噪声</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;</span><br><span class="line">反向随机失活: 推荐实现方式.</span><br><span class="line">在训练的时候drop和调整数值范围，测试时不做任何事.</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">p = 0.5 	# 激活神经元的概率. p值更高 = 随机失活更弱</span><br><span class="line"></span><br><span class="line">def train_step(X):</span><br><span class="line">  # 3层neural network的前向传播</span><br><span class="line">  H1 = np.maximum(0, np.dot(W1, X) + b1)</span><br><span class="line">  # 神经元以p的概率失活 [0, 1]随机分布 P(rand(x)) &lt; p = p</span><br><span class="line">  # 第一个随机失活掩码. 注意/p! inverted dropout, 保持当前层输出期望一致</span><br><span class="line">  mask1 = (np.random.rand(*H1.shape) &lt; p) / p</span><br><span class="line">  H1 *= mask1                                  # dropout!</span><br><span class="line">  H2 = np.maximum(0, np.dot(W2, H1) + b2)</span><br><span class="line">  mask2 = (np.random.rand(*H2.shape) &lt; p) / p  # 第二个随机失活掩码. 注意/p!</span><br><span class="line">  H2 *= mask2 # drop!</span><br><span class="line">  out = np.dot(W3, H2) + b3</span><br><span class="line"></span><br><span class="line">  # 反向传播:计算梯度... (略)</span><br><span class="line">  # 进行参数更新... (略)</span><br><span class="line"></span><br><span class="line">def predict(X):</span><br><span class="line">  # 前向传播时模型集成</span><br><span class="line">  H1 = np.maximum(0, np.dot(W1, X) + b1)       # 不用数值范围调整了</span><br><span class="line">  H2 = np.maximum(0, np.dot(W2, H1) + b2)</span><br><span class="line">  out = np.dot(W3, H2) + b3</span><br></pre></td></tr></table></figure>
+<h2 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h2><p>批量归一化可以理解为在网络的每一层之前都做预处理，减少之前网络权重对数据的影响，保持每一层输出数据的分布（均值和标准差），使输出适应下一层网络，也使得每一层数据相对独立。</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1560779540116.png" alt="1560779540116"></p>
+<h3 id="Internal-Co-variate-Shift"><a href="#Internal-Co-variate-Shift" class="headerlink" title="Internal Co-variate Shift"></a>Internal Co-variate Shift</h3><p>Reference: <a href="https://zhuanlan.zhihu.com/p/34879333" target="_blank" rel="noopener">Batch Normalization原理与实战</a></p>
+<p>随着训练的进行，网络中的参数也随着梯度下降在不停更新。一方面，当底层网络中参数发生微弱变化时，由于每一层中的线性变换与非线性激活映射，这些微弱变化随着网络层数的加深而被放大（类似蝴蝶效应）；另一方面，参数的变化导致每一层的输入分布会发生改变，进而下一层的网络需要不停地去适应这些分布变化，使得我们的模型训练变得困难。上述这一现象叫做Internal Covariate Shift。</p>
+<p>原作定义：在深层网络训练的过程中，由于网络中参数变化而引起内部结点数据分布发生变化的这一过程被称作Internal Covariate Shift。</p>
+<p>随着梯度下降的进行，每一层的参数$W^{[l]}$与$b^{[l]}$都会被更新，那么$Z^{[l]}$的分布也就发生了改变，进而$A^{[l]}$也同样出现分布的改变。而$A^{[l]}$作为第 $l+1$ 层的输入，意味着 $l+1$ 层需要去不停适应这种数据分布的变化，这一过程叫做 Interval Covariate Shift.</p>
+<h4 id="带来的问题："><a href="#带来的问题：" class="headerlink" title="带来的问题："></a>带来的问题：</h4><ol>
+<li>上层网络需要不停调整来适应输入数据分布的变化，导致网络学习速度的降低</li>
+<li>网络的训练过程容易陷入梯度饱和区，减缓网络收敛速度（sigmoid, tanh）。 $Z^{[l]}$会逐渐更新并变大，陷入梯度饱和区。可以通过Normalization 使得激活函数输入分布在一个稳定的空间来避免他们陷入梯度饱和区。</li>
+</ol>
+<h4 id="如何减缓-Interval-Covariate-Shift"><a href="#如何减缓-Interval-Covariate-Shift" class="headerlink" title="如何减缓 Interval Covariate Shift"></a>如何减缓 Interval Covariate Shift</h4><ol>
+<li><p>白化。成本高，改变了网络每一层分布导致数据表达的特征信息丢失</p>
+<ul>
+<li>使得输入特征分布具有相同的均值与方差。其中PCA白化保证了所有特征分布均值为0，方差为1</li>
+<li>去除特征之间的相关性</li>
+</ul>
+</li>
+<li><p>Batch Normalization   简化加改进版的白化</p>
+<ul>
+<li>简化。让每个特征都有均值为0，方差为1的分布就OK。</li>
+<li>白化操作减弱了网络中每一层输入数据表达能力，那我就再加个线性变换操作，让这些数据再能够尽可能恢复本身的表达能力就好了。</li>
+</ul>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1560779531173.png" alt="1560779531173"></p>
+</li>
+</ol>
+<p>BN 引入了两个可学习的参数 $\gamma$ 和 $\beta$（<strong>变换重构</strong>）。这两个参数的引入是为了恢复数据本身的表达能力，对规范后的数据进行线性变换，即 $y_i = \gamma x_i + \beta_i$。 特别的，当 $\gamma^2=\sigma ^2$（方差）, $\beta = \mu$ （均值）时，可以实现等价变换并且保留原始输入特征的分布信息。</p>
+<h4 id="Batch-Normalization-的作用"><a href="#Batch-Normalization-的作用" class="headerlink" title="Batch Normalization 的作用"></a>Batch Normalization 的作用</h4><ol>
+<li><p>使得网络中每层输入数据的分布相对稳定，加快模型学习速度</p>
+</li>
+<li><p>使得模型对参数不那么敏感，减小初始化参数对模型学习的影响，可以选择更大的初始化值，学习率选择范围更大</p>
+<p>当学习率设置太高时，会使得参数更新步伐过大，容易出现震荡和不收敛。但是使用BN的网络将不会受到参数数值大小的影响。BN抑制了参数微小变化随着网络层数加深被放大的问题，使得网络对参数大小的适应能力更强</p>
+</li>
+<li><p>缓解梯度消失的问题</p>
+</li>
+<li><p>正则化效果，mini-batch 的mean/variance 作为总体样本的抽样估计，引入随机噪声</p>
+</li>
+</ol>
+<p><strong>BN通过将每一层网络的输入进行normalization，保证输入分布的均值与方差固定在一定范围内，减少了网络中的Internal Covariate Shift问题，并在一定程度上缓解了梯度消失，加速了模型收敛；并且BN使得网络对参数、激活函数更加具有鲁棒性，降低了神经网络模型训练和调参的复杂度；最后BN训练过程中由于使用mini-batch的mean/variance作为总体样本统计量估计，引入了随机噪声，在一定程度上对模型起到了正则化的效果。</strong></p>
+<h2 id="Backpropagation"><a href="#Backpropagation" class="headerlink" title="Backpropagation"></a>Backpropagation</h2><p>Reference: <a href="https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html" target="_blank" rel="noopener">Understanding the backward pass through Batch Normalization Layer</a></p>
+
           
         
       
@@ -461,7 +653,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/04/29/Untitled/">
+    <link itemprop="mainEntityOfPage" href="http:/2019/04/29/statitics/estimate/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joseph.Fan">
@@ -481,7 +673,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/04/29/Untitled/" class="post-title-link" itemprop="url">未命名</a>
+                <a href="/2019/04/29/statitics/estimate/" class="post-title-link" itemprop="url">无偏估计和有偏估计</a>
               
             
           </h1>
@@ -661,7 +853,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-29 22:43:59" itemprop="dateModified" datetime="2019-04-29T22:43:59+08:00">2019-04-29</time>
+                <time title="修改时间：2019-06-21 00:07:56" itemprop="dateModified" datetime="2019-06-21T00:07:56+08:00">2019-06-21</time>
               
             
           </span>
@@ -718,7 +910,7 @@
             <h3 id="信息量"><a href="#信息量" class="headerlink" title="信息量"></a>信息量</h3><p>信息量是对事件发生概率的度量</p>
 <p>$log\frac{1}{p}​$</p>
 <p>一个事件发生的概率越低，则这个事件包含的信息量越大，比如说越稀奇新闻包含的信息量越大，因为这种新闻出现的概率低。</p>
-<p>引用：一本五十万字的中文书平均有多少信息量？（$\log_2m$）<br>我们知道常用的汉字（一级二级国标）大约有 7000 字。假如每个字等概率，那么我们大约需要 13 个比特（即 13 位二进制数）表示一个汉字［这里把汉字作为一个随机变量，那么汉字系统的熵就是约13bit］ 。但汉字的使用是不平衡的。实际上，前 10% 的汉字占文本的 95% 以上。因此，即使不考虑上下文的相关性，而只考虑每个汉字的独立的概率，那么，每个汉字的信息熵大约也只有 8-9 个比特。如果我们再考虑上下文相关性，每个汉字的信息熵［其实指的是汉字变量取特定汉字作为值时候具有的信息量］ 只有5比特左右。所以，一本五十万字的中文书，信息量大约是 250 万比特［这个时候的信息量就是每个汉字的信息量和数目相乘，指的都是汉字变量取具体值的信息量］ 。如果用一个好的算法压缩一下，整本书可以存成一个 320KB 的文件。如果我们直接用两字节的国标编码存储这本书，大约需要 1MB 大小，是压缩文件的三倍。这两个数量的差距，在信息论中称作“冗余度”（redundancy)。 需要指出的是我们这里讲的 250 万比特是个平均数，同样长度的书，所含的信息量可以差很多。如果一本书重复的内容很多，它的信息量就小，冗余度就大。</p>
+<p>引用：一本五十万字的中文书平均有多少信息量？（$\log_2m$）  《数学之美 -  吴军》<br>我们知道常用的汉字（一级二级国标）大约有 7000 字。假如每个字等概率，那么我们大约需要 13 个比特（即 13 位二进制数）表示一个汉字［这里把汉字作为一个随机变量，那么汉字系统的熵就是约13bit］ 。但汉字的使用是不平衡的。实际上，前 10% 的汉字占文本的 95% 以上。因此，即使不考虑上下文的相关性，而只考虑每个汉字的独立的概率，那么，每个汉字的信息熵大约也只有 8-9 个比特。如果我们再考虑上下文相关性，每个汉字的信息熵［其实指的是汉字变量取特定汉字作为值时候具有的信息量］ 只有5比特左右。所以，一本五十万字的中文书，信息量大约是 250 万比特［这个时候的信息量就是每个汉字的信息量和数目相乘，指的都是汉字变量取具体值的信息量］ 。如果用一个好的算法压缩一下，整本书可以存成一个 320KB 的文件。如果我们直接用两字节的国标编码存储这本书，大约需要 1MB 大小，是压缩文件的三倍。这两个数量的差距，在信息论中称作“冗余度”（redundancy)。 需要指出的是我们这里讲的 250 万比特是个平均数，同样长度的书，所含的信息量可以差很多。如果一本书重复的内容很多，它的信息量就小，冗余度就大。</p>
 <h3 id="熵（Entropy）"><a href="#熵（Entropy）" class="headerlink" title="熵（Entropy）"></a>熵（Entropy）</h3><p>信息论中，熵是接收每条消息中包含的信息量($\log\frac{1}{p}​$)的平均值。</p>
 <p>熵定义为信息的期望值（香农 shannon）：</p>
 <p>$$\begin{align} H(X) &amp; = E[I(X)] \ &amp; = E[-ln(P(X))]  \ &amp; = -\sum\limits_{i}^n P(x_i)logP(x_i)\end{align} ​$$</p>
@@ -827,7 +1019,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/02/20/coding/git-undo-commits/">
+    <link itemprop="mainEntityOfPage" href="http:/2019/01/31/machine-learning/decision-tree/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joseph.Fan">
@@ -847,211 +1039,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/02/20/coding/git-undo-commits/" class="post-title-link" itemprop="url">git undo commit</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-02-20 20:33:05" itemprop="dateCreated datePublished" datetime="2019-02-20T20:33:05+08:00">2019-02-20</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-29 22:43:59" itemprop="dateModified" datetime="2019-04-29T22:43:59+08:00">2019-04-29</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/coding/" itemprop="url" rel="index"><span itemprop="name">coding</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>refer to: <a href="https://stackoverflow.com/questions/927358/how-do-i-undo-the-most-recent-commits-in-git" target="_blank" rel="noopener">https://stackoverflow.com/questions/927358/how-do-i-undo-the-most-recent-commits-in-git</a></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m <span class="string">"Something terribly misguided"</span>             <span class="comment"># (1)</span></span><br><span class="line">$ git reset HEAD~                                          <span class="comment"># (2)</span></span><br><span class="line">&lt;&lt; edit files as necessary &gt;&gt;                              <span class="comment"># (3)</span></span><br><span class="line">$ git add ...                                              <span class="comment"># (4)</span></span><br><span class="line">$ git commit -c ORIG_HEAD                                  <span class="comment"># (5)</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>This is what you want to undo.</li>
-<li>This leaves your working tree (the state of your files on disk) unchanged but undoes the commit and leaves the changes you committed unstaged (so they’ll appear as “Changes not staged for commit” in <code>git status</code>, so you’ll need to add them again before committing). If you <em>only</em> want to <em>add</em> more changes to the previous commit, or change the commit message1, you could use <code>git reset --soft HEAD~</code> instead, which is like <code>git reset HEAD~</code> (where <code>HEAD~</code> is the same as <code>HEAD~1</code>) but leaves your existing changes staged.</li>
-<li>Make corrections to working tree files.</li>
-<li><code>git add</code> anything that you want to include in your new commit.</li>
-<li>Commit the changes, reusing the old commit message. <code>reset</code> copied the old head to <code>.git/ORIG_HEAD</code>; <code>commit</code> with <code>-c ORIG_HEAD</code> will open an editor, which initially contains the log message from the old commit and allows you to edit it. If you do not need to edit the message, you could use the <code>-C</code> option.</li>
-</ol>
-<p>Beware however that if you have added any new changes to the index, using commit –amend will add them to your previous commit.</p>
-<h2 id="HOW"><a href="#HOW" class="headerlink" title="HOW"></a>HOW</h2><p>Undoing a commit is a little scary if you don’t know how it works. But it’s actually amazingly easy if you do understand.</p>
-<p>Say you have this, where C is your HEAD and (F) is the state of your files.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   (F)</span><br><span class="line">A-B-C</span><br><span class="line">    ↑</span><br><span class="line">  master</span><br></pre></td></tr></table></figure>
-<p>You want to <strong>nuke commit C and never see it again</strong>. You do this:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD~1</span><br></pre></td></tr></table></figure>
-<p>The result is:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> (F)</span><br><span class="line">A-B</span><br><span class="line">  ↑</span><br><span class="line">master</span><br></pre></td></tr></table></figure>
-<p>Now B is the HEAD. Because you used <code>--hard</code>, your files are reset to their state at commit B.</p>
-<p>Ah, but suppose commit C wasn’t a disaster, but just a bit off. You want to <strong>undo the commit but keep your changes</strong> for a bit of editing before you do a better commit. Starting again from here, with C as your HEAD:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   (F)</span><br><span class="line">A-B-C</span><br><span class="line">    ↑</span><br><span class="line">  master</span><br></pre></td></tr></table></figure>
-<p>You can do this, leaving off the <code>--hard</code>:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD~1</span><br></pre></td></tr></table></figure>
-<p>In this case the result is:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   (F)</span><br><span class="line">A-B-C</span><br><span class="line">  ↑</span><br><span class="line">master</span><br></pre></td></tr></table></figure>
-<p>In both cases, HEAD is just a pointer to the latest commit. When you do a <code>git reset HEAD~1</code>, you tell Git to move the HEAD pointer back one commit. But (unless you use <code>--hard</code>) you leave your files as they were. So now <code>git status</code> shows the changes you had checked into C. You haven’t lost a thing!</p>
-<p>For the lightest touch, you can even <strong>undo your commit but leave your files and your index</strong>:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD~1</span><br></pre></td></tr></table></figure>
-<p>This not only leaves your files alone, it even leaves your <em>index</em> alone. When you do <code>git status</code>, you’ll see that the same files are in the index as before. In fact, right after this command, you could do <code>git commit</code> and you’d be redoing the same commit you just had.</p>
-<p>One more thing: <strong>Suppose you destroy a commit</strong> as in the first example, <strong>but then discover you needed it after all</strong>? Tough luck, right?</p>
-<p>Nope, there’s <em>still</em> a way to get it back. Type <code>git reflog</code> and you’ll see a list of (partial) commit <a href="https://en.wikipedia.org/wiki/SHA-1#Data_integrity" target="_blank" rel="noopener">shas</a> (that is, hashes) that you’ve moved around in. Find the commit you destroyed, and do this:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b someNewBranchName shaYouDestroyed</span><br></pre></td></tr></table></figure>
-<p>You’ve now resurrected that commit. Commits don’t actually get destroyed in Git for some 90 days, so you can usually go back and rescue one you didn’t mean to get rid of.</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/01/31/xiguashu/decision-tree/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joseph.Fan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SAILOR">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/01/31/xiguashu/decision-tree/" class="post-title-link" itemprop="url">Decistion Tree</a>
+                <a href="/2019/01/31/machine-learning/decision-tree/" class="post-title-link" itemprop="url">Decistion Tree</a>
               
             
           </h1>
@@ -1093,7 +1081,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-02-01 02:13:08" itemprop="dateModified" datetime="2019-02-01T02:13:08+08:00">2019-02-01</time>
+                <time title="修改时间：2019-06-21 00:07:57" itemprop="dateModified" datetime="2019-06-21T00:07:57+08:00">2019-06-21</time>
               
             
           </span>
@@ -1110,7 +1098,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/xiguashu/" itemprop="url" rel="index"><span itemprop="name">xiguashu</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/ml/" itemprop="url" rel="index"><span itemprop="name">ml</span></a></span>
 
                 
                 
@@ -1149,7 +1137,7 @@
           
             <h2 id="Part-4-决策树"><a href="#Part-4-决策树" class="headerlink" title="Part 4. 决策树"></a>Part 4. 决策树</h2><hr>
 <p>Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型</p>
-<p><img src="/2019/01/31/xiguashu/decision-tree/tree_basic.png" alt="1548939696690"></p>
+<p><img src="/2019/01/31/machine-learning/decision-tree/tree_basic.png" alt="1548939696690"></p>
 <p>if-then规则集合，每一条路径构建一条规则</p>
 <ul>
 <li><p>内部节点：特征/属性，规则的条件</p>
@@ -1160,182 +1148,9 @@
 <p>条件概率分布</p>
 <p>将特征空间划分为互不相交的单元（cell）或区域（region）</p>
 <p>$P(Y=+1|X=c)&gt;0.5$, 单元cell　属于正类</p>
-<p><img src="/2019/01/31/xiguashu/decision-tree/feature-space.png" alt="1548940003249"></p>
-<p><img src="/2019/01/31/xiguashu/decision-tree/1548940132559.png" alt="1548940132559"></p>
-<p><img src="/2019/01/31/xiguashu/decision-tree/1548940093157.png" alt="1548940093157"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/01/31/xiguashu/index/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joseph.Fan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SAILOR">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/01/31/xiguashu/index/" class="post-title-link" itemprop="url">xiguashu</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-01-31 20:33:05" itemprop="dateCreated datePublished" datetime="2019-01-31T20:33:05+08:00">2019-01-31</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-02-01 02:13:08" itemprop="dateModified" datetime="2019-02-01T02:13:08+08:00">2019-02-01</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/xiguashu/" itemprop="url" rel="index"><span itemprop="name">xiguashu</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="decision_tree.html">决策树</a></p>
+<p><img src="/2019/01/31/machine-learning/decision-tree/feature-space.png" alt="1548940003249"></p>
+<p><img src="/2019/01/31/machine-learning/decision-tree/1548940132559.png" alt="1548940132559"></p>
+<p><img src="/2019/01/31/machine-learning/decision-tree/1548940093157.png" alt="1548940093157"></p>
 
           
         
@@ -1583,7 +1398,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1839,15 +1654,11 @@
   
     
       
-    
-      
-    
-      
-    
-      
-    
-      
         
+      
+    
+      
+    
       
     
       

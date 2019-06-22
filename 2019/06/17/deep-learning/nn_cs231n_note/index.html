@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="深度学习和神经网络(CS231n Note)[TOC] 1. 神经元模型与数学模型（Neuron Network Unit）大脑的基本计算单位是神经元（neuron）。人类的神经系统中大约有860亿个神经元，它们被大约$10^{14}-10^{15}$个突触（synapses）连接起来。下面图表的左边展示了一个生物学的神经元，右边展示了一个常用的数学模型。每个神经元都从它的树突获得输入信号，然后沿">
+<meta name="keywords" content="hexo-asset-image,dl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neuron Network">
+<meta property="og:url" content="http:/2019/06/17/deep-learning/nn_cs231n_note/index.html">
+<meta property="og:site_name" content="SAILOR">
+<meta property="og:description" content="深度学习和神经网络(CS231n Note)[TOC] 1. 神经元模型与数学模型（Neuron Network Unit）大脑的基本计算单位是神经元（neuron）。人类的神经系统中大约有860亿个神经元，它们被大约$10^{14}-10^{15}$个突触（synapses）连接起来。下面图表的左边展示了一个生物学的神经元，右边展示了一个常用的数学模型。每个神经元都从它的树突获得输入信号，然后沿">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/d0cbce2f2654b8e70fe201fec2982c7d_hd.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/ccb56c1fb267bc632d6d88459eb14ace_hd.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/1560776135809.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/677187e96671a4cac9c95352743b3806_hd.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/42.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/1560776449074.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/1561034699845.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/1561035128653.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/1561035151992.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/v2-bcdf4fdd7d2f7a8784a2cfe098f14a8c_r-1561050312112.jpg">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/e743b6777775b1671c3b5503d7afbbc4_hd.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/aae11de6e6a29f50d46b9ea106fbb02a_hd.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/8608c06086fc196228f4dda78499a2d9_hd.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/1561037588255.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/63fcf4cc655cb04f21a37e86aca333cf_hd.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/1560779540116.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/1560779531173.png">
+<meta property="og:updated_time" content="2019-06-20T17:30:26.745Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neuron Network">
+<meta name="twitter:description" content="深度学习和神经网络(CS231n Note)[TOC] 1. 神经元模型与数学模型（Neuron Network Unit）大脑的基本计算单位是神经元（neuron）。人类的神经系统中大约有860亿个神经元，它们被大约$10^{14}-10^{15}$个突触（synapses）连接起来。下面图表的左边展示了一个生物学的神经元，右边展示了一个常用的数学模型。每个神经元都从它的树突获得输入信号，然后沿">
+<meta name="twitter:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/d0cbce2f2654b8e70fe201fec2982c7d_hd.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http:/2019/06/17/deep-learning/nn_cs231n_note/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Neuron Network | SAILOR</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SAILOR</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">BLOG</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http:/2019/06/17/deep-learning/nn_cs231n_note/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joseph.Fan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SAILOR">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Neuron Network
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">2019-06-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-21 01:30:26" itemprop="dateModified" datetime="2019-06-21T01:30:26+08:00">2019-06-21</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="深度学习和神经网络-CS231n-Note"><a href="#深度学习和神经网络-CS231n-Note" class="headerlink" title="深度学习和神经网络(CS231n Note)"></a>深度学习和神经网络(CS231n Note)</h2><p>[TOC]</p>
+<h2 id="1-神经元模型与数学模型（Neuron-Network-Unit）"><a href="#1-神经元模型与数学模型（Neuron-Network-Unit）" class="headerlink" title="1. 神经元模型与数学模型（Neuron Network Unit）"></a>1. 神经元模型与数学模型（Neuron Network Unit）</h2><p>大脑的基本计算单位是神经元（neuron<strong>）</strong>。人类的神经系统中大约有860亿个神经元，它们被大约$10^{14}-10^{15}$个<strong>突触（synapses）</strong>连接起来。下面图表的左边展示了一个生物学的神经元，右边展示了一个常用的数学模型。每个神经元都从它的<strong>树突</strong>获得输入信号，然后沿着它唯一的<strong>轴突（axon）</strong>产生输出信号。轴突在末端会逐渐分枝，通过突触和其他神经元的树突相连。</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/d0cbce2f2654b8e70fe201fec2982c7d_hd.png" alt="img"></p>
+<p>神经元（Neuron）通过树突（Dendrites）接收输入信号，沿着轴突（axon）产生输出信号。轴突在末端分叉，通过突触和其他神经元的树突相连。</p>
+<p>输入信号（$x_0,x_1,…,x_n$）传递到其他神经元的树突，基于突触的突触强度相乘（$w_0x_0,w_1x_1,…,w_nx_n$）。突触的强度（权重$w$）可以控制一个神经元对另一个神经元的影响强度，使其兴奋（正权重）或抑制（负权重）。输出信号如果高于阈值，则神经元激活（对应于激活函数$f(\sum_{i}w_ix_i+b)$）。</p>
+<ol>
+<li><p>1 多层感知机</p>
+<p>输入层  -&gt; 隐藏层 -&gt; 输出层</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/ccb56c1fb267bc632d6d88459eb14ace_hd.png" alt="img"></p>
+</li>
+</ol>
+<h2 id="2-常用激活函数"><a href="#2-常用激活函数" class="headerlink" title="2. 常用激活函数"></a>2. 常用激活函数</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>函数</th>
+<th>值域</th>
+<th>导数</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sigmoid</td>
+<td>$ \sigma(x)=\frac{1}{1+e^{-x}} $</td>
+<td>[0,1]</td>
+<td>[0, 0.25]</td>
+<td>分类概率</td>
+</tr>
+<tr>
+<td>tanh</td>
+<td>$tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$</td>
+<td>[-1,1]</td>
+<td>[0, 1]</td>
+<td></td>
+</tr>
+<tr>
+<td>relu</td>
+<td>$relu(x)=max(0, x)$</td>
+<td>$[0,+\infty]$</td>
+<td>$f’_x=\begin{cases}0, x&lt;0\1, x&gt;0\undefinded, x=0\end{cases}$</td>
+</tr>
+</tbody>
+</table>
+<h4 id="sigmoid"><a href="#sigmoid" class="headerlink" title="sigmoid"></a>sigmoid</h4><p>优点：</p>
+<ol>
+<li>分类概率</li>
+</ol>
+<p>缺点</p>
+<ol>
+<li>梯度容易饱和而丢失，激活函数在接近0,1时会饱和，如果权重过大，很容易失去梯度</li>
+<li>函数不经过0，不以0点对称，在中间点0.5附近的的梯度较小（0.25），梯度总体较小，不利于梯度传播</li>
+<li>激活值永远全为正（负），下一神经元的输入总是正数（负数），则反向传播过程中梯度更新呈z字型</li>
+<li>exp指数函数计算复杂</li>
+</ol>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1560776135809.png" alt="1560776135809"></p>
+<h4 id="tanh"><a href="#tanh" class="headerlink" title="tanh"></a>tanh</h4><p>$tanh(x)=2\sigma(2x)-1$</p>
+<p>优点：</p>
+<ol>
+<li>范围更大 [0, 1]</li>
+<li>以 0 为中心点</li>
+<li>中间部分梯度更大，有利于梯度传播</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>梯度饱和而丢失的情况仍然存在</li>
+</ol>
+<h3 id="relu"><a href="#relu" class="headerlink" title="relu"></a>relu</h3><p>优点</p>
+<ol>
+<li>收敛速度更快（e.g. 6x than sigmoid/tanh)</li>
+<li>计算简单</li>
+<li>梯度不会饱和</li>
+</ol>
+<p>缺点</p>
+<ol>
+<li>可能导致部分神经元“死掉”，永远不会被激活。输出值始终为负，激活值为0，梯度为0，反向传播不更新此神经元的梯度。降低学习率来降低神经元“死掉”的概率。</li>
+</ol>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/677187e96671a4cac9c95352743b3806_hd.png" alt="677187e96671a4cac9c95352743b3806_hd"></p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/42.png" alt="img"></p>
+<h4 id="Leaky-Relu"><a href="#Leaky-Relu" class="headerlink" title="Leaky Relu"></a>Leaky Relu</h4><p>解决Relu死亡的问题</p>
+<p>$$f(x)=\begin{cases}x, x&gt;0\\alpha x, x&lt;0\end{cases}$$, $\alpha=0.01​$</p>
+<h4 id="ELU"><a href="#ELU" class="headerlink" title="ELU"></a>ELU</h4><p>$$f(x)=\begin{cases} x, x&gt;0\ \alpha(e^x-1), x\leq0\end{cases}$$</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1560776449074.png" alt="1560776449074"></p>
+<h4 id="Maxout"><a href="#Maxout" class="headerlink" title="Maxout"></a>Maxout</h4><p>$$max(w_{1}^Tx+b_1, w_{2}^Tx+b_2)$$</p>
+<h2 id="3-损失函数"><a href="#3-损失函数" class="headerlink" title="3. 损失函数"></a>3. 损失函数</h2><h4 id="损失函数-Loss-function-代价函数-Cost-function"><a href="#损失函数-Loss-function-代价函数-Cost-function" class="headerlink" title="损失函数 Loss function / 代价函数 Cost function"></a>损失函数 Loss function / 代价函数 Cost function</h4><h4 id="均方损失"><a href="#均方损失" class="headerlink" title="均方损失"></a>均方损失</h4><p>$L(x)=\sum_{i}(y_i - y_j)^2$</p>
+<h4 id="交叉熵损失（cross-entropy-loss"><a href="#交叉熵损失（cross-entropy-loss" class="headerlink" title="交叉熵损失（cross-entropy loss)"></a>交叉熵损失（cross-entropy loss)</h4><p>$$L(x)=\sum_{i}p_i\log \frac{1}{q_i}$$</p>
+<p>交叉熵作为代价函数可以避免均方代价函数带来的学习减速</p>
+<h4 id="Softmax-函数"><a href="#Softmax-函数" class="headerlink" title="Softmax 函数"></a>Softmax 函数</h4><p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1561034699845.png" alt="1561034699845"></p>
+<p>$$y_i=\frac{e^{z_i}}{\sum_{i}{e^{z_i}}}$$</p>
+<h2 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h2><p>损失函数 L 的 3D 图：</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1561035128653.png" alt="1561035128653"></p>
+<p>Gradient: 损失函数 L 在某一点的梯度（斜率，一阶导数）</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1561035151992.png" alt="1561035151992"></p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/v2-bcdf4fdd7d2f7a8784a2cfe098f14a8c_r-1561050312112.jpg" alt="preview"></p>
+<p>梯度下降法：某一点沿着斜坡在当前点梯度最大的方向($f’(x)​$)移动一个步长(learning rate)，在下一次更新中就会更接近最小点。</p>
+<p>$$w = w - \eta dw$$</p>
+<h2 id="4-数据预处理"><a href="#4-数据预处理" class="headerlink" title="4. 数据预处理"></a>4. 数据预处理</h2><h3 id="归一化-Normalization"><a href="#归一化-Normalization" class="headerlink" title="归一化 Normalization"></a>归一化 Normalization</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 数据归一化</span><br><span class="line">X = X / np.std(X, axis=0)</span><br><span class="line"># 维度归一化</span><br><span class="line">X = X / np.std(X, axis=1)</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/e743b6777775b1671c3b5503d7afbbc4_hd.png" alt="img"></p>
+<h3 id="PCA-白化（很少在深度学习中使用）"><a href="#PCA-白化（很少在深度学习中使用）" class="headerlink" title="PCA 白化（很少在深度学习中使用）"></a>PCA 白化（很少在深度学习中使用）</h3><p>PCA/白化。<strong>左边</strong>是二维的原始数据。<strong>中间</strong>：经过PCA操作的数据。可以看出数据首先是零中心的，然后变换到了数据协方差矩阵的基准轴上。这样就对数据进行了解相关（协方差矩阵变成对角阵）。<strong>右边</strong>：每个维度都被特征值调整数值范围，将数据协方差矩阵变为单位矩阵。从几何上看，就是对数据在各个方向上拉伸压缩，使之变成服从高斯分布的一个数据点分布。</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/aae11de6e6a29f50d46b9ea106fbb02a_hd.png" alt="img"></p>
+<h3 id="CIFAR-数据PCA"><a href="#CIFAR-数据PCA" class="headerlink" title="CIFAR 数据PCA"></a>CIFAR 数据PCA</h3><p>nx3072 维向量（图片32x32x3）,协方差矩阵：3072x3072</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/8608c06086fc196228f4dda78499a2d9_hd.png" alt="img"></p>
+<p>1: 49张图片。2: 3072个特征值向量中的前144个。3: 49张PCA降维的图片（U.transpose()[:144,:]）。4: 白化后的数据。144个维度的方差都压缩到相同的数值范围（U.transpose()[:144,:]）。现在较低的频率（代表了大多数方差）可以忽略不计了，较高的频率（代表相对少的方差）就被夸大了。</p>
+<h2 id="4-权重初始化"><a href="#4-权重初始化" class="headerlink" title="4. 权重初始化"></a>4. 权重初始化</h2><h4 id="小随机数初始化"><a href="#小随机数初始化" class="headerlink" title="小随机数初始化"></a>小随机数初始化</h4><p>基于均值为0，标准差为1的高斯分布</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">W = 0.01 * np.random.randn(N, D)</span><br></pre></td></tr></table></figure>
+<h4 id="使用-frac-1-sqrt-n-校准方差"><a href="#使用-frac-1-sqrt-n-校准方差" class="headerlink" title="使用$\frac{1}{\sqrt{n}} $校准方差"></a>使用$\frac{1}{\sqrt{n}} $校准方差</h4><p>数据量增大，随机初始化的神经元输出数据分布的方差也增大</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">W = np.random.randn(N, D) / np.sqrt(N)</span><br></pre></td></tr></table></figure>
+<h4 id="He-Normal"><a href="#He-Normal" class="headerlink" title="He Normal"></a>He Normal</h4><p>网络中神经元的方差应该是$\frac{2}{n}$</p>
+<p>当前的推荐是使用ReLU激活函数，并且使用<strong>w = np.random.randn(n) * sqrt(2.0/n)</strong>来进行权重初始化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">W = np.random.randn(n) * sqrt(<span class="number">2.0</span>/n)</span><br></pre></td></tr></table></figure>
+<h4 id="偏置初始化-biases"><a href="#偏置初始化-biases" class="headerlink" title="偏置初始化 biases"></a>偏置初始化 biases</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b = np.zeros(n,)</span><br></pre></td></tr></table></figure>
+<h2 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h2><h4 id="L1-正则"><a href="#L1-正则" class="headerlink" title="L1 正则"></a>L1 正则</h4><h4 id="L2正则"><a href="#L2正则" class="headerlink" title="L2正则"></a>L2正则</h4><p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1561037588255.png" alt="1561037588255"></p>
+<h2 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h2><p><img src="/2019/06/17/deep-learning/nn_cs231n_note/63fcf4cc655cb04f21a37e86aca333cf_hd.png" alt="img"></p>
+<ol>
+<li>Bagging 集成模型，随机抽样神经网络的子集。很多个共享参数的子网络组成。</li>
+<li>增强单个神经元独立学习特征的能力，减少神经元之间的依赖（避免学习某些固定组合才产生的特征，有意识的让神经网络去学习一些普遍的共性）</li>
+<li>加性噪声</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;</span><br><span class="line">反向随机失活: 推荐实现方式.</span><br><span class="line">在训练的时候drop和调整数值范围，测试时不做任何事.</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">p = 0.5 	# 激活神经元的概率. p值更高 = 随机失活更弱</span><br><span class="line"></span><br><span class="line">def train_step(X):</span><br><span class="line">  # 3层neural network的前向传播</span><br><span class="line">  H1 = np.maximum(0, np.dot(W1, X) + b1)</span><br><span class="line">  # 神经元以p的概率失活 [0, 1]随机分布 P(rand(x)) &lt; p = p</span><br><span class="line">  # 第一个随机失活掩码. 注意/p! inverted dropout, 保持当前层输出期望一致</span><br><span class="line">  mask1 = (np.random.rand(*H1.shape) &lt; p) / p</span><br><span class="line">  H1 *= mask1                                  # dropout!</span><br><span class="line">  H2 = np.maximum(0, np.dot(W2, H1) + b2)</span><br><span class="line">  mask2 = (np.random.rand(*H2.shape) &lt; p) / p  # 第二个随机失活掩码. 注意/p!</span><br><span class="line">  H2 *= mask2 # drop!</span><br><span class="line">  out = np.dot(W3, H2) + b3</span><br><span class="line"></span><br><span class="line">  # 反向传播:计算梯度... (略)</span><br><span class="line">  # 进行参数更新... (略)</span><br><span class="line"></span><br><span class="line">def predict(X):</span><br><span class="line">  # 前向传播时模型集成</span><br><span class="line">  H1 = np.maximum(0, np.dot(W1, X) + b1)       # 不用数值范围调整了</span><br><span class="line">  H2 = np.maximum(0, np.dot(W2, H1) + b2)</span><br><span class="line">  out = np.dot(W3, H2) + b3</span><br></pre></td></tr></table></figure>
+<h2 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h2><p>批量归一化可以理解为在网络的每一层之前都做预处理，减少之前网络权重对数据的影响，保持每一层输出数据的分布（均值和标准差），使输出适应下一层网络，也使得每一层数据相对独立。</p>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1560779540116.png" alt="1560779540116"></p>
+<h3 id="Internal-Co-variate-Shift"><a href="#Internal-Co-variate-Shift" class="headerlink" title="Internal Co-variate Shift"></a>Internal Co-variate Shift</h3><p>Reference: <a href="https://zhuanlan.zhihu.com/p/34879333" target="_blank" rel="noopener">Batch Normalization原理与实战</a></p>
+<p>随着训练的进行，网络中的参数也随着梯度下降在不停更新。一方面，当底层网络中参数发生微弱变化时，由于每一层中的线性变换与非线性激活映射，这些微弱变化随着网络层数的加深而被放大（类似蝴蝶效应）；另一方面，参数的变化导致每一层的输入分布会发生改变，进而下一层的网络需要不停地去适应这些分布变化，使得我们的模型训练变得困难。上述这一现象叫做Internal Covariate Shift。</p>
+<p>原作定义：在深层网络训练的过程中，由于网络中参数变化而引起内部结点数据分布发生变化的这一过程被称作Internal Covariate Shift。</p>
+<p>随着梯度下降的进行，每一层的参数$W^{[l]}$与$b^{[l]}$都会被更新，那么$Z^{[l]}$的分布也就发生了改变，进而$A^{[l]}$也同样出现分布的改变。而$A^{[l]}$作为第 $l+1$ 层的输入，意味着 $l+1$ 层需要去不停适应这种数据分布的变化，这一过程叫做 Interval Covariate Shift.</p>
+<h4 id="带来的问题："><a href="#带来的问题：" class="headerlink" title="带来的问题："></a>带来的问题：</h4><ol>
+<li>上层网络需要不停调整来适应输入数据分布的变化，导致网络学习速度的降低</li>
+<li>网络的训练过程容易陷入梯度饱和区，减缓网络收敛速度（sigmoid, tanh）。 $Z^{[l]}$会逐渐更新并变大，陷入梯度饱和区。可以通过Normalization 使得激活函数输入分布在一个稳定的空间来避免他们陷入梯度饱和区。</li>
+</ol>
+<h4 id="如何减缓-Interval-Covariate-Shift"><a href="#如何减缓-Interval-Covariate-Shift" class="headerlink" title="如何减缓 Interval Covariate Shift"></a>如何减缓 Interval Covariate Shift</h4><ol>
+<li><p>白化。成本高，改变了网络每一层分布导致数据表达的特征信息丢失</p>
+<ul>
+<li>使得输入特征分布具有相同的均值与方差。其中PCA白化保证了所有特征分布均值为0，方差为1</li>
+<li>去除特征之间的相关性</li>
+</ul>
+</li>
+<li><p>Batch Normalization   简化加改进版的白化</p>
+<ul>
+<li>简化。让每个特征都有均值为0，方差为1的分布就OK。</li>
+<li>白化操作减弱了网络中每一层输入数据表达能力，那我就再加个线性变换操作，让这些数据再能够尽可能恢复本身的表达能力就好了。</li>
+</ul>
+<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1560779531173.png" alt="1560779531173"></p>
+</li>
+</ol>
+<p>BN 引入了两个可学习的参数 $\gamma$ 和 $\beta$（<strong>变换重构</strong>）。这两个参数的引入是为了恢复数据本身的表达能力，对规范后的数据进行线性变换，即 $y_i = \gamma x_i + \beta_i$。 特别的，当 $\gamma^2=\sigma ^2$（方差）, $\beta = \mu$ （均值）时，可以实现等价变换并且保留原始输入特征的分布信息。</p>
+<h4 id="Batch-Normalization-的作用"><a href="#Batch-Normalization-的作用" class="headerlink" title="Batch Normalization 的作用"></a>Batch Normalization 的作用</h4><ol>
+<li><p>使得网络中每层输入数据的分布相对稳定，加快模型学习速度</p>
+</li>
+<li><p>使得模型对参数不那么敏感，减小初始化参数对模型学习的影响，可以选择更大的初始化值，学习率选择范围更大</p>
+<p>当学习率设置太高时，会使得参数更新步伐过大，容易出现震荡和不收敛。但是使用BN的网络将不会受到参数数值大小的影响。BN抑制了参数微小变化随着网络层数加深被放大的问题，使得网络对参数大小的适应能力更强</p>
+</li>
+<li><p>缓解梯度消失的问题</p>
+</li>
+<li><p>正则化效果，mini-batch 的mean/variance 作为总体样本的抽样估计，引入随机噪声</p>
+</li>
+</ol>
+<p><strong>BN通过将每一层网络的输入进行normalization，保证输入分布的均值与方差固定在一定范围内，减少了网络中的Internal Covariate Shift问题，并在一定程度上缓解了梯度消失，加速了模型收敛；并且BN使得网络对参数、激活函数更加具有鲁棒性，降低了神经网络模型训练和调参的复杂度；最后BN训练过程中由于使用mini-batch的mean/variance作为总体样本统计量估计，引入了随机噪声，在一定程度上对模型起到了正则化的效果。</strong></p>
+<h2 id="Backpropagation"><a href="#Backpropagation" class="headerlink" title="Backpropagation"></a>Backpropagation</h2><p>Reference: <a href="https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html" target="_blank" rel="noopener">Understanding the backward pass through Batch Normalization Layer</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hexo-asset-image/" rel="tag"># hexo-asset-image</a>
+          
+            <a href="/tags/dl/" rel="tag"># dl</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/29/statitics/estimate/" rel="next" title="无偏估计和有偏估计">
+                <i class="fa fa-chevron-left"></i> 无偏估计和有偏估计
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Joseph.Fan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#深度学习和神经网络-CS231n-Note"><span class="nav-number">1.</span> <span class="nav-text">深度学习和神经网络(CS231n Note)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-神经元模型与数学模型（Neuron-Network-Unit）"><span class="nav-number">2.</span> <span class="nav-text">1. 神经元模型与数学模型（Neuron Network Unit）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-常用激活函数"><span class="nav-number">3.</span> <span class="nav-text">2. 常用激活函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sigmoid"><span class="nav-number">3.0.1.</span> <span class="nav-text">sigmoid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tanh"><span class="nav-number">3.0.2.</span> <span class="nav-text">tanh</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#relu"><span class="nav-number">3.1.</span> <span class="nav-text">relu</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Leaky-Relu"><span class="nav-number">3.1.1.</span> <span class="nav-text">Leaky Relu</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ELU"><span class="nav-number">3.1.2.</span> <span class="nav-text">ELU</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Maxout"><span class="nav-number">3.1.3.</span> <span class="nav-text">Maxout</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#3-损失函数"><span class="nav-number">4.</span> <span class="nav-text">3. 损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#损失函数-Loss-function-代价函数-Cost-function"><span class="nav-number">4.0.1.</span> <span class="nav-text">损失函数 Loss function / 代价函数 Cost function</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#均方损失"><span class="nav-number">4.0.2.</span> <span class="nav-text">均方损失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交叉熵损失（cross-entropy-loss"><span class="nav-number">4.0.3.</span> <span class="nav-text">交叉熵损失（cross-entropy loss)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Softmax-函数"><span class="nav-number">4.0.4.</span> <span class="nav-text">Softmax 函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度下降"><span class="nav-number">5.</span> <span class="nav-text">梯度下降</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-数据预处理"><span class="nav-number">6.</span> <span class="nav-text">4. 数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#归一化-Normalization"><span class="nav-number">6.1.</span> <span class="nav-text">归一化 Normalization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PCA-白化（很少在深度学习中使用）"><span class="nav-number">6.2.</span> <span class="nav-text">PCA 白化（很少在深度学习中使用）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CIFAR-数据PCA"><span class="nav-number">6.3.</span> <span class="nav-text">CIFAR 数据PCA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-权重初始化"><span class="nav-number">7.</span> <span class="nav-text">4. 权重初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#小随机数初始化"><span class="nav-number">7.0.1.</span> <span class="nav-text">小随机数初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-frac-1-sqrt-n-校准方差"><span class="nav-number">7.0.2.</span> <span class="nav-text">使用$\frac{1}{\sqrt{n}} $校准方差</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#He-Normal"><span class="nav-number">7.0.3.</span> <span class="nav-text">He Normal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#偏置初始化-biases"><span class="nav-number">7.0.4.</span> <span class="nav-text">偏置初始化 biases</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则化"><span class="nav-number">8.</span> <span class="nav-text">正则化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#L1-正则"><span class="nav-number">8.0.1.</span> <span class="nav-text">L1 正则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#L2正则"><span class="nav-number">8.0.2.</span> <span class="nav-text">L2正则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dropout"><span class="nav-number">9.</span> <span class="nav-text">Dropout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Batch-Normalization"><span class="nav-number">10.</span> <span class="nav-text">Batch Normalization</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Internal-Co-variate-Shift"><span class="nav-number">10.1.</span> <span class="nav-text">Internal Co-variate Shift</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#带来的问题："><span class="nav-number">10.1.1.</span> <span class="nav-text">带来的问题：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何减缓-Interval-Covariate-Shift"><span class="nav-number">10.1.2.</span> <span class="nav-text">如何减缓 Interval Covariate Shift</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Batch-Normalization-的作用"><span class="nav-number">10.1.3.</span> <span class="nav-text">Batch Normalization 的作用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Backpropagation"><span class="nav-number">11.</span> <span class="nav-text">Backpropagation</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Joseph.Fan</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.7.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
