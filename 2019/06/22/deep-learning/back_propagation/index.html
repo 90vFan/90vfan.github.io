@@ -96,30 +96,27 @@
 
 
 
-  <meta name="description" content="Part 4. 决策树 Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型  if-then规则集合，每一条路径构建一条规则  内部节点：特征/属性，规则的条件  叶节点：　类，规则的结论   条件概率分布 将特征空间划分为互不相交的单元（cell）或区域（region） $P(Y=+1|X=c)&amp;gt;0.5$, 单元cell　属于正类">
-<meta name="keywords" content="hexo-asset-image,ml">
+  <meta name="description" content="BackpropagationReference: Understanding the backward pass through Batch Normalization Layer 全连接网络数据指示图 $$w = w - \eta dw$$">
+<meta name="keywords" content="dl,hexo-asset-image">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Decistion Tree">
-<meta property="og:url" content="http:/2019/01/31/machine-learning/decision-tree/index.html">
+<meta property="og:title" content="Back Propagation">
+<meta property="og:url" content="http:/2019/06/22/deep-learning/back_propagation/index.html">
 <meta property="og:site_name" content="SAILOR">
-<meta property="og:description" content="Part 4. 决策树 Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型  if-then规则集合，每一条路径构建一条规则  内部节点：特征/属性，规则的条件  叶节点：　类，规则的结论   条件概率分布 将特征空间划分为互不相交的单元（cell）或区域（region） $P(Y=+1|X=c)&amp;gt;0.5$, 单元cell　属于正类">
+<meta property="og:description" content="BackpropagationReference: Understanding the backward pass through Batch Normalization Layer 全连接网络数据指示图 $$w = w - \eta dw$$">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:/2019/01/31/machine-learning/decision-tree/tree_basic.png">
-<meta property="og:image" content="http:/2019/01/31/machine-learning/decision-tree/feature-space.png">
-<meta property="og:image" content="http:/2019/01/31/machine-learning/decision-tree/1548940132559.png">
-<meta property="og:image" content="http:/2019/01/31/machine-learning/decision-tree/1548940093157.png">
-<meta property="og:updated_time" content="2019-06-20T16:07:57.003Z">
+<meta property="og:image" content="http:/2019/06/22/deep-learning/back_propagation/1561185066736.png">
+<meta property="og:updated_time" content="2019-06-23T14:46:21.849Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Decistion Tree">
-<meta name="twitter:description" content="Part 4. 决策树 Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型  if-then规则集合，每一条路径构建一条规则  内部节点：特征/属性，规则的条件  叶节点：　类，规则的结论   条件概率分布 将特征空间划分为互不相交的单元（cell）或区域（region） $P(Y=+1|X=c)&amp;gt;0.5$, 单元cell　属于正类">
-<meta name="twitter:image" content="http:/2019/01/31/machine-learning/decision-tree/tree_basic.png">
+<meta name="twitter:title" content="Back Propagation">
+<meta name="twitter:description" content="BackpropagationReference: Understanding the backward pass through Batch Normalization Layer 全连接网络数据指示图 $$w = w - \eta dw$$">
+<meta name="twitter:image" content="http:/2019/06/22/deep-learning/back_propagation/1561185066736.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http:/2019/01/31/machine-learning/decision-tree/">
+  <link rel="canonical" href="http:/2019/06/22/deep-learning/back_propagation/">
 
 
 
@@ -129,7 +126,7 @@
   };
 </script>
 
-  <title>Decistion Tree | SAILOR</title>
+  <title>Back Propagation | SAILOR</title>
   
 
 
@@ -332,7 +329,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/01/31/machine-learning/decision-tree/">
+    <link itemprop="mainEntityOfPage" href="http:/2019/06/22/deep-learning/back_propagation/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joseph.Fan">
@@ -349,7 +346,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Decistion Tree
+          <h1 class="post-title" itemprop="name headline">Back Propagation
 
               
             
@@ -375,7 +372,7 @@
                 
               
 
-              <time title="创建时间：2019-01-31 20:33:05" itemprop="dateCreated datePublished" datetime="2019-01-31T20:33:05+08:00">2019-01-31</time>
+              <time title="创建时间：2019-06-22 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-22T00:00:00+08:00">2019-06-22</time>
             
 
             
@@ -392,7 +389,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-21 00:07:57" itemprop="dateModified" datetime="2019-06-21T00:07:57+08:00">2019-06-21</time>
+                <time title="修改时间：2019-06-23 22:46:21" itemprop="dateModified" datetime="2019-06-23T22:46:21+08:00">2019-06-23</time>
               
             
           </span>
@@ -409,7 +406,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/ml/" itemprop="url" rel="index"><span itemprop="name">ml</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
 
                 
                 
@@ -451,22 +448,9 @@
       
 
       
-        <h2 id="Part-4-决策树"><a href="#Part-4-决策树" class="headerlink" title="Part 4. 决策树"></a>Part 4. 决策树</h2><hr>
-<p>Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型</p>
-<p><img src="/2019/01/31/machine-learning/decision-tree/tree_basic.png" alt="1548939696690"></p>
-<p>if-then规则集合，每一条路径构建一条规则</p>
-<ul>
-<li><p>内部节点：特征/属性，规则的条件</p>
-</li>
-<li><p>叶节点：　类，规则的结论</p>
-</li>
-</ul>
-<p>条件概率分布</p>
-<p>将特征空间划分为互不相交的单元（cell）或区域（region）</p>
-<p>$P(Y=+1|X=c)&gt;0.5$, 单元cell　属于正类</p>
-<p><img src="/2019/01/31/machine-learning/decision-tree/feature-space.png" alt="1548940003249"></p>
-<p><img src="/2019/01/31/machine-learning/decision-tree/1548940132559.png" alt="1548940132559"></p>
-<p><img src="/2019/01/31/machine-learning/decision-tree/1548940093157.png" alt="1548940093157"></p>
+        <h2 id="Backpropagation"><a href="#Backpropagation" class="headerlink" title="Backpropagation"></a>Backpropagation</h2><p>Reference: <a href="https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html" target="_blank" rel="noopener">Understanding the backward pass through Batch Normalization Layer</a></p>
+<h4 id="全连接网络数据指示图"><a href="#全连接网络数据指示图" class="headerlink" title="全连接网络数据指示图"></a>全连接网络数据指示图</h4><p><img src="/2019/06/22/deep-learning/back_propagation/1561185066736.png" alt="1561185066736"></p>
+<p>$$w = w - \eta dw$$</p>
 
       
     </div>
@@ -490,9 +474,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo-asset-image/" rel="tag"># hexo-asset-image</a>
+            <a href="/tags/dl/" rel="tag"># dl</a>
           
-            <a href="/tags/ml/" rel="tag"># ml</a>
+            <a href="/tags/hexo-asset-image/" rel="tag"># hexo-asset-image</a>
           
         </div>
       
@@ -505,8 +489,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/06/statitics/Statistics/" rel="next" title="Statistic">
-                <i class="fa fa-chevron-left"></i> Statistic
+              <a href="/2019/06/19/deep-learning/batch_normalization/" rel="next" title="Batch Normalization">
+                <i class="fa fa-chevron-left"></i> Batch Normalization
               </a>
             
           </div>
@@ -514,10 +498,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/25/statitics/entropy/" rel="prev" title="entropy">
-                entropy <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -665,7 +645,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-4-决策树"><span class="nav-number">1.</span> <span class="nav-text">Part 4. 决策树</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Backpropagation"><span class="nav-number">1.</span> <span class="nav-text">Backpropagation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全连接网络数据指示图"><span class="nav-number">1.0.1.</span> <span class="nav-text">全连接网络数据指示图</span></a></li></ol></li></ol></div>
             
 
           </div>

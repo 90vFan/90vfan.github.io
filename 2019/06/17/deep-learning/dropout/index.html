@@ -96,30 +96,27 @@
 
 
 
-  <meta name="description" content="Part 4. 决策树 Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型  if-then规则集合，每一条路径构建一条规则  内部节点：特征/属性，规则的条件  叶节点：　类，规则的结论   条件概率分布 将特征空间划分为互不相交的单元（cell）或区域（region） $P(Y=+1|X=c)&amp;gt;0.5$, 单元cell　属于正类">
-<meta name="keywords" content="hexo-asset-image,ml">
+  <meta name="description" content="DropoutDropout  Bagging 集成模型，随机抽样神经网络的子集。很多个共享参数的子网络组成。 增强单个神经元独立学习特征的能力，减少神经元之间的依赖（避免学习某些固定组合才产生的特征，有意识的让神经网络去学习一些普遍的共性） 加性噪声  123456789101112131415161718192021222324252627&quot;&quot;&quot;反向随机失活: 推荐实现方式.在训练的时候dro">
+<meta name="keywords" content="dl,hexo-asset-image">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Decistion Tree">
-<meta property="og:url" content="http:/2019/01/31/machine-learning/decision-tree/index.html">
+<meta property="og:title" content="Dropout">
+<meta property="og:url" content="http:/2019/06/17/deep-learning/dropout/index.html">
 <meta property="og:site_name" content="SAILOR">
-<meta property="og:description" content="Part 4. 决策树 Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型  if-then规则集合，每一条路径构建一条规则  内部节点：特征/属性，规则的条件  叶节点：　类，规则的结论   条件概率分布 将特征空间划分为互不相交的单元（cell）或区域（region） $P(Y=+1|X=c)&amp;gt;0.5$, 单元cell　属于正类">
+<meta property="og:description" content="DropoutDropout  Bagging 集成模型，随机抽样神经网络的子集。很多个共享参数的子网络组成。 增强单个神经元独立学习特征的能力，减少神经元之间的依赖（避免学习某些固定组合才产生的特征，有意识的让神经网络去学习一些普遍的共性） 加性噪声  123456789101112131415161718192021222324252627&quot;&quot;&quot;反向随机失活: 推荐实现方式.在训练的时候dro">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:/2019/01/31/machine-learning/decision-tree/tree_basic.png">
-<meta property="og:image" content="http:/2019/01/31/machine-learning/decision-tree/feature-space.png">
-<meta property="og:image" content="http:/2019/01/31/machine-learning/decision-tree/1548940132559.png">
-<meta property="og:image" content="http:/2019/01/31/machine-learning/decision-tree/1548940093157.png">
-<meta property="og:updated_time" content="2019-06-20T16:07:57.003Z">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/dropout/nn_cs231n_note/63fcf4cc655cb04f21a37e86aca333cf_hd.png">
+<meta property="og:updated_time" content="2019-06-22T05:47:51.031Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Decistion Tree">
-<meta name="twitter:description" content="Part 4. 决策树 Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型  if-then规则集合，每一条路径构建一条规则  内部节点：特征/属性，规则的条件  叶节点：　类，规则的结论   条件概率分布 将特征空间划分为互不相交的单元（cell）或区域（region） $P(Y=+1|X=c)&amp;gt;0.5$, 单元cell　属于正类">
-<meta name="twitter:image" content="http:/2019/01/31/machine-learning/decision-tree/tree_basic.png">
+<meta name="twitter:title" content="Dropout">
+<meta name="twitter:description" content="DropoutDropout  Bagging 集成模型，随机抽样神经网络的子集。很多个共享参数的子网络组成。 增强单个神经元独立学习特征的能力，减少神经元之间的依赖（避免学习某些固定组合才产生的特征，有意识的让神经网络去学习一些普遍的共性） 加性噪声  123456789101112131415161718192021222324252627&quot;&quot;&quot;反向随机失活: 推荐实现方式.在训练的时候dro">
+<meta name="twitter:image" content="http:/2019/06/17/deep-learning/dropout/nn_cs231n_note/63fcf4cc655cb04f21a37e86aca333cf_hd.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http:/2019/01/31/machine-learning/decision-tree/">
+  <link rel="canonical" href="http:/2019/06/17/deep-learning/dropout/">
 
 
 
@@ -129,7 +126,7 @@
   };
 </script>
 
-  <title>Decistion Tree | SAILOR</title>
+  <title>Dropout | SAILOR</title>
   
 
 
@@ -332,7 +329,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/01/31/machine-learning/decision-tree/">
+    <link itemprop="mainEntityOfPage" href="http:/2019/06/17/deep-learning/dropout/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joseph.Fan">
@@ -349,7 +346,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Decistion Tree
+          <h1 class="post-title" itemprop="name headline">Dropout
 
               
             
@@ -375,7 +372,7 @@
                 
               
 
-              <time title="创建时间：2019-01-31 20:33:05" itemprop="dateCreated datePublished" datetime="2019-01-31T20:33:05+08:00">2019-01-31</time>
+              <time title="创建时间：2019-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">2019-06-17</time>
             
 
             
@@ -392,7 +389,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-21 00:07:57" itemprop="dateModified" datetime="2019-06-21T00:07:57+08:00">2019-06-21</time>
+                <time title="修改时间：2019-06-22 13:47:51" itemprop="dateModified" datetime="2019-06-22T13:47:51+08:00">2019-06-22</time>
               
             
           </span>
@@ -409,7 +406,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/ml/" itemprop="url" rel="index"><span itemprop="name">ml</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
 
                 
                 
@@ -451,22 +448,13 @@
       
 
       
-        <h2 id="Part-4-决策树"><a href="#Part-4-决策树" class="headerlink" title="Part 4. 决策树"></a>Part 4. 决策树</h2><hr>
-<p>Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型</p>
-<p><img src="/2019/01/31/machine-learning/decision-tree/tree_basic.png" alt="1548939696690"></p>
-<p>if-then规则集合，每一条路径构建一条规则</p>
-<ul>
-<li><p>内部节点：特征/属性，规则的条件</p>
-</li>
-<li><p>叶节点：　类，规则的结论</p>
-</li>
-</ul>
-<p>条件概率分布</p>
-<p>将特征空间划分为互不相交的单元（cell）或区域（region）</p>
-<p>$P(Y=+1|X=c)&gt;0.5$, 单元cell　属于正类</p>
-<p><img src="/2019/01/31/machine-learning/decision-tree/feature-space.png" alt="1548940003249"></p>
-<p><img src="/2019/01/31/machine-learning/decision-tree/1548940132559.png" alt="1548940132559"></p>
-<p><img src="/2019/01/31/machine-learning/decision-tree/1548940093157.png" alt="1548940093157"></p>
+        <h2 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h2><h2 id="Dropout-1"><a href="#Dropout-1" class="headerlink" title="Dropout"></a>Dropout</h2><p><img src="/2019/06/17/deep-learning/dropout/nn_cs231n_note/63fcf4cc655cb04f21a37e86aca333cf_hd.png" alt="img"></p>
+<ol>
+<li>Bagging 集成模型，随机抽样神经网络的子集。很多个共享参数的子网络组成。</li>
+<li>增强单个神经元独立学习特征的能力，减少神经元之间的依赖（避免学习某些固定组合才产生的特征，有意识的让神经网络去学习一些普遍的共性）</li>
+<li>加性噪声</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">反向随机失活: 推荐实现方式.</span></span><br><span class="line"><span class="string">在训练的时候drop和调整数值范围，测试时不做任何事.</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line">p = <span class="number">0.5</span> 	<span class="comment"># 激活神经元的概率. p值更高 = 随机失活更弱</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_step</span><span class="params">(X)</span>:</span></span><br><span class="line">  <span class="comment"># 3层neural network的前向传播</span></span><br><span class="line">  H1 = np.maximum(<span class="number">0</span>, np.dot(W1, X) + b1)</span><br><span class="line">  <span class="comment"># 神经元以p的概率失活 [0, 1]随机分布 P(rand(x)) &lt; p = p</span></span><br><span class="line">  <span class="comment"># 第一个随机失活掩码. 注意/p! inverted dropout, 保持当前层输出期望一致</span></span><br><span class="line">  mask1 = (np.random.rand(*H1.shape) &lt; p) / p</span><br><span class="line">  H1 *= mask1                                  <span class="comment"># dropout!</span></span><br><span class="line">  H2 = np.maximum(<span class="number">0</span>, np.dot(W2, H1) + b2)</span><br><span class="line">  mask2 = (np.random.rand(*H2.shape) &lt; p) / p  <span class="comment"># 第二个随机失活掩码. 注意/p!</span></span><br><span class="line">  H2 *= mask2 <span class="comment"># drop!</span></span><br><span class="line">  out = np.dot(W3, H2) + b3</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 反向传播:计算梯度... (略)</span></span><br><span class="line">  <span class="comment"># 进行参数更新... (略)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict</span><span class="params">(X)</span>:</span></span><br><span class="line">  <span class="comment"># 前向传播时模型集成</span></span><br><span class="line">  H1 = np.maximum(<span class="number">0</span>, np.dot(W1, X) + b1)       <span class="comment"># 不用数值范围调整了</span></span><br><span class="line">  H2 = np.maximum(<span class="number">0</span>, np.dot(W2, H1) + b2)</span><br><span class="line">  out = np.dot(W3, H2) + b3</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -490,9 +478,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo-asset-image/" rel="tag"># hexo-asset-image</a>
+            <a href="/tags/dl/" rel="tag"># dl</a>
           
-            <a href="/tags/ml/" rel="tag"># ml</a>
+            <a href="/tags/hexo-asset-image/" rel="tag"># hexo-asset-image</a>
           
         </div>
       
@@ -505,8 +493,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/06/statitics/Statistics/" rel="next" title="Statistic">
-                <i class="fa fa-chevron-left"></i> Statistic
+              <a href="/2019/06/17/deep-learning/nn_cs231n_note/" rel="next" title="Neuron Network">
+                <i class="fa fa-chevron-left"></i> Neuron Network
               </a>
             
           </div>
@@ -515,8 +503,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/25/statitics/entropy/" rel="prev" title="entropy">
-                entropy <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/19/deep-learning/batch_normalization/" rel="prev" title="Batch Normalization">
+                Batch Normalization <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -665,7 +653,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-4-决策树"><span class="nav-number">1.</span> <span class="nav-text">Part 4. 决策树</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dropout"><span class="nav-number">1.</span> <span class="nav-text">Dropout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dropout-1"><span class="nav-number">2.</span> <span class="nav-text">Dropout</span></a></li></ol></div>
             
 
           </div>
