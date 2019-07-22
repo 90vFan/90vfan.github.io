@@ -323,6 +323,378 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http:/2019/07/02/coding/重构/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joseph.Fan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SAILOR">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/02/coding/重构/" class="post-title-link" itemprop="url">未命名</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-02 23:27:40" itemprop="dateCreated datePublished" datetime="2019-07-02T23:27:40+08:00">2019-07-02</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="重构：改善既有代码的设计"><a href="#重构：改善既有代码的设计" class="headerlink" title="重构：改善既有代码的设计"></a>重构：改善既有代码的设计</h2><h2 id="Chapter-1"><a href="#Chapter-1" class="headerlink" title="Chapter 1"></a>Chapter 1</h2><p>如果你要给程序添加一个特性，但发现代码因缺乏<strong>良好的结构</strong>而<strong>不易于进行更改</strong>，那就先重构那个程序，使其比较容易添加该特性，然后再添加该特性。</p>
+<p>重构前，先检查自己是否有一套可靠的测试集。这些测试必须有自我检验能力。进行重构时，我需要依赖测试。我将测试视为bug检测器，它们能保护我不被自己犯的错误所困扰。通过测试对当前工作进行二次确认。</p>
+<p><strong>重构技术就是以微小的步伐修改程序。如果你犯下错误，很容易便可发现它。</strong></p>
+<p>傻瓜都能写出计算机可以理解的代码。唯有能写出<strong>人类容易理解的代码</strong>的，才是优秀的程序员。</p>
+<p>好代码的检验标准就是人们是否能轻而易举地修改它。小的步子可以更快前进，请保持代码永远处于可工作状态，小步修改累积起来也能大大改善系统的设计。</p>
+<h2 id="Chapter-2"><a href="#Chapter-2" class="headerlink" title="Chapter 2"></a>Chapter 2</h2><h2 id="Chapter-4-测试"><a href="#Chapter-4-测试" class="headerlink" title="Chapter 4 测试"></a>Chapter 4 测试</h2><h4 id="WHY"><a href="#WHY" class="headerlink" title="WHY"></a>WHY</h4><ul>
+<li><p>编写代码的时间仅占所有时间中很少的一部分。有些时间用来决定下一步干什么，有些时间花在设计上，但是，<strong>花费在调试上的时间是最多的</strong></p>
+</li>
+<li><p>修复bug通常是比较快的，但<strong>找出bug所在却是一场噩梦</strong>。当修复一个bug时，常常会引起另一个bug，却在很久之后才会注意到它。那时，你又要花上大把时间去定位问题。</p>
+</li>
+<li><p>一套测试就是一个强大的bug侦测器，能够大大缩减查找bug所需的时间</p>
+</li>
+<li>除非体会到<strong>编写测试是如何提升编程速度</strong>，否则自测试似乎就没有什么意义</li>
+<li><p><strong>编写未臻完善的测试</strong>并经常运行，好过对完美测试的无尽等待。</p>
+</li>
+<li><p><strong>一个测试语句中最好只有一个验证语句</strong>，否则测试可能在进行第一个验证时就失败，这通常会掩盖一些重要的错误信息，不利于你了解测试失败的原因。</p>
+</li>
+</ul>
+<h4 id="错误，脏数据"><a href="#错误，脏数据" class="headerlink" title="错误，脏数据"></a>错误，脏数据</h4><p><strong>直接 assert</strong></p>
+<p>如果这个错误会导致脏数据在应用中到处传递，或是产生一些很难调试的失败，我可能会用<strong>引入断言</strong>（302）手法，使代码不满足预设条件时快速失败。我不会为这样的失败断言添加测试，它们本身就是一种测试的形式。</p>
+<h4 id="探测边界条件"><a href="#探测边界条件" class="headerlink" title="探测边界条件"></a>探测边界条件</h4><ul>
+<li>目前为止我的测试都聚焦于正常的行为上，这通常也被称为“正常路径”（happy path），它指的是一切工作正常、用户使用方式也最符合规范的那种场景。同时，把测试推到这些条件的边界处也是不错的实践，这可以检查操作出错时软件的表现。</li>
+<li>考虑<strong>可能出错的边界条件</strong>，把测试火力集中在那儿。</li>
+</ul>
+<h4 id="你应该把测试集中在可能出错的地方。观察代码，看哪儿变得复杂；观察函数，思考哪些地方可能出错。"><a href="#你应该把测试集中在可能出错的地方。观察代码，看哪儿变得复杂；观察函数，思考哪些地方可能出错。" class="headerlink" title="你应该把测试集中在可能出错的地方。观察代码，看哪儿变得复杂；观察函数，思考哪些地方可能出错。"></a>你应该把测试集中在可能出错的地方。观察代码，看哪儿变得复杂；观察函数，思考哪些地方可能出错。</h4><ul>
+<li>不要因为测试无法捕捉所有的bug就不写测试，因为测试的确可以捕捉到大多数bug</li>
+</ul>
+<h4 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h4><p>负责测试一小块代码，运行速度足够快。它们是自测试代码的支柱，是一个系统中占绝大多数的测试类型</p>
+<h4 id="测试三问"><a href="#测试三问" class="headerlink" title="测试三问"></a>测试三问</h4><p>与编程的许多方面类似，测试也是一种<strong>迭代</strong>式的活动。除非你技能非常纯熟，或者非常幸运，否则你很难第一次就把测试写对。我发觉我持续地在测试集上工作，就与我在主代码库上的工作一样多。很自然，这意味着我在增加新特性时也要同时添加测试。</p>
+<p>有时还需要回顾已有的测试：它们足够清晰吗？我需要重构它们，以帮助我更好地理解吗？我拥有的测试是有价值的吗？</p>
+<p>代码足够清晰吗？我需要重构它们，以帮助我更好地理解吗？</p>
+<h4 id="什么时候应该添加测试"><a href="#什么时候应该添加测试" class="headerlink" title="什么时候应该添加测试"></a>什么时候应该添加测试</h4><p>每当你收到bug报告，请先写一个<strong>单元测试来暴露这个bug</strong>。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http:/2019/07/01/deep-learning/cnn/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joseph.Fan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SAILOR">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/01/deep-learning/cnn/" class="post-title-link" itemprop="url">CNN</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-01 00:00:00" itemprop="dateCreated datePublished" datetime="2019-07-01T00:00:00+08:00">2019-07-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-04 01:21:54" itemprop="dateModified" datetime="2019-07-04T01:21:54+08:00">2019-07-04</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Covolution-Neuro-Network"><a href="#Covolution-Neuro-Network" class="headerlink" title="Covolution Neuro Network"></a>Covolution Neuro Network</h2><h2 id="卷积"><a href="#卷积" class="headerlink" title="卷积"></a>卷积</h2><p>卷积运算，源于信号处理</p>
+<h4 id="感受野，接受域"><a href="#感受野，接受域" class="headerlink" title="感受野，接受域"></a>感受野，接受域</h4><p><img src="/2019/07/01/deep-learning/cnn/90af0bd67ba498239688c81fd61bbc66_hd.jpg" alt="img"></p>
+<p>只受３个输入单元影响，接受域为３，忽略接受域外权重（无限强先验）</p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li><p>稀疏交互</p>
+</li>
+<li><p>参数共享，在不同输入位置上使用相同的参数。普通神经网络权重与神经元绑定，需要 $N_l <em> N_{l+1}$ 个参数；卷积神经网络每个权重参数不变，只需要 $k</em>k$ 个参数。</p>
+</li>
+<li>平移不变性，只包含局部连接关系（接受域）</li>
+</ul>
+<p><img src="/2019/07/01/deep-learning/cnn/dd62e1d75bda9b592dabb91627d68aa6_hd.jpg" alt="img"></p>
+<p>96个[11x11x3]滤波器，如果在图像某些地方探测到一个水平的边界是很重要，那么在其他一些地方也会同样是有用的，这是因为图像结构具有平移不变性。</p>
+<p>有的滤波器学习到了条纹，有些学到了色彩差别</p>
+<h4 id="CNN"><a href="#CNN" class="headerlink" title="CNN"></a>CNN</h4><p>输出尺寸：$\frac{W-F+2P}{S} + 1$</p>
+<ul>
+<li>F: fiter, 卷积核/滤波器/感受野的尺寸，常用3x3, 5x5</li>
+<li>P: padding, 零填充的数量. SAME(输出与输入保持一直，p=F-1/S)，VALID(不填充，输出尺寸减少, p=F/S)</li>
+<li>S: stride, 步长</li>
+</ul>
+<h4 id="code"><a href="#code" class="headerlink" title="code"></a>code</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># forward</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conv_forward_naive</span><span class="params">(x, w, b, conv_param)</span>:</span></span><br><span class="line">    <span class="comment"># input x: N data points, C channels, height H, width W</span></span><br><span class="line">    N, C, H, W = x.shape</span><br><span class="line">    <span class="comment"># filter w: (F, C, HH, WW)</span></span><br><span class="line">    F, _, HH, WW = w.shape</span><br><span class="line">    </span><br><span class="line">    stride, pad = conv_param[<span class="string">'stride'</span>], conv_param[<span class="string">'pad'</span>]</span><br><span class="line">    H_out = <span class="number">1</span> + (H + <span class="number">2</span> * pad - HH) // stride  </span><br><span class="line">    W_out = <span class="number">1</span> + (W + <span class="number">2</span> * pad - WW) // stride</span><br><span class="line">    out = np.zeros((N, F, H_out, W_out))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># ０填充</span></span><br><span class="line">    x_pad = np.pad(x, ((<span class="number">0</span>,), (<span class="number">0</span>,), (pad,), (pad,)), mode=<span class="string">'constant'</span>, constant_values=<span class="number">0</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># out: (N, F, H', W')  F filters</span></span><br><span class="line">    <span class="comment"># N个输入格式一致，直接在矩阵中操作</span></span><br><span class="line">    <span class="comment"># 遍历输出点高度和宽度(h_out, w_out)</span></span><br><span class="line">    <span class="comment"># 输出点从上到下，从左到右移动</span></span><br><span class="line">    <span class="keyword">for</span> h_out <span class="keyword">in</span> range(H_out):</span><br><span class="line">        <span class="keyword">for</span> w_out <span class="keyword">in</span> range(W_out):</span><br><span class="line">            <span class="comment"># 获得当前卷积核对应的输入块（HH,WW）</span></span><br><span class="line">            x_pad_block = x_pad[:, :, h_out*stride:h_out*stride+HH, w_out*stride:w_out*stride+WW]</span><br><span class="line">            <span class="comment"># 计算每个卷积核（滤波器 f）得到的输出，对应点（h_out, w_out)</span></span><br><span class="line">            <span class="keyword">for</span> f <span class="keyword">in</span> range(F):</span><br><span class="line">                out[:, f, h_out, w_out] = np.sum(x_pad_block * w[f, :, :, :], axis=(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)) + b[f]</span><br><span class="line"></span><br><span class="line">    cache = (x, w, b, conv_param)</span><br><span class="line">    <span class="keyword">return</span> out, cache</span><br><span class="line"></span><br><span class="line"><span class="comment"># backward</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conv_backward_naive</span><span class="params">(dout, cache)</span>:</span></span><br><span class="line">    x, w, b, conv_param = cache</span><br><span class="line">    N, C, H, W = x.shape</span><br><span class="line">    F, _, HH, WW = w.shape</span><br><span class="line">    _, _, H_out, W_out = dout.shape</span><br><span class="line">    stride, pad = conv_param[<span class="string">'stride'</span>], conv_param[<span class="string">'pad'</span>]</span><br><span class="line">	</span><br><span class="line">    <span class="comment"># 0填充　padding</span></span><br><span class="line">    x_pad = np.pad(x, ((<span class="number">0</span>,), (<span class="number">0</span>,), (pad,), (pad,)), mode=<span class="string">'constant'</span>, constant_values=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    dx_pad = np.zeros_like(x_pad)</span><br><span class="line">    dw = np.zeros_like(w)</span><br><span class="line">    db = np.zeros_like(b)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 遍历数据输入n</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> range(N):</span><br><span class="line">        <span class="comment"># 遍历 filter f</span></span><br><span class="line">        <span class="keyword">for</span> f <span class="keyword">in</span> range(F):</span><br><span class="line">            <span class="comment"># db (N,F)</span></span><br><span class="line">            db[f] += np.sum(dout[n, f])</span><br><span class="line">            <span class="comment"># 遍历输出点高度和宽度　[h,w]</span></span><br><span class="line">            <span class="keyword">for</span> h_out <span class="keyword">in</span> range(H_out):</span><br><span class="line">                <span class="keyword">for</span> w_out <span class="keyword">in</span> range(W_out):</span><br><span class="line">                    <span class="comment"># 获得当前卷积核f对应的输入块（HH,WW）</span></span><br><span class="line">                    x_pad_block = x_pad[n, :, h_out*stride:h_out*stride+HH, w_out*stride:w_out*stride+WW]</span><br><span class="line">                    <span class="comment"># dw (F,)</span></span><br><span class="line">                    dw[f, :, :, :] += x_pad_block * dout[n, f, h_out, w_out]</span><br><span class="line">                    dx_pad[n, :, h_out*stride:h_out*stride+HH, w_out*stride:w_out*stride+WW] += \</span><br><span class="line">                        w[f, :, :, :] * dout[n, f, h_out, w_out]</span><br><span class="line"></span><br><span class="line">    dx = dx_pad[:, :, pad:pad+H, pad:pad+W]</span><br><span class="line">	</span><br><span class="line">    <span class="comment"># return Gradients: dx, dw, db</span></span><br><span class="line">    <span class="keyword">return</span> dx, dw, db</span><br></pre></td></tr></table></figure>
+<p><em>卷积层是如何解决不同大小输入的问题 ???</em></p>
+<h2 id="池化"><a href="#池化" class="headerlink" title="池化"></a>池化</h2><h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>局部平移不变性：关心某个特征是否出现，不关心出现的具体位置　（无限强先验）</li>
+<li>降采样：下一层少了 k 倍输入</li>
+<li>综合池化区域(pool)的 k*k 个像素的统计特征</li>
+<li>处理不同大小的输入，输出相同数量的统计特征</li>
+</ul>
+<p>最大池化 pool (2, 2)，步长 stride 2，输出大小减半</p>
+<p><img src="/2019/07/01/deep-learning/cnn/641c8846abcb02d35938660cf96cef1b_hd.jpg" alt="img"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max_pool_forward_naive</span><span class="params">(x, pool_param)</span>:</span> </span><br><span class="line">    <span class="comment"># input x: (N, C, H, W)</span></span><br><span class="line">    N, C, H, W = x.shape</span><br><span class="line">    <span class="comment"># pool region: (heigth, width), stride</span></span><br><span class="line">    pool_height = pool_param[<span class="string">'pool_height'</span>]</span><br><span class="line">    pool_width = pool_param[<span class="string">'pool_width'</span>]</span><br><span class="line">    stride = pool_param[<span class="string">'stride'</span>]</span><br><span class="line">    <span class="comment"># output: (N, C, H', W')</span></span><br><span class="line">    H_out = <span class="number">1</span> + (H - pool_height) // stride </span><br><span class="line">    W_out = <span class="number">1</span> + (W - pool_width) // stride</span><br><span class="line">    out = np.zeros((N, C, H_out, W_out))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 遍历输出点高度和宽度 [h,w]</span></span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> range(H_out):</span><br><span class="line">        <span class="keyword">for</span> w <span class="keyword">in</span> range(W_out):</span><br><span class="line">            <span class="comment"># pool对应的输入块</span></span><br><span class="line">            x_pad_block = x[:, :, h*stride:h*stride+pool_height, w*stride:w*stride+pool_width]</span><br><span class="line">            <span class="comment"># 最大池化，输出到　[:, :, h, w]</span></span><br><span class="line">            out[:, :, h, w] = np.max(x_pad_block, axis=(<span class="number">-1</span>, <span class="number">-2</span>))</span><br><span class="line"></span><br><span class="line">    cache = (x, pool_param)</span><br><span class="line">    <span class="keyword">return</span> out, cache</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max_pool_backward_naive</span><span class="params">(dout, cache)</span>:</span></span><br><span class="line">    x, pool_param = cache</span><br><span class="line">    N, C, H, W = x.shape</span><br><span class="line">    <span class="comment"># pool region: (heigth, width), stride</span></span><br><span class="line">    pool_height = pool_param[<span class="string">'pool_height'</span>]</span><br><span class="line">    pool_width = pool_param[<span class="string">'pool_width'</span>]</span><br><span class="line">    stride = pool_param[<span class="string">'stride'</span>]</span><br><span class="line">    <span class="comment"># output: (N, C, H', W')</span></span><br><span class="line">    H_out = <span class="number">1</span> + (H - pool_height) // stride </span><br><span class="line">    W_out = <span class="number">1</span> + (W - pool_width) // stride</span><br><span class="line">    <span class="comment"># 初始化梯度　dx</span></span><br><span class="line">    dx = np.zeros_like(x)</span><br><span class="line">     </span><br><span class="line">    <span class="comment"># 遍历输入 n</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> range(N):</span><br><span class="line">        <span class="comment"># 遍历filter c</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> range(C):</span><br><span class="line">            <span class="comment"># 遍历输出点高度和宽度 [h, w]</span></span><br><span class="line">            <span class="keyword">for</span> h <span class="keyword">in</span> range(H_out):</span><br><span class="line">                <span class="keyword">for</span> w <span class="keyword">in</span> range(W_out):</span><br><span class="line">                    <span class="comment"># 当前输出点对应的 pool 输入块</span></span><br><span class="line">                    x_pad_block = x[n, c, h*stride:h*stride+pool_height, w*stride:w*stride+pool_width]</span><br><span class="line">                    <span class="comment"># Find the index (row, col) of the max value</span></span><br><span class="line">                    <span class="comment"># grads on the max value is exists, else is 0</span></span><br><span class="line">                    index = np.unravel_index(np.argmax(x_pad_block, axis=<span class="keyword">None</span>), (pool_height, pool_width))</span><br><span class="line">                    <span class="comment"># pool对应的输入块各点的梯度</span></span><br><span class="line">                    <span class="comment"># 只有pool输入块中最大值对应的点(索引index)存在梯度，等于dout[n, c, h, w]，其余点梯度为0</span></span><br><span class="line">                    dx[n, c, h*stride:h*stride+pool_height, w*stride:w*stride+pool_width][index] = dout[n, c, h, w]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dx</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http:/2019/06/22/deep-learning/back_propagation/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -385,7 +757,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-23 22:46:21" itemprop="dateModified" datetime="2019-06-23T22:46:21+08:00">2019-06-23</time>
+                <time title="修改时间：2019-07-02 23:35:45" itemprop="dateModified" datetime="2019-07-02T23:35:45+08:00">2019-07-02</time>
               
             
           </span>
@@ -560,7 +932,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-23 17:55:54" itemprop="dateModified" datetime="2019-06-23T17:55:54+08:00">2019-06-23</time>
+                <time title="修改时间：2019-07-03 01:14:38" itemprop="dateModified" datetime="2019-07-03T01:14:38+08:00">2019-07-03</time>
               
             
           </span>
@@ -616,15 +988,15 @@
           
             <h2 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h2><p>批量归一化可以理解为在网络的每一层之前都做预处理，减少之前网络权重对数据的影响，保持每一层输出数据的分布（均值和标准差），使输出适应下一层网络，也使得每一层数据相对独立。</p>
 <p><img src="/2019/06/19/deep-learning/batch_normalization/1560779540116.png" alt="1560779540116"></p>
-<h3 id="Internal-Co-variate-Shift"><a href="#Internal-Co-variate-Shift" class="headerlink" title="Internal Co-variate Shift"></a>Internal Co-variate Shift</h3><p>Reference: <a href="https://zhuanlan.zhihu.com/p/34879333" target="_blank" rel="noopener">Batch Normalization原理与实战</a></p>
+<h2 id="Internal-Co-variate-Shift"><a href="#Internal-Co-variate-Shift" class="headerlink" title="Internal Co-variate Shift"></a>Internal Co-variate Shift</h2><p>Reference: <a href="https://zhuanlan.zhihu.com/p/34879333" target="_blank" rel="noopener">Batch Normalization原理与实战</a></p>
 <p>随着训练的进行，网络中的参数也随着梯度下降在不停更新。一方面，当底层网络中参数发生微弱变化时，由于每一层中的线性变换与非线性激活映射，这些微弱变化随着网络层数的加深而被放大（类似蝴蝶效应）；另一方面，参数的变化导致每一层的输入分布会发生改变，进而下一层的网络需要不停地去适应这些分布变化，使得我们的模型训练变得困难。上述这一现象叫做Internal Covariate Shift。</p>
 <p>原作定义：在深层网络训练的过程中，由于网络中参数变化而引起内部结点数据分布发生变化的这一过程被称作Internal Covariate Shift。</p>
 <p>随着梯度下降的进行，每一层的参数$W^{[l]}$与$b^{[l]}$都会被更新，那么$Z^{[l]}$的分布也就发生了改变，进而$A^{[l]}$也同样出现分布的改变。而$A^{[l]}$作为第 $l+1$ 层的输入，意味着 $l+1$ 层需要去不停适应这种数据分布的变化，这一过程叫做 Interval Covariate Shift.</p>
-<h4 id="带来的问题："><a href="#带来的问题：" class="headerlink" title="带来的问题："></a>带来的问题：</h4><ol>
+<h3 id="带来的问题："><a href="#带来的问题：" class="headerlink" title="带来的问题："></a>带来的问题：</h3><ol>
 <li>上层网络需要不停调整来适应输入数据分布的变化，导致网络学习速度的降低</li>
 <li>网络的训练过程容易陷入梯度饱和区，减缓网络收敛速度（sigmoid, tanh）。 $Z^{[l]}$会逐渐更新并变大，陷入梯度饱和区。可以通过Normalization 使得激活函数输入分布在一个稳定的空间来避免他们陷入梯度饱和区。</li>
 </ol>
-<h4 id="如何减缓-Interval-Covariate-Shift"><a href="#如何减缓-Interval-Covariate-Shift" class="headerlink" title="如何减缓 Interval Covariate Shift"></a>如何减缓 Interval Covariate Shift</h4><ol>
+<h3 id="如何减缓-Interval-Covariate-Shift"><a href="#如何减缓-Interval-Covariate-Shift" class="headerlink" title="如何减缓 Interval Covariate Shift"></a>如何减缓 Interval Covariate Shift</h3><ol>
 <li><p>白化。成本高，改变了网络每一层分布导致数据表达的特征信息丢失</p>
 <ul>
 <li>使得输入特征分布具有相同的均值与方差。其中PCA白化保证了所有特征分布均值为0，方差为1</li>
@@ -636,11 +1008,12 @@
 <li>简化。让每个特征都有均值为0，方差为1的分布就OK。</li>
 <li>白化操作减弱了网络中每一层输入数据表达能力，那我就再加个线性变换操作，让这些数据再能够尽可能恢复本身的表达能力就好了。</li>
 </ul>
-<p><img src="/2019/06/19/deep-learning/batch_normalization/1560779531173.png" alt="1560779531173"></p>
 </li>
 </ol>
+<p>##　算法</p>
+<p>   <img src="/2019/06/19/deep-learning/batch_normalization/1560779531173.png" alt="1560779531173"></p>
 <p>BN 引入了两个可学习的参数 $\gamma$ 和 $\beta$（<strong>变换重构</strong>）。这两个参数的引入是为了恢复数据本身的表达能力，对规范后的数据进行线性变换，即<strong>$y_i = \gamma \hat{x_i} + \beta_i$</strong>。 特别的，当 $\gamma^2=\sigma ^2$（方差）, $\beta = \mu$ （均值）时，可以实现等价变换并且保留原始输入特征的分布信息。</p>
-<h4 id="Batch-Normalization-的作用"><a href="#Batch-Normalization-的作用" class="headerlink" title="Batch Normalization 的作用"></a>Batch Normalization 的作用</h4><ol>
+<h3 id="Batch-Normalization-的作用"><a href="#Batch-Normalization-的作用" class="headerlink" title="Batch Normalization 的作用"></a>Batch Normalization 的作用</h3><ol>
 <li><p>使得网络中每层输入数据的分布相对稳定，加快模型学习速度</p>
 </li>
 <li><p>使得模型对参数不那么敏感，减小初始化参数对模型学习的影响，可以选择更大的初始化值，学习率选择范围更大</p>
@@ -652,187 +1025,23 @@
 </li>
 </ol>
 <p><strong>BN通过将每一层网络的输入进行normalization，保证输入分布的均值与方差固定在一定范围内，减少了网络中的Internal Covariate Shift问题，并在一定程度上缓解了梯度消失，加速了模型收敛；并且BN使得网络对参数、激活函数更加具有鲁棒性，降低了神经网络模型训练和调参的复杂度；最后BN训练过程中由于使用mini-batch的mean/variance作为总体样本统计量估计，引入了随机噪声，在一定程度上对模型起到了正则化的效果。</strong></p>
-<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">batchnorm_forward</span><span class="params">(x, gamma, beta, bn_param)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Forward pass for batch normalization.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    running_mean = momentum * running_mean + (1 - momentum) * sample_mean</span></span><br><span class="line"><span class="string">    running_var = momentum * running_var + (1 - momentum) * sample_var</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Input:</span></span><br><span class="line"><span class="string">    - x: Data of shape (N, D)</span></span><br><span class="line"><span class="string">    - gamma: Scale parameter of shape (D,)</span></span><br><span class="line"><span class="string">    - beta: Shift paremeter of shape (D,)</span></span><br><span class="line"><span class="string">    - bn_param: Dictionary with the following keys:</span></span><br><span class="line"><span class="string">      - mode: 'train' or 'test'; required</span></span><br><span class="line"><span class="string">      - eps: Constant for numeric stability</span></span><br><span class="line"><span class="string">      - momentum: Constant for running mean / variance.</span></span><br><span class="line"><span class="string">      - running_mean: Array of shape (D,) giving running mean of features</span></span><br><span class="line"><span class="string">      - running_var Array of shape (D,) giving running variance of features</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns a tuple of:</span></span><br><span class="line"><span class="string">    - out: of shape (N, D)</span></span><br><span class="line"><span class="string">    - cache: A tuple of values needed in the backward pass</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    mode = bn_param[<span class="string">'mode'</span>]</span><br><span class="line">    eps = bn_param.get(<span class="string">'eps'</span>, <span class="number">1e-5</span>)</span><br><span class="line">    momentum = bn_param.get(<span class="string">'momentum'</span>, <span class="number">0.9</span>)</span><br><span class="line"></span><br><span class="line">    N, D = x.shape</span><br><span class="line">    running_mean = bn_param.get(<span class="string">'running_mean'</span>, np.zeros(D, dtype=x.dtype))</span><br><span class="line">    running_var = bn_param.get(<span class="string">'running_var'</span>, np.zeros(D, dtype=x.dtype))</span><br><span class="line"></span><br><span class="line">    out, cache = <span class="keyword">None</span>, <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">if</span> mode == <span class="string">'train'</span>:</span><br><span class="line">        mu = np.mean(x, axis=<span class="number">0</span>)</span><br><span class="line">        var = np.var(x, axis=<span class="number">0</span>)</span><br><span class="line">        x_norm = (x - mu) / np.sqrt(var + eps)</span><br><span class="line">        out = gamma * x_norm + beta</span><br><span class="line"></span><br><span class="line">        cache = (x, mu, var, eps, x_norm, gamma, beta, out)</span><br><span class="line">        </span><br><span class="line">        running_mean = momentum * running_mean + (<span class="number">1</span> - momentum) * mu</span><br><span class="line">        running_var  = momentum * running_var  + (<span class="number">1</span> - momentum) * var</span><br><span class="line">    <span class="keyword">elif</span> mode == <span class="string">'test'</span>:</span><br><span class="line">        x_norm = (x - running_mean) / np.sqrt(running_var + eps)</span><br><span class="line">        out = gamma * x_norm + beta</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">'Invalid forward batchnorm mode "%s"'</span> % mode)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Store the updated running means back into bn_param</span></span><br><span class="line">    bn_param[<span class="string">'running_mean'</span>] = running_mean</span><br><span class="line">    bn_param[<span class="string">'running_var'</span>] = running_var</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> out, cache</span><br></pre></td></tr></table></figure>
+<h3 id="前向传播"><a href="#前向传播" class="headerlink" title="前向传播"></a>前向传播</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">batchnorm_forward</span><span class="params">(x, gamma, beta, bn_param)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Forward pass for batch normalization.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    running_mean = momentum * running_mean + (1 - momentum) * sample_mean</span></span><br><span class="line"><span class="string">    running_var = momentum * running_var + (1 - momentum) * sample_var</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Input:</span></span><br><span class="line"><span class="string">    - x: Data of shape (N, D)</span></span><br><span class="line"><span class="string">    - gamma: Scale parameter of shape (D,)</span></span><br><span class="line"><span class="string">    - beta: Shift paremeter of shape (D,)</span></span><br><span class="line"><span class="string">    - bn_param: Dictionary with the following keys:</span></span><br><span class="line"><span class="string">      - mode: 'train' or 'test'; required</span></span><br><span class="line"><span class="string">      - eps: Constant for numeric stability</span></span><br><span class="line"><span class="string">      - momentum: Constant for running mean / variance.</span></span><br><span class="line"><span class="string">      - running_mean: Array of shape (D,) giving running mean of features</span></span><br><span class="line"><span class="string">      - running_var Array of shape (D,) giving running variance of features</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns a tuple of:</span></span><br><span class="line"><span class="string">    - out: of shape (N, D)</span></span><br><span class="line"><span class="string">    - cache: A tuple of values needed in the backward pass</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    mode = bn_param[<span class="string">'mode'</span>]</span><br><span class="line">    eps = bn_param.get(<span class="string">'eps'</span>, <span class="number">1e-5</span>)</span><br><span class="line">    momentum = bn_param.get(<span class="string">'momentum'</span>, <span class="number">0.9</span>)</span><br><span class="line"></span><br><span class="line">    N, D = x.shape</span><br><span class="line">    running_mean = bn_param.get(<span class="string">'running_mean'</span>, np.zeros(D, dtype=x.dtype))</span><br><span class="line">    running_var = bn_param.get(<span class="string">'running_var'</span>, np.zeros(D, dtype=x.dtype))</span><br><span class="line"></span><br><span class="line">    out, cache = <span class="keyword">None</span>, <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">if</span> mode == <span class="string">'train'</span>:</span><br><span class="line">        <span class="comment">##########################################</span></span><br><span class="line">        mu = np.mean(x, axis=<span class="number">0</span>)</span><br><span class="line">        var = np.var(x, axis=<span class="number">0</span>)</span><br><span class="line">        x_norm = (x - mu) / np.sqrt(var + eps)</span><br><span class="line">        out = gamma * x_norm + beta</span><br><span class="line">        <span class="comment">##########################################</span></span><br><span class="line"></span><br><span class="line">        cache = (x, mu, var, eps, x_norm, gamma, beta, out)</span><br><span class="line">        </span><br><span class="line">        running_mean = momentum * running_mean + (<span class="number">1</span> - momentum) * mu</span><br><span class="line">        running_var  = momentum * running_var  + (<span class="number">1</span> - momentum) * var</span><br><span class="line">    <span class="keyword">elif</span> mode == <span class="string">'test'</span>:</span><br><span class="line">        x_norm = (x - running_mean) / np.sqrt(running_var + eps)</span><br><span class="line">       </span><br><span class="line">    	<span class="comment"># 训练超参数 gamma/beta，重构数据分布</span></span><br><span class="line">    	out = gamma * x_norm + beta</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">'Invalid forward batchnorm mode "%s"'</span> % mode)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Store the updated running means back into bn_param</span></span><br><span class="line">    bn_param[<span class="string">'running_mean'</span>] = running_mean</span><br><span class="line">    bn_param[<span class="string">'running_var'</span>] = running_var</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> out, cache</span><br></pre></td></tr></table></figure>
 <h4 id="反向传播指示图"><a href="#反向传播指示图" class="headerlink" title="反向传播指示图"></a>反向传播指示图</h4><p><img src="/2019/06/19/deep-learning/batch_normalization/BNcircuit-1561283729951.png" alt="BNcircuit"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/06/17/deep-learning/dropout/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joseph.Fan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SAILOR">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/06/17/deep-learning/dropout/" class="post-title-link" itemprop="url">Dropout</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">2019-06-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-22 13:47:51" itemprop="dateModified" datetime="2019-06-22T13:47:51+08:00">2019-06-22</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h2><h2 id="Dropout-1"><a href="#Dropout-1" class="headerlink" title="Dropout"></a>Dropout</h2><p><img src="/2019/06/17/deep-learning/dropout/nn_cs231n_note/63fcf4cc655cb04f21a37e86aca333cf_hd.png" alt="img"></p>
+<p><img src="/2019/06/19/deep-learning/batch_normalization/1560779531173.png" alt="1560779531173"></p>
+<p>损失函数对$y_i$的梯度为 $\frac{\partial L}{\partial y_i}$，由　$y_i = \gamma \hat{x_i} + \beta$ 得到：</p>
+<p>$$\frac{\partial L}{\partial \beta} = \sum_{i=1}^{N} \frac{\partial L}{\partial y_i}$$</p>
+<p>$$\frac{\partial L}{\partial \gamma} = \sum_{i=1}^{N} \frac{\partial L}{\partial y_i} \hat{x_i}​$$</p>
+<p>$$\frac{\partial L}{\partial \hat{x_i}} = \frac{\partial L}{\partial y_i} \gamma$$</p>
+<p>$$\frac{\partial L}{\partial \mu} = \frac{\partial L}{\partial \hat{x_i}} \frac{\partial \hat{x_i}}{\partial \mu} +  \frac{\partial L}{\partial \sigma^2} \frac{\partial {\sigma^2}}{\partial \mu}  \  =  -\frac{\partial L}{\partial \hat{x_i}} \frac{1}{\sqrt{\sigma^2 + \epsilon}} + \frac{\partial L}{\partial \sigma^2} (- \frac{2}{N} \sum_{i=1}^{N} (x_i-\mu)) $$</p>
+<p>$$\frac{\partial L}{\partial \sigma^2} =  \frac{\partial L}{\partial \hat{x_i}} \frac{\partial \hat{x_i}}{\partial \sigma^2} \  = \frac{\partial L}{\partial \hat{x_i}} (-\frac{1}{2} )({\sigma^2+\epsilon})^{-\frac{3}{2}}$$</p>
+<p>$$\frac{\partial L}{\partial x_i} =  \frac{\partial L}{\partial \hat{x_i}} \frac{\partial \hat{x_i}}{\partial {x_i}} +   \frac{\partial L}{\partial \sigma^2} \frac{\partial \sigma^2}{\partial {x_i}} + \frac{\partial L}{\partial \mu}\frac{\partial \mu}{\partial x_i} \ = \frac{\partial L}{\partial \hat{x_i}} \frac{1}{\sqrt{\sigma^2 + \epsilon}} + \frac{\partial L}{\partial \sigma^2} \frac{2(x_i - \mu)}{N}  + \frac{\partial L}{\partial \mu} \frac{1}{N} $$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">batchnorm_backward_alt</span><span class="params">(dout, cache)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Alternative backward pass for batch normalization.     </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    (x, mu, var, eps, x_norm, gamma, beta, out) = cache</span><br><span class="line">    N,D = dout.shape</span><br><span class="line">    </span><br><span class="line">    dx_norm = dout * gamma</span><br><span class="line">    dgamma = np.sum(dout * x_norm, axis=<span class="number">0</span>)</span><br><span class="line">    dbeta  = np.sum(dout, axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    dvar = np.sum(dx_norm * (x - mu) * (<span class="number">-0.5</span>) * np.power(var + eps, <span class="number">-3</span>/<span class="number">2</span>), axis=<span class="number">0</span>)</span><br><span class="line">    dmu = -np.sum(dx_norm / np.sqrt(var + eps), axis=<span class="number">0</span>) + dvar * (<span class="number">-2</span>) * np.sum(x - mu, axis=<span class="number">0</span>) / N</span><br><span class="line">    dx  =  dx_norm / np.sqrt(var + eps) + dvar * <span class="number">2</span> * (x - mu) / N  + dmu / N     </span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dx, dgamma, dbeta</span><br></pre></td></tr></table></figure>
+<p>分步计算损失函数梯度的方法参考 Reference 2</p>
+<p>Refereces:</p>
 <ol>
-<li>Bagging 集成模型，随机抽样神经网络的子集。很多个共享参数的子网络组成。</li>
-<li>增强单个神经元独立学习特征的能力，减少神经元之间的依赖（避免学习某些固定组合才产生的特征，有意识的让神经网络去学习一些普遍的共性）</li>
-<li>加性噪声</li>
+<li><a href="https://www.adityaagrawal.net/blog/deep_learning/bprop_batch_norm" target="_blank" rel="noopener">https://www.adityaagrawal.net/blog/deep_learning/bprop_batch_norm</a></li>
+<li><a href="https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html" target="_blank" rel="noopener">https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html</a></li>
 </ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">反向随机失活: 推荐实现方式.</span></span><br><span class="line"><span class="string">在训练的时候drop和调整数值范围，测试时不做任何事.</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line">p = <span class="number">0.5</span> 	<span class="comment"># 激活神经元的概率. p值更高 = 随机失活更弱</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_step</span><span class="params">(X)</span>:</span></span><br><span class="line">  <span class="comment"># 3层neural network的前向传播</span></span><br><span class="line">  H1 = np.maximum(<span class="number">0</span>, np.dot(W1, X) + b1)</span><br><span class="line">  <span class="comment"># 神经元以p的概率失活 [0, 1]随机分布 P(rand(x)) &lt; p = p</span></span><br><span class="line">  <span class="comment"># 第一个随机失活掩码. 注意/p! inverted dropout, 保持当前层输出期望一致</span></span><br><span class="line">  mask1 = (np.random.rand(*H1.shape) &lt; p) / p</span><br><span class="line">  H1 *= mask1                                  <span class="comment"># dropout!</span></span><br><span class="line">  H2 = np.maximum(<span class="number">0</span>, np.dot(W2, H1) + b2)</span><br><span class="line">  mask2 = (np.random.rand(*H2.shape) &lt; p) / p  <span class="comment"># 第二个随机失活掩码. 注意/p!</span></span><br><span class="line">  H2 *= mask2 <span class="comment"># drop!</span></span><br><span class="line">  out = np.dot(W3, H2) + b3</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 反向传播:计算梯度... (略)</span></span><br><span class="line">  <span class="comment"># 进行参数更新... (略)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict</span><span class="params">(X)</span>:</span></span><br><span class="line">  <span class="comment"># 前向传播时模型集成</span></span><br><span class="line">  H1 = np.maximum(<span class="number">0</span>, np.dot(W1, X) + b1)       <span class="comment"># 不用数值范围调整了</span></span><br><span class="line">  H2 = np.maximum(<span class="number">0</span>, np.dot(W2, H1) + b2)</span><br><span class="line">  out = np.dot(W3, H2) + b3</span><br></pre></td></tr></table></figure>
 
           
         
@@ -951,7 +1160,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-23 15:37:24" itemprop="dateModified" datetime="2019-06-23T15:37:24+08:00">2019-06-23</time>
+                <time title="修改时间：2019-07-04 00:45:18" itemprop="dateModified" datetime="2019-07-04T00:45:18+08:00">2019-07-04</time>
               
             
           </span>
@@ -1061,14 +1270,14 @@
 <td>sigmoid</td>
 <td>$ \sigma(x)=\frac{1}{1+e^{-x}} $</td>
 <td>[0,1]</td>
-<td>[0, 0.25]</td>
+<td>[0, 0.25]   $\sigma’(x)=\sigma(x)(1-\sigma(x))$</td>
 <td>分类概率</td>
 </tr>
 <tr>
 <td>tanh</td>
 <td>$tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$</td>
 <td>[-1,1]</td>
-<td>[0, 1]</td>
+<td>[0, 1]  $tanh’(x)=1-(tan(x))^2$</td>
 <td></td>
 </tr>
 <tr>
@@ -1138,8 +1347,383 @@
 <p>References:</p>
 <ol>
 <li><a href="https://zhuanlan.zhihu.com/p/21930884" target="_blank" rel="noopener">cs231n课程笔记中文翻译</a></li>
-<li><a href="https://github.com/theBigDataDigest/Stanford-CS231n-assignments-in-Chinese" target="_blank" rel="noopener">cs231n Assignments 解答 - 大数据文摘</a><br>3.</li>
+<li><a href="https://github.com/theBigDataDigest/Stanford-CS231n-assignments-in-Chinese" target="_blank" rel="noopener">cs231n Assignments 解答 - 大数据文摘</a></li>
+<li></li>
 </ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http:/2019/06/17/deep-learning/rnn/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joseph.Fan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SAILOR">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/17/deep-learning/rnn/" class="post-title-link" itemprop="url">Dropout</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">2019-06-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-02 23:27:40" itemprop="dateModified" datetime="2019-07-02T23:27:40+08:00">2019-07-02</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Recurrent-Neuro-Network"><a href="#Recurrent-Neuro-Network" class="headerlink" title="Recurrent Neuro Network"></a>Recurrent Neuro Network</h2><p><strong>循环神经网络</strong>可以更好地处理序列信息（如一句话），允许记忆信息（在时序上传递输入的有效信息），可以解决长期依赖的问题（Long-term Dependencies）</p>
+<h2 id="RNN结构"><a href="#RNN结构" class="headerlink" title="RNN结构"></a>RNN结构</h2><p><img src="/2019/06/17/deep-learning/rnn/v2-71652d6a1eee9def631c18ea5e3c7605_hd.jpg" alt="img"></p>
+<p><img src="/2019/06/17/deep-learning/rnn/v2-b0175ebd3419f9a11a3d0d8b00e28675_hd.jpg" alt="img"></p>
+<p>$$O_t = g(VS_t)$$                     # 在时间点 t 的输出</p>
+<p>$$S_t = f(UX_t + WS_{t-1})$$     # 在时间点 t 的状态</p>
+<p>W,V,U: 权重</p>
+<p>g,f: 激活函数</p>
+<h4 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h4><p><img src="/2019/06/17/deep-learning/rnn/1562068950392.png" alt="1562068950392"></p>
+<p>输出值 $O_t$ 受前面历次输入值 $x_t, x_{t-1}, x_{t-2}…$ 的影响，相当于一定程度上记忆之前任意时间段的有效信息，从而在时序上累积输入 $X_t$，解决长期依赖问题。</p>
+<p><em>疑问： S作为一个固定大小的矩阵如何记忆有效信息？</em></p>
+<p><img src="/2019/06/17/deep-learning/rnn/2256672-3b20294694c3904b.png" alt="点击查看大图"></p>
+<h2 id="BPTT"><a href="#BPTT" class="headerlink" title="BPTT"></a>BPTT</h2><p>损失函数对权重 $W$ 的梯度是各个时刻梯度之和：</p>
+<p>$$\nabla_W L = \sum_{i=1}^{t} \nabla_{W_i} L$$</p>
+<h2 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h2><p><img src="/2019/06/17/deep-learning/rnn/lstm.png" alt="lstm"></p>
+<h2 id="GRU"><a href="#GRU" class="headerlink" title="GRU"></a>GRU</h2><p><img src="/2019/06/17/deep-learning/rnn/42741-dd3d241fa44a71c0.webp" alt="img"></p>
+<p>References:</p>
+<ol>
+<li><a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">Understanding-LSTMs colah</a></li>
+<li><a href="https://www.jianshu.com/p/9dc9f41f0b29" target="_blank" rel="noopener">理解LSTM（1的翻译）</a></li>
+<li><a href="https://zybuluo.com/hanbingtao/note/541458" target="_blank" rel="noopener">零基础入门深度学习(5) - 循环神经网络</a></li>
+<li></li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http:/2019/06/17/deep-learning/dropout/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joseph.Fan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SAILOR">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/17/deep-learning/dropout/" class="post-title-link" itemprop="url">Dropout</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">2019-06-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-02 23:51:21" itemprop="dateModified" datetime="2019-07-02T23:51:21+08:00">2019-07-02</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h2><p><img src="/2019/06/17/deep-learning/dropout/nn_cs231n_note/63fcf4cc655cb04f21a37e86aca333cf_hd.png" alt="img"></p>
+<ol>
+<li>Bagging 集成模型，随机抽样神经网络的子集。很多个<strong>共享参数</strong>的子网络组成。</li>
+<li>增强单个神经元<strong>独立学习特征的能力</strong>，减少神经元之间的依赖（避免学习某些固定组合才产生的特征，有意识的让神经网络去学习一些普遍的共性）</li>
+<li>加性噪声</li>
+</ol>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><h4 id="前向传播"><a href="#前向传播" class="headerlink" title="前向传播"></a>前向传播</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dropout_forward</span><span class="params">(X, mode)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">	反向随机失活: 推荐实现方式。</span></span><br><span class="line"><span class="string">	确保某单元的期望输出与没有dropout时期望输出大致相同</span></span><br><span class="line"><span class="string">	在训练的时候drop和调整数值范围，测试时不做任何事.</span></span><br><span class="line"><span class="string">	"""</span></span><br><span class="line">    p = <span class="number">0.5</span> 	<span class="comment"># 激活神经元的概率. p值更高 = 随机失活更弱</span></span><br><span class="line">    </span><br><span class="line">  	<span class="comment"># 神经元以p的概率失活 [0, 1]随机分布 P(rand(x)) &lt; p = p</span></span><br><span class="line">  	<span class="comment"># 第一个随机失活掩码. 注意/p! inverted dropout, 保持当前层输出期望一致</span></span><br><span class="line">  	<span class="keyword">if</span> mode == <span class="string">'train'</span>:</span><br><span class="line">    	mask = (np.random.rand(*H1.shape) &lt; p) / p</span><br><span class="line">  		out = x * mask</span><br><span class="line">    <span class="keyword">elif</span> mode == <span class="string">'test'</span>:</span><br><span class="line">        out = x</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> out, mask</span><br></pre></td></tr></table></figure>
+<h4 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dropout_backward</span><span class="params">(dout, mode, mask)</span>:</span>    </span><br><span class="line">    <span class="keyword">if</span> mode == <span class="string">'train'</span>:</span><br><span class="line">        dx = dout * mask</span><br><span class="line">    <span class="keyword">elif</span> mode == <span class="string">'test'</span>:</span><br><span class="line">        dx = dout</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> dx</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1258,7 +1842,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-23 15:35:33" itemprop="dateModified" datetime="2019-06-23T15:35:33+08:00">2019-06-23</time>
+                <time title="修改时间：2019-07-02 01:32:15" itemprop="dateModified" datetime="2019-07-02T01:32:15+08:00">2019-07-02</time>
               
             
           </span>
@@ -1349,11 +1933,12 @@
 <h2 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h2><h4 id="损失函数-Loss-function-代价函数-Cost-function"><a href="#损失函数-Loss-function-代价函数-Cost-function" class="headerlink" title="损失函数 Loss function / 代价函数 Cost function"></a>损失函数 Loss function / 代价函数 Cost function</h4><p><img src="/2019/06/17/deep-learning/optimization/03b3eccf18ee3760e219f9f95ec14305_hd.png" alt="img"></p>
 <h4 id="均方损失"><a href="#均方损失" class="headerlink" title="均方损失"></a>均方损失</h4><p>$$L(x)=\sum_{i}(y_i - y_j)^2$$</p>
 <h4 id="交叉熵损失（cross-entropy-loss"><a href="#交叉熵损失（cross-entropy-loss" class="headerlink" title="交叉熵损失（cross-entropy loss)"></a>交叉熵损失（cross-entropy loss)</h4><p>$$L(x)=\sum_{i}p_i\log \frac{1}{q_i}$$</p>
-<p>交叉熵作为代价函数可以避免均方代价函数带来的学习减速</p>
+<p>交叉熵作为代价函数可以避免均方代价函数带来的学习减速(nelson)</p>
 <h4 id="Softmax-函数"><a href="#Softmax-函数" class="headerlink" title="Softmax 函数"></a>Softmax 函数</h4><p><img src="/2019/06/17/deep-learning/optimization/1561034699845.png" alt="1561034699845"></p>
 <p>$$y_i=\frac{e^{z_i}}{\sum_{i}{e^{z_i}}}$$</p>
 <p>Softmax 分类器为每一个分类都提供了“可能性（概率）”</p>
 <p>输出值$z_i$ =&gt; 概率$y_i$</p>
+<p><strong>决策函数</strong>：$$\hat{y}=argmax_{i}(y=y_i|Z)$$  (y所属类别$\hat{y}$)</p>
 <h4 id="损失函数可视化"><a href="#损失函数可视化" class="headerlink" title="损失函数可视化"></a>损失函数可视化</h4><p>颜色越深，损失函数越小</p>
 <p><img src="/2019/06/17/deep-learning/optimization/94dd0714f65ef94b3cbfff4780b1988d_hd.png" alt="img"></p>
 <h2 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h2><p>损失函数 L 的 3D 图：</p>
@@ -1742,7 +2327,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-21 00:07:56" itemprop="dateModified" datetime="2019-06-21T00:07:56+08:00">2019-06-21</time>
+                <time title="修改时间：2019-07-20 11:29:28" itemprop="dateModified" datetime="2019-07-20T11:29:28+08:00">2019-07-20</time>
               
             
           </span>
@@ -1800,9 +2385,9 @@
 <p>$log\frac{1}{p}​$</p>
 <p>一个事件发生的概率越低，则这个事件包含的信息量越大，比如说越稀奇新闻包含的信息量越大，因为这种新闻出现的概率低。</p>
 <p>引用：一本五十万字的中文书平均有多少信息量？（$\log_2m$）  《数学之美 -  吴军》<br>我们知道常用的汉字（一级二级国标）大约有 7000 字。假如每个字等概率，那么我们大约需要 13 个比特（即 13 位二进制数）表示一个汉字［这里把汉字作为一个随机变量，那么汉字系统的熵就是约13bit］ 。但汉字的使用是不平衡的。实际上，前 10% 的汉字占文本的 95% 以上。因此，即使不考虑上下文的相关性，而只考虑每个汉字的独立的概率，那么，每个汉字的信息熵大约也只有 8-9 个比特。如果我们再考虑上下文相关性，每个汉字的信息熵［其实指的是汉字变量取特定汉字作为值时候具有的信息量］ 只有5比特左右。所以，一本五十万字的中文书，信息量大约是 250 万比特［这个时候的信息量就是每个汉字的信息量和数目相乘，指的都是汉字变量取具体值的信息量］ 。如果用一个好的算法压缩一下，整本书可以存成一个 320KB 的文件。如果我们直接用两字节的国标编码存储这本书，大约需要 1MB 大小，是压缩文件的三倍。这两个数量的差距，在信息论中称作“冗余度”（redundancy)。 需要指出的是我们这里讲的 250 万比特是个平均数，同样长度的书，所含的信息量可以差很多。如果一本书重复的内容很多，它的信息量就小，冗余度就大。</p>
-<h3 id="熵（Entropy）"><a href="#熵（Entropy）" class="headerlink" title="熵（Entropy）"></a>熵（Entropy）</h3><p>信息论中，熵是接收每条消息中包含的信息量($\log\frac{1}{p}​$)的平均值。</p>
-<p>熵定义为信息的期望值（香农 shannon）：</p>
-<p>$$\begin{align} H(X) &amp; = E[I(X)] \ &amp; = E[-ln(P(X))]  \ &amp; = -\sum\limits_{i}^n P(x_i)logP(x_i)\end{align} ​$$</p>
+<h3 id="熵（Entropy）"><a href="#熵（Entropy）" class="headerlink" title="熵（Entropy）"></a>熵（Entropy）</h3><p><strong>信息论中，熵是接收每条消息中包含的信息量($\log\frac{1}{p}$)的平均值。</strong></p>
+<p>熵定义为<strong>信息的期望值</strong>（香农 shannon）：</p>
+<p>$$\begin{align} H(X) &amp; = E[I(X)] \ &amp; = E[log(\frac{1}{P(X)})]  \ &amp; = -\sum\limits_{i}^n P(x_i)logP(x_i)\end{align} $$</p>
 <p>表示样本的不确定性量度。在信息世界，熵越高，则能传输越多的信息，熵越低，则意味着传输的信息越少。</p>
 <p>单位：</p>
 <p>熵的单位通常为比特, bit 或者sh(annon) (基于2)，但也用nat(基于自然对数)、Hart（基于10）计量，取决于定义用到对数的底。</p>
@@ -1812,7 +2397,7 @@
 <p>$H(X)=log_2{m}$</p>
 <p>例：抛掷三枚硬币</p>
 <p>信息量：可以得到$2^3=8$种情况</p>
-<p>不确定性：$log_2{8}=2\ bit$</p>
+<p>不确定性：$log_2{8}=3\ bit$</p>
 <ul>
 <li>离散分布</li>
 </ul>
@@ -1824,7 +2409,7 @@
 <p>例：编码</p>
 <p>分布p=(1/2, 1/2, 0, 0)，即A和B出现的概率均为1/2，C和D出现的概率都为0。计算H(p)为1，即只需要1位编码即可识别A和B</p>
 <p>分布q=(1/4, 1/4, 1/4, 1/4)来编码则得到H(q)=2，即需要2位编码来识别A和B，还有C和D</p>
-<h3 id="交叉熵"><a href="#交叉熵" class="headerlink" title="交叉熵"></a><a href="https://zh.wikipedia.org/wiki/%E4%BA%A4%E5%8F%89%E7%86%B5" target="_blank" rel="noopener">交叉熵</a></h3><p>使用分布 q 来预测真实分布 p 的平均编码长度</p>
+<h3 id="交叉熵"><a href="#交叉熵" class="headerlink" title="交叉熵"></a><a href="https://zh.wikipedia.org/wiki/%E4%BA%A4%E5%8F%89%E7%86%B5" target="_blank" rel="noopener">交叉熵</a></h3><p><strong>使用分布 q 来预测真实分布 p 的平均编码长度</strong></p>
 <p>$H(p,q)= E_p[\log  \frac{1}{q(i)}] = \sum\limits_{i}^{} p(i)*log\frac{1}{q(i)} $</p>
 <p>交叉熵可以看作每个信息片段在错误分布 q 下的期望编码位长度，而信息实际分布为 p。</p>
 <p>现有关于样本集的2个概率分布p和q，其中p为真实分布，q预测分布。</p>
@@ -1833,8 +2418,9 @@
 <p>因为用q来编码的样本来自实际分布p，所以期望H(p,q)中概率是p(i)。H(p,q)我们称之为“交叉熵”。</p>
 <p>比如含有4个字母(A,B,C,D)的数据集中，真实分布p=(1/2, 1/2, 0, 0)，即A和B出现的概率均为1/2，C和D出现的概率都为0，计算H(p)为1，即只需要1位编码即可识别A和B。如果使用分布Q=(1/4, 1/4, 1/4, 1/4)来编码则得到H(p,q)=2，即需要2位编码来识别A和B(C和D并不会出现)。</p>
 <p>根据非真实分布q得到的平均编码长度H(p,q)大于根据真实分布p得到的平均编码长度H(p)。事实上，根据<a href="https://link.zhihu.com/?target=https%3A//en.wikipedia.org/wiki/Gibbs%2527_inequality" target="_blank" rel="noopener">Gibbs’ inequality</a>可知，H(p,q)&gt;=H(p)恒成立，当q为真实分布p时取等号。</p>
-<h3 id="KL散度（相对熵）"><a href="#KL散度（相对熵）" class="headerlink" title="KL散度（相对熵）"></a>KL散度（相对熵）</h3><p>衡量分布 p 和 q 的差异，使用分布 q 来近似分布 p</p>
-<p>$D_{KL}(p||q)=H(p,q)-H(p) = \sum\limits_{i}^{} p(i)<em>\log\frac{1}{q(i)} - \sum\limits_{i}^{} p(i) </em>\log\frac{1}{p(i)} = \sum\limits_{i}^{} p(i)*\log\frac{p(i)}{q(i)}$</p>
+<h3 id="KL散度（相对熵）"><a href="#KL散度（相对熵）" class="headerlink" title="KL散度（相对熵）"></a>KL散度（相对熵）</h3><p><strong>衡量分布 p 和 q 的差异，使用分布 q 来近似分布 p</strong>　　$D_{KL}(p||q) \ge 0$</p>
+<p><img src="/2019/03/25/statitics/entropy/1562775971102.png" alt="1562775971102"></p>
+<p>$D_{KL}(p||q)=E_{x ~ p}[\frac{\log p(i)}{\log q(i)}]=H(p,q)-H(p) = \sum\limits_{i}^{} p(i)<em>\log\frac{1}{q(i)} - \sum\limits_{i}^{} p(i) </em>\log\frac{1}{p(i)} = \sum\limits_{i}^{} p(i)*\log\frac{p(i)}{q(i)}$</p>
 <p>我们将由q得到的平均编码长度比由p得到的平均编码长度多出的bit数称为“相对熵”，又被称为KL散度(Kullback–Leibler divergence，KLD) <a href="https://link.zhihu.com/?target=https%3A//en.wikipedia.org/wiki/Kullback%25E2%2580%2593Leibler_divergence" target="_blank" rel="noopener">Kullback–Leibler divergence</a>。它表示2个函数或概率分布的差异性：差异越大则相对熵越大，差异越小则相对熵越小，二者分布相同则相对熵为0。</p>
 <p>可以得到，交叉熵 $H(p,q)= E_p[\log  \frac{1}{q(i)}] = H(p) + D_{KL}(p||q)$</p>
 <p>其中 $H(p)$ 是 $p$ 的<a href="https://zh.wikipedia.org/wiki/%E4%BF%A1%E6%81%AF%E7%86%B5" target="_blank" rel="noopener">熵</a>，$D_{KL}(p|q)$ 是从 $p$ 到 $q$ 的<a href="https://zh.wikipedia.org/w/index.php?title=KL%E6%95%A3%E5%BA%A6&amp;action=edit&amp;redlink=1" target="_blank" rel="noopener">KL散度</a>(也被称为<em>p</em>相对于<em>q</em>的<em>相对熵</em>)。</p>
@@ -1893,360 +2479,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/01/31/machine-learning/decision-tree/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joseph.Fan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SAILOR">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/01/31/machine-learning/decision-tree/" class="post-title-link" itemprop="url">Decistion Tree</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-01-31 20:33:05" itemprop="dateCreated datePublished" datetime="2019-01-31T20:33:05+08:00">2019-01-31</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-21 00:07:57" itemprop="dateModified" datetime="2019-06-21T00:07:57+08:00">2019-06-21</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/ml/" itemprop="url" rel="index"><span itemprop="name">ml</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Part-4-决策树"><a href="#Part-4-决策树" class="headerlink" title="Part 4. 决策树"></a>Part 4. 决策树</h2><hr>
-<p>Decision Tree　树形结构，根据损失函数最小化原则建立决策树模型</p>
-<p><img src="/2019/01/31/machine-learning/decision-tree/tree_basic.png" alt="1548939696690"></p>
-<p>if-then规则集合，每一条路径构建一条规则</p>
-<ul>
-<li><p>内部节点：特征/属性，规则的条件</p>
-</li>
-<li><p>叶节点：　类，规则的结论</p>
-</li>
-</ul>
-<p>条件概率分布</p>
-<p>将特征空间划分为互不相交的单元（cell）或区域（region）</p>
-<p>$P(Y=+1|X=c)&gt;0.5$, 单元cell　属于正类</p>
-<p><img src="/2019/01/31/machine-learning/decision-tree/feature-space.png" alt="1548940003249"></p>
-<p><img src="/2019/01/31/machine-learning/decision-tree/1548940132559.png" alt="1548940132559"></p>
-<p><img src="/2019/01/31/machine-learning/decision-tree/1548940093157.png" alt="1548940093157"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/01/06/statitics/Statistics/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joseph.Fan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SAILOR">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/01/06/statitics/Statistics/" class="post-title-link" itemprop="url">Statistic</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-01-06 23:18:46" itemprop="dateCreated datePublished" datetime="2019-01-06T23:18:46+08:00">2019-01-06</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-29 22:43:59" itemprop="dateModified" datetime="2019-04-29T22:43:59+08:00">2019-04-29</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Beyes"><a href="#Beyes" class="headerlink" title="Beyes"></a>Beyes</h3><p>$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}​$$</p>
-<p>H: hyposis 假设事件，D: data 数据</p>
-<ul>
-<li>$P(H|D)$ : 后验概率, the probability of observing event H given that D is true</li>
-<li>$P(H)​$ : 先验概率, the probability of observing event H</li>
-<li>$P(D|H)$: 似然度　</li>
-<li>$P(D)$ :   the probability of data D</li>
-</ul>
-<p>例：在判断垃圾邮件的算法中:<br>  $P(H)​$ : 所有邮件中，垃圾邮件的概率。<br>  $P(D)​$ : 出现某个单词的概率。<br>  $P(D|H)​$ : 垃圾邮件中，出现某个单词的概率。<br>  $P(H|D)​$ : 出现某个单词的邮件，是垃圾邮件的概率。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
 
 
           </div>
@@ -2287,7 +2526,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2541,6 +2780,8 @@
 
   
   
+    
+      
     
       
         

@@ -96,24 +96,24 @@
 
 
 
-  <meta name="description" content="Beyes$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}​$$ H: hyposis 假设事件，D: data 数据  $P(H|D)$ : 后验概率, the probability of observing event H given that D is true $P(H)​$ : 先验概率, the probability of observing ev">
+  <meta name="description" content="重构：改善既有代码的设计Chapter 1如果你要给程序添加一个特性，但发现代码因缺乏良好的结构而不易于进行更改，那就先重构那个程序，使其比较容易添加该特性，然后再添加该特性。 重构前，先检查自己是否有一套可靠的测试集。这些测试必须有自我检验能力。进行重构时，我需要依赖测试。我将测试视为bug检测器，它们能保护我不被自己犯的错误所困扰。通过测试对当前工作进行二次确认。 重构技术就是以微小的步伐修改">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Statistic">
-<meta property="og:url" content="http:/2019/01/06/statitics/Statistics/index.html">
+<meta property="og:title" content="SAILOR">
+<meta property="og:url" content="http:/2019/07/02/coding/重构/index.html">
 <meta property="og:site_name" content="SAILOR">
-<meta property="og:description" content="Beyes$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}​$$ H: hyposis 假设事件，D: data 数据  $P(H|D)$ : 后验概率, the probability of observing event H given that D is true $P(H)​$ : 先验概率, the probability of observing ev">
+<meta property="og:description" content="重构：改善既有代码的设计Chapter 1如果你要给程序添加一个特性，但发现代码因缺乏良好的结构而不易于进行更改，那就先重构那个程序，使其比较容易添加该特性，然后再添加该特性。 重构前，先检查自己是否有一套可靠的测试集。这些测试必须有自我检验能力。进行重构时，我需要依赖测试。我将测试视为bug检测器，它们能保护我不被自己犯的错误所困扰。通过测试对当前工作进行二次确认。 重构技术就是以微小的步伐修改">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-29T14:43:59.497Z">
+<meta property="og:updated_time" content="2019-07-02T15:27:40.333Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Statistic">
-<meta name="twitter:description" content="Beyes$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}​$$ H: hyposis 假设事件，D: data 数据  $P(H|D)$ : 后验概率, the probability of observing event H given that D is true $P(H)​$ : 先验概率, the probability of observing ev">
+<meta name="twitter:title" content="SAILOR">
+<meta name="twitter:description" content="重构：改善既有代码的设计Chapter 1如果你要给程序添加一个特性，但发现代码因缺乏良好的结构而不易于进行更改，那就先重构那个程序，使其比较容易添加该特性，然后再添加该特性。 重构前，先检查自己是否有一套可靠的测试集。这些测试必须有自我检验能力。进行重构时，我需要依赖测试。我将测试视为bug检测器，它们能保护我不被自己犯的错误所困扰。通过测试对当前工作进行二次确认。 重构技术就是以微小的步伐修改">
 
 
 
 
 
 
-  <link rel="canonical" href="http:/2019/01/06/statitics/Statistics/">
+  <link rel="canonical" href="http:/2019/07/02/coding/重构/">
 
 
 
@@ -123,7 +123,7 @@
   };
 </script>
 
-  <title>Statistic | SAILOR</title>
+  <title> | SAILOR</title>
   
 
 
@@ -326,7 +326,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/01/06/statitics/Statistics/">
+    <link itemprop="mainEntityOfPage" href="http:/2019/07/02/coding/重构/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joseph.Fan">
@@ -343,7 +343,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Statistic
+          <h1 class="post-title" itemprop="name headline">
 
               
             
@@ -369,25 +369,9 @@
                 
               
 
-              <time title="创建时间：2019-01-06 23:18:46" itemprop="dateCreated datePublished" datetime="2019-01-06T23:18:46+08:00">2019-01-06</time>
+              <time title="创建时间：2019-07-02 23:27:40" itemprop="dateCreated datePublished" datetime="2019-07-02T23:27:40+08:00">2019-07-02</time>
             
 
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-29 22:43:59" itemprop="dateModified" datetime="2019-04-29T22:43:59+08:00">2019-04-29</time>
-              
             
           </span>
 
@@ -427,15 +411,38 @@
       
 
       
-        <h3 id="Beyes"><a href="#Beyes" class="headerlink" title="Beyes"></a>Beyes</h3><p>$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}​$$</p>
-<p>H: hyposis 假设事件，D: data 数据</p>
-<ul>
-<li>$P(H|D)$ : 后验概率, the probability of observing event H given that D is true</li>
-<li>$P(H)​$ : 先验概率, the probability of observing event H</li>
-<li>$P(D|H)$: 似然度　</li>
-<li>$P(D)$ :   the probability of data D</li>
+        <h2 id="重构：改善既有代码的设计"><a href="#重构：改善既有代码的设计" class="headerlink" title="重构：改善既有代码的设计"></a>重构：改善既有代码的设计</h2><h2 id="Chapter-1"><a href="#Chapter-1" class="headerlink" title="Chapter 1"></a>Chapter 1</h2><p>如果你要给程序添加一个特性，但发现代码因缺乏<strong>良好的结构</strong>而<strong>不易于进行更改</strong>，那就先重构那个程序，使其比较容易添加该特性，然后再添加该特性。</p>
+<p>重构前，先检查自己是否有一套可靠的测试集。这些测试必须有自我检验能力。进行重构时，我需要依赖测试。我将测试视为bug检测器，它们能保护我不被自己犯的错误所困扰。通过测试对当前工作进行二次确认。</p>
+<p><strong>重构技术就是以微小的步伐修改程序。如果你犯下错误，很容易便可发现它。</strong></p>
+<p>傻瓜都能写出计算机可以理解的代码。唯有能写出<strong>人类容易理解的代码</strong>的，才是优秀的程序员。</p>
+<p>好代码的检验标准就是人们是否能轻而易举地修改它。小的步子可以更快前进，请保持代码永远处于可工作状态，小步修改累积起来也能大大改善系统的设计。</p>
+<h2 id="Chapter-2"><a href="#Chapter-2" class="headerlink" title="Chapter 2"></a>Chapter 2</h2><h2 id="Chapter-4-测试"><a href="#Chapter-4-测试" class="headerlink" title="Chapter 4 测试"></a>Chapter 4 测试</h2><h4 id="WHY"><a href="#WHY" class="headerlink" title="WHY"></a>WHY</h4><ul>
+<li><p>编写代码的时间仅占所有时间中很少的一部分。有些时间用来决定下一步干什么，有些时间花在设计上，但是，<strong>花费在调试上的时间是最多的</strong></p>
+</li>
+<li><p>修复bug通常是比较快的，但<strong>找出bug所在却是一场噩梦</strong>。当修复一个bug时，常常会引起另一个bug，却在很久之后才会注意到它。那时，你又要花上大把时间去定位问题。</p>
+</li>
+<li><p>一套测试就是一个强大的bug侦测器，能够大大缩减查找bug所需的时间</p>
+</li>
+<li>除非体会到<strong>编写测试是如何提升编程速度</strong>，否则自测试似乎就没有什么意义</li>
+<li><p><strong>编写未臻完善的测试</strong>并经常运行，好过对完美测试的无尽等待。</p>
+</li>
+<li><p><strong>一个测试语句中最好只有一个验证语句</strong>，否则测试可能在进行第一个验证时就失败，这通常会掩盖一些重要的错误信息，不利于你了解测试失败的原因。</p>
+</li>
 </ul>
-<p>例：在判断垃圾邮件的算法中:<br>  $P(H)​$ : 所有邮件中，垃圾邮件的概率。<br>  $P(D)​$ : 出现某个单词的概率。<br>  $P(D|H)​$ : 垃圾邮件中，出现某个单词的概率。<br>  $P(H|D)​$ : 出现某个单词的邮件，是垃圾邮件的概率。</p>
+<h4 id="错误，脏数据"><a href="#错误，脏数据" class="headerlink" title="错误，脏数据"></a>错误，脏数据</h4><p><strong>直接 assert</strong></p>
+<p>如果这个错误会导致脏数据在应用中到处传递，或是产生一些很难调试的失败，我可能会用<strong>引入断言</strong>（302）手法，使代码不满足预设条件时快速失败。我不会为这样的失败断言添加测试，它们本身就是一种测试的形式。</p>
+<h4 id="探测边界条件"><a href="#探测边界条件" class="headerlink" title="探测边界条件"></a>探测边界条件</h4><ul>
+<li>目前为止我的测试都聚焦于正常的行为上，这通常也被称为“正常路径”（happy path），它指的是一切工作正常、用户使用方式也最符合规范的那种场景。同时，把测试推到这些条件的边界处也是不错的实践，这可以检查操作出错时软件的表现。</li>
+<li>考虑<strong>可能出错的边界条件</strong>，把测试火力集中在那儿。</li>
+</ul>
+<h4 id="你应该把测试集中在可能出错的地方。观察代码，看哪儿变得复杂；观察函数，思考哪些地方可能出错。"><a href="#你应该把测试集中在可能出错的地方。观察代码，看哪儿变得复杂；观察函数，思考哪些地方可能出错。" class="headerlink" title="你应该把测试集中在可能出错的地方。观察代码，看哪儿变得复杂；观察函数，思考哪些地方可能出错。"></a>你应该把测试集中在可能出错的地方。观察代码，看哪儿变得复杂；观察函数，思考哪些地方可能出错。</h4><ul>
+<li>不要因为测试无法捕捉所有的bug就不写测试，因为测试的确可以捕捉到大多数bug</li>
+</ul>
+<h4 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h4><p>负责测试一小块代码，运行速度足够快。它们是自测试代码的支柱，是一个系统中占绝大多数的测试类型</p>
+<h4 id="测试三问"><a href="#测试三问" class="headerlink" title="测试三问"></a>测试三问</h4><p>与编程的许多方面类似，测试也是一种<strong>迭代</strong>式的活动。除非你技能非常纯熟，或者非常幸运，否则你很难第一次就把测试写对。我发觉我持续地在测试集上工作，就与我在主代码库上的工作一样多。很自然，这意味着我在增加新特性时也要同时添加测试。</p>
+<p>有时还需要回顾已有的测试：它们足够清晰吗？我需要重构它们，以帮助我更好地理解吗？我拥有的测试是有价值的吗？</p>
+<p>代码足够清晰吗？我需要重构它们，以帮助我更好地理解吗？</p>
+<h4 id="什么时候应该添加测试"><a href="#什么时候应该添加测试" class="headerlink" title="什么时候应该添加测试"></a>什么时候应该添加测试</h4><p>每当你收到bug报告，请先写一个<strong>单元测试来暴露这个bug</strong>。</p>
 
       
     </div>
@@ -466,15 +473,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/07/01/deep-learning/cnn/" rel="next" title="CNN">
+                <i class="fa fa-chevron-left"></i> CNN
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/01/31/machine-learning/decision-tree/" rel="prev" title="Decistion Tree">
-                Decistion Tree <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -622,7 +629,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Beyes"><span class="nav-number">1.</span> <span class="nav-text">Beyes</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#重构：改善既有代码的设计"><span class="nav-number">1.</span> <span class="nav-text">重构：改善既有代码的设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter-1"><span class="nav-number">2.</span> <span class="nav-text">Chapter 1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter-2"><span class="nav-number">3.</span> <span class="nav-text">Chapter 2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter-4-测试"><span class="nav-number">4.</span> <span class="nav-text">Chapter 4 测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WHY"><span class="nav-number">4.0.1.</span> <span class="nav-text">WHY</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#错误，脏数据"><span class="nav-number">4.0.2.</span> <span class="nav-text">错误，脏数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#探测边界条件"><span class="nav-number">4.0.3.</span> <span class="nav-text">探测边界条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#你应该把测试集中在可能出错的地方。观察代码，看哪儿变得复杂；观察函数，思考哪些地方可能出错。"><span class="nav-number">4.0.4.</span> <span class="nav-text">你应该把测试集中在可能出错的地方。观察代码，看哪儿变得复杂；观察函数，思考哪些地方可能出错。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单元测试"><span class="nav-number">4.0.5.</span> <span class="nav-text">单元测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试三问"><span class="nav-number">4.0.6.</span> <span class="nav-text">测试三问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么时候应该添加测试"><span class="nav-number">4.0.7.</span> <span class="nav-text">什么时候应该添加测试</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -822,43 +829,6 @@
   
   
 
-  
-    
-      <script type="text/x-mathjax-config">
-  
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      
-      equationNumbers: {
-        autoNumber: "AMS"
-      }
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-      for (i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-  });
-</script>
-<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<style>
-.MathJax_Display {
-  overflow: auto hidden;
-}
-</style>
-
-    
   
 
 

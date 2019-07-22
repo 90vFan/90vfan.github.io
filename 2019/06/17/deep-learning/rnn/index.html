@@ -96,24 +96,32 @@
 
 
 
-  <meta name="description" content="Beyes$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}​$$ H: hyposis 假设事件，D: data 数据  $P(H|D)$ : 后验概率, the probability of observing event H given that D is true $P(H)​$ : 先验概率, the probability of observing ev">
+  <meta name="description" content="Recurrent Neuro Network循环神经网络可以更好地处理序列信息（如一句话），允许记忆信息（在时序上传递输入的有效信息），可以解决长期依赖的问题（Long-term Dependencies） RNN结构  $$O_t = g(VS_t)$$                     # 在时间点 t 的输出 $$S_t = f(UX_t + WS_{t-1})$$     # 在时">
+<meta name="keywords" content="dl,hexo-asset-image">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Statistic">
-<meta property="og:url" content="http:/2019/01/06/statitics/Statistics/index.html">
+<meta property="og:title" content="Dropout">
+<meta property="og:url" content="http:/2019/06/17/deep-learning/rnn/index.html">
 <meta property="og:site_name" content="SAILOR">
-<meta property="og:description" content="Beyes$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}​$$ H: hyposis 假设事件，D: data 数据  $P(H|D)$ : 后验概率, the probability of observing event H given that D is true $P(H)​$ : 先验概率, the probability of observing ev">
+<meta property="og:description" content="Recurrent Neuro Network循环神经网络可以更好地处理序列信息（如一句话），允许记忆信息（在时序上传递输入的有效信息），可以解决长期依赖的问题（Long-term Dependencies） RNN结构  $$O_t = g(VS_t)$$                     # 在时间点 t 的输出 $$S_t = f(UX_t + WS_{t-1})$$     # 在时">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-29T14:43:59.497Z">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/rnn/v2-71652d6a1eee9def631c18ea5e3c7605_hd.jpg">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/rnn/v2-b0175ebd3419f9a11a3d0d8b00e28675_hd.jpg">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/rnn/1562068950392.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/rnn/2256672-3b20294694c3904b.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/rnn/lstm.png">
+<meta property="og:image" content="http:/2019/06/17/deep-learning/rnn/42741-dd3d241fa44a71c0.webp">
+<meta property="og:updated_time" content="2019-07-02T15:27:40.341Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Statistic">
-<meta name="twitter:description" content="Beyes$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}​$$ H: hyposis 假设事件，D: data 数据  $P(H|D)$ : 后验概率, the probability of observing event H given that D is true $P(H)​$ : 先验概率, the probability of observing ev">
+<meta name="twitter:title" content="Dropout">
+<meta name="twitter:description" content="Recurrent Neuro Network循环神经网络可以更好地处理序列信息（如一句话），允许记忆信息（在时序上传递输入的有效信息），可以解决长期依赖的问题（Long-term Dependencies） RNN结构  $$O_t = g(VS_t)$$                     # 在时间点 t 的输出 $$S_t = f(UX_t + WS_{t-1})$$     # 在时">
+<meta name="twitter:image" content="http:/2019/06/17/deep-learning/rnn/v2-71652d6a1eee9def631c18ea5e3c7605_hd.jpg">
 
 
 
 
 
 
-  <link rel="canonical" href="http:/2019/01/06/statitics/Statistics/">
+  <link rel="canonical" href="http:/2019/06/17/deep-learning/rnn/">
 
 
 
@@ -123,7 +131,7 @@
   };
 </script>
 
-  <title>Statistic | SAILOR</title>
+  <title>Dropout | SAILOR</title>
   
 
 
@@ -326,7 +334,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/01/06/statitics/Statistics/">
+    <link itemprop="mainEntityOfPage" href="http:/2019/06/17/deep-learning/rnn/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joseph.Fan">
@@ -343,7 +351,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Statistic
+          <h1 class="post-title" itemprop="name headline">Dropout
 
               
             
@@ -369,7 +377,7 @@
                 
               
 
-              <time title="创建时间：2019-01-06 23:18:46" itemprop="dateCreated datePublished" datetime="2019-01-06T23:18:46+08:00">2019-01-06</time>
+              <time title="创建时间：2019-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">2019-06-17</time>
             
 
             
@@ -386,11 +394,29 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-29 22:43:59" itemprop="dateModified" datetime="2019-04-29T22:43:59+08:00">2019-04-29</time>
+                <time title="修改时间：2019-07-02 23:27:40" itemprop="dateModified" datetime="2019-07-02T23:27:40+08:00">2019-07-02</time>
               
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -427,15 +453,28 @@
       
 
       
-        <h3 id="Beyes"><a href="#Beyes" class="headerlink" title="Beyes"></a>Beyes</h3><p>$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}​$$</p>
-<p>H: hyposis 假设事件，D: data 数据</p>
-<ul>
-<li>$P(H|D)$ : 后验概率, the probability of observing event H given that D is true</li>
-<li>$P(H)​$ : 先验概率, the probability of observing event H</li>
-<li>$P(D|H)$: 似然度　</li>
-<li>$P(D)$ :   the probability of data D</li>
-</ul>
-<p>例：在判断垃圾邮件的算法中:<br>  $P(H)​$ : 所有邮件中，垃圾邮件的概率。<br>  $P(D)​$ : 出现某个单词的概率。<br>  $P(D|H)​$ : 垃圾邮件中，出现某个单词的概率。<br>  $P(H|D)​$ : 出现某个单词的邮件，是垃圾邮件的概率。</p>
+        <h2 id="Recurrent-Neuro-Network"><a href="#Recurrent-Neuro-Network" class="headerlink" title="Recurrent Neuro Network"></a>Recurrent Neuro Network</h2><p><strong>循环神经网络</strong>可以更好地处理序列信息（如一句话），允许记忆信息（在时序上传递输入的有效信息），可以解决长期依赖的问题（Long-term Dependencies）</p>
+<h2 id="RNN结构"><a href="#RNN结构" class="headerlink" title="RNN结构"></a>RNN结构</h2><p><img src="/2019/06/17/deep-learning/rnn/v2-71652d6a1eee9def631c18ea5e3c7605_hd.jpg" alt="img"></p>
+<p><img src="/2019/06/17/deep-learning/rnn/v2-b0175ebd3419f9a11a3d0d8b00e28675_hd.jpg" alt="img"></p>
+<p>$$O_t = g(VS_t)$$                     # 在时间点 t 的输出</p>
+<p>$$S_t = f(UX_t + WS_{t-1})$$     # 在时间点 t 的状态</p>
+<p>W,V,U: 权重</p>
+<p>g,f: 激活函数</p>
+<h4 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h4><p><img src="/2019/06/17/deep-learning/rnn/1562068950392.png" alt="1562068950392"></p>
+<p>输出值 $O_t$ 受前面历次输入值 $x_t, x_{t-1}, x_{t-2}…$ 的影响，相当于一定程度上记忆之前任意时间段的有效信息，从而在时序上累积输入 $X_t$，解决长期依赖问题。</p>
+<p><em>疑问： S作为一个固定大小的矩阵如何记忆有效信息？</em></p>
+<p><img src="/2019/06/17/deep-learning/rnn/2256672-3b20294694c3904b.png" alt="点击查看大图"></p>
+<h2 id="BPTT"><a href="#BPTT" class="headerlink" title="BPTT"></a>BPTT</h2><p>损失函数对权重 $W$ 的梯度是各个时刻梯度之和：</p>
+<p>$$\nabla_W L = \sum_{i=1}^{t} \nabla_{W_i} L$$</p>
+<h2 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h2><p><img src="/2019/06/17/deep-learning/rnn/lstm.png" alt="lstm"></p>
+<h2 id="GRU"><a href="#GRU" class="headerlink" title="GRU"></a>GRU</h2><p><img src="/2019/06/17/deep-learning/rnn/42741-dd3d241fa44a71c0.webp" alt="img"></p>
+<p>References:</p>
+<ol>
+<li><a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">Understanding-LSTMs colah</a></li>
+<li><a href="https://www.jianshu.com/p/9dc9f41f0b29" target="_blank" rel="noopener">理解LSTM（1的翻译）</a></li>
+<li><a href="https://zybuluo.com/hanbingtao/note/541458" target="_blank" rel="noopener">零基础入门深度学习(5) - 循环神经网络</a></li>
+<li></li>
+</ol>
 
       
     </div>
@@ -457,6 +496,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/dl/" rel="tag"># dl</a>
+          
+            <a href="/tags/hexo-asset-image/" rel="tag"># hexo-asset-image</a>
+          
+        </div>
+      
 
       
       
@@ -466,14 +513,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/06/17/deep-learning/dropout/" rel="next" title="Dropout">
+                <i class="fa fa-chevron-left"></i> Dropout
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/01/31/machine-learning/decision-tree/" rel="prev" title="Decistion Tree">
-                Decistion Tree <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/17/deep-learning/nn_cs231n_note/" rel="prev" title="Neuron Network">
+                Neuron Network <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -622,7 +673,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Beyes"><span class="nav-number">1.</span> <span class="nav-text">Beyes</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Recurrent-Neuro-Network"><span class="nav-number">1.</span> <span class="nav-text">Recurrent Neuro Network</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RNN结构"><span class="nav-number">2.</span> <span class="nav-text">RNN结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#循环"><span class="nav-number">2.0.1.</span> <span class="nav-text">循环</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#BPTT"><span class="nav-number">3.</span> <span class="nav-text">BPTT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LSTM"><span class="nav-number">4.</span> <span class="nav-text">LSTM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GRU"><span class="nav-number">5.</span> <span class="nav-text">GRU</span></a></li></div>
             
 
           </div>

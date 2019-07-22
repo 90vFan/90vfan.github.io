@@ -114,7 +114,7 @@
 <meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/aae11de6e6a29f50d46b9ea106fbb02a_hd.png">
 <meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/8608c06086fc196228f4dda78499a2d9_hd.png">
 <meta property="og:image" content="http:/2019/06/17/deep-learning/nn_cs231n_note/1561037588255.png">
-<meta property="og:updated_time" content="2019-06-23T07:37:24.202Z">
+<meta property="og:updated_time" content="2019-07-03T16:45:18.221Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neuron Network">
 <meta name="twitter:description" content="深度学习和神经网络(CS231n Note) 深度学习和神经网络(CS231n Note) 1. 神经元模型与数学模型（Neuron Network Unit） 2. 常用激活函数 sigmoid tanh relu Leaky Relu ELU Maxout   3. 数据预处理 归一化 Normalization PCA 白化（很少在深度学习中使用） CIFAR 数据PCA   4. 权重初始">
@@ -398,7 +398,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-23 15:37:24" itemprop="dateModified" datetime="2019-06-23T15:37:24+08:00">2019-06-23</time>
+                <time title="修改时间：2019-07-04 00:45:18" itemprop="dateModified" datetime="2019-07-04T00:45:18+08:00">2019-07-04</time>
               
             
           </span>
@@ -513,14 +513,14 @@
 <td>sigmoid</td>
 <td>$ \sigma(x)=\frac{1}{1+e^{-x}} $</td>
 <td>[0,1]</td>
-<td>[0, 0.25]</td>
+<td>[0, 0.25]   $\sigma’(x)=\sigma(x)(1-\sigma(x))$</td>
 <td>分类概率</td>
 </tr>
 <tr>
 <td>tanh</td>
 <td>$tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$</td>
 <td>[-1,1]</td>
-<td>[0, 1]</td>
+<td>[0, 1]  $tanh’(x)=1-(tan(x))^2$</td>
 <td></td>
 </tr>
 <tr>
@@ -590,7 +590,8 @@
 <p>References:</p>
 <ol>
 <li><a href="https://zhuanlan.zhihu.com/p/21930884" target="_blank" rel="noopener">cs231n课程笔记中文翻译</a></li>
-<li><a href="https://github.com/theBigDataDigest/Stanford-CS231n-assignments-in-Chinese" target="_blank" rel="noopener">cs231n Assignments 解答 - 大数据文摘</a><br>3.</li>
+<li><a href="https://github.com/theBigDataDigest/Stanford-CS231n-assignments-in-Chinese" target="_blank" rel="noopener">cs231n Assignments 解答 - 大数据文摘</a></li>
+<li></li>
 </ol>
 
       
@@ -630,7 +631,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/17/deep-learning/optimization/" rel="next" title="Dropout">
+              <a href="/2019/06/17/deep-learning/rnn/" rel="next" title="Dropout">
                 <i class="fa fa-chevron-left"></i> Dropout
               </a>
             
@@ -640,8 +641,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/17/deep-learning/dropout/" rel="prev" title="Dropout">
-                Dropout <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/19/deep-learning/batch_normalization/" rel="prev" title="Batch Normalization">
+                Batch Normalization <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -712,7 +713,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
