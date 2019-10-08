@@ -323,7 +323,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/07/02/coding/重构/">
+    <link itemprop="mainEntityOfPage" href="http:/2019/10/09/coding/重构/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Joseph.Fan">
@@ -343,7 +343,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/07/02/coding/重构/" class="post-title-link" itemprop="url">未命名</a>
+                <a href="/2019/10/09/coding/重构/" class="post-title-link" itemprop="url">未命名</a>
               
             
           </h1>
@@ -368,7 +368,7 @@
                 
               
 
-              <time title="创建时间：2019-07-02 23:27:40" itemprop="dateCreated datePublished" datetime="2019-07-02T23:27:40+08:00">2019-07-02</time>
+              <time title="创建时间：2019-10-09 01:30:37" itemprop="dateCreated datePublished" datetime="2019-10-09T01:30:37+08:00">2019-10-09</time>
             
 
             
@@ -410,7 +410,53 @@
 <p><strong>重构技术就是以微小的步伐修改程序。如果你犯下错误，很容易便可发现它。</strong></p>
 <p>傻瓜都能写出计算机可以理解的代码。唯有能写出<strong>人类容易理解的代码</strong>的，才是优秀的程序员。</p>
 <p>好代码的检验标准就是人们是否能轻而易举地修改它。小的步子可以更快前进，请保持代码永远处于可工作状态，小步修改累积起来也能大大改善系统的设计。</p>
-<h2 id="Chapter-2"><a href="#Chapter-2" class="headerlink" title="Chapter 2"></a>Chapter 2</h2><h2 id="Chapter-4-测试"><a href="#Chapter-4-测试" class="headerlink" title="Chapter 4 测试"></a>Chapter 4 测试</h2><h4 id="WHY"><a href="#WHY" class="headerlink" title="WHY"></a>WHY</h4><ul>
+<h2 id="Chapter-2-重构"><a href="#Chapter-2-重构" class="headerlink" title="Chapter 2 重构"></a>Chapter 2 重构</h2><h4 id="WHY"><a href="#WHY" class="headerlink" title="WHY"></a>WHY</h4><ul>
+<li>改进软件设计</li>
+<li>使软件更容易理解。通过重构，我就把脑子里的理解转移到了代码本身</li>
+<li>帮助找到 bug</li>
+<li>提高编程速度</li>
+</ul>
+<h4 id="见机行事的重构"><a href="#见机行事的重构" class="headerlink" title="见机行事的重构"></a>见机行事的重构</h4><p>大部分重构应该是不起眼的、见机行事的。</p>
+<ul>
+<li>帮助理解</li>
+<li>捡垃圾式重构</li>
+</ul>
+<p><em>？？？</em></p>
+<p>我听过的一条建议是：将重构与添加新功能在版本控制的提交中分开。这样做的一大好处是可以各自独立地审阅和批准这些提交。但我并不认同这种做法。重构常常与新添功能紧密交织，不值得花工夫把它们分开。并且这样做也使重构脱离了上下文，使人看不出这些“重构提交”的价值。每个团队应该尝试并找出适合自己的工作方式，只是要记住：分离重构提交并不是毋庸置疑的原则，只有当你真的感到有益时，才值得这样做</p>
+<p>============================</p>
+<h4 id="有计划的重构"><a href="#有计划的重构" class="headerlink" title="有计划的重构"></a>有计划的重构</h4><ul>
+<li>添加新功能最快的方法往往是先修改现有的代码，使新功能容易被加入。</li>
+</ul>
+<p>每当有人靠近“重构区”的代码，就把它朝想要改进的方向推动一点。这个策略的好处在于，重构不会破坏代码——每次小改动之后，整个系统仍然照常工作。例如，如果想替换掉一个正在使用的库，可以先引入一层新的抽象，使其兼容新旧两个库的接口。一旦调用方已经完全改为使用这层抽象，替换下面的库就会容易得多。（这个策略叫作Branch By Abstraction[mf-bba]。）</p>
+<ul>
+<li>复审代码时重构</li>
+<li>重写</li>
+</ul>
+<p>重构的唯一目的就是让我们开发更快，用更少的工作量创造更大的价值。</p>
+<h4 id="发布接口-public-interface"><a href="#发布接口-public-interface" class="headerlink" title="发布接口 public interface"></a>发布接口 public interface</h4><p>可以把旧的接口标记为“不推荐使用”（deprecated），等一段时间之后最终让其退休；但有些时候，旧的接口必须一直保留下去。</p>
+<h4 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h4><p>在隔离的分支上工作得越久，将完成的工作集成（integrate）回主线就会越困难。</p>
+<p>持续集成（Continuous Integration，CI），也叫“基于主干开发”（Trunk-Based Development）。在使用CI时，每个团队成员每天至少向主线集成一次。这个实践避免了任何分支彼此差异太大，从而极大地降低了合并的难度。不过CI也有其代价：你必须使用相关的实践以确保主线随时处于健康状态，必须学会将大功能拆分成小块，还必须使用特性开关（feature toggle，也叫特性旗标，feature flag）将尚未完成又无法拆小的功能隐藏掉。</p>
+<h4 id="YAGNI"><a href="#YAGNI" class="headerlink" title="YAGNI"></a>YAGNI</h4><p>简单设计、增量式设计或者YAGNI[mf-yagni]——“你不会需要它”（you arenʼt going to need it）的缩写</p>
+<p>把YAGNI视为将架构、设计与开发过程融合的一种工作方式，这种工作方式必须有重构作为基础才可靠。</p>
+<p>”演进式架构“</p>
+<h4 id="自测试代码、持续集成、重构"><a href="#自测试代码、持续集成、重构" class="headerlink" title="自测试代码、持续集成、重构"></a>自测试代码、持续集成、重构</h4><p>重构（及其前置实践）是YAGNI的基础，YAGNI又让重构更易于开展</p>
+<h2 id="Chapter-3-Bad-Smell"><a href="#Chapter-3-Bad-Smell" class="headerlink" title="Chapter 3 Bad Smell"></a>Chapter 3 Bad Smell</h2><h4 id="清楚的命名"><a href="#清楚的命名" class="headerlink" title="清楚的命名"></a>清楚的命名</h4><h4 id="提炼函数"><a href="#提炼函数" class="headerlink" title="提炼函数"></a>提炼函数</h4><p>函数越长，就越难理解</p>
+<p><em>注释</em></p>
+<p>每当感觉需要以注释来说明点什么的时候，我们就把需要说明的东西写进一个独立函数中，并<strong>以其用途（而非实现手法）命名*</strong>。关键不在于函数的长度，而在于函数“做什么”和“如何做”之间的语义距离。</p>
+<p>如果代码前方有一行<strong>注释</strong>，就是在提醒你：可以将这段代码替换成一个函数，而且可以在注释的基础上给这个函数命名。</p>
+<p><em>循环</em></p>
+<p><strong>条件表达式和循环</strong>常常也是提炼的信号。你可以使用分解条件表达式（260）处理条件表达式。对于庞大的<code>switch</code>语句，其中的每个分支都应该通过提炼函数（106）变成独立的函数调用。如果有多个<code>switch</code>语句基于同一个条件进行分支选择，就应该使用以多态取代条件表达式（272）。</p>
+<p>至于循环，你应该将循环和循环内的代码提炼到一个独立的函数中。如果你发现提炼出的循环很难命名，可能是因为其中做了几件不同的事。如果是这种情况，请勇敢地使用拆分循环（227）将其拆分成各自独立的任务。</p>
+<h4 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h4><p>把全局数据用一个函数封装装起来</p>
+<p>全局数据印证了帕拉塞尔斯的格言：良药与毒药的区别在于剂量。有少量的全局数据或许无妨，但数量越多，处理的难度就会指数上升。</p>
+<p>可以用封装变量来确保所有数据更新操作都通过很少几个函数来进行，查询函数和修改函数分离</p>
+<p>如果一个变量在其内部结构中包含了数据，通常最好不要直接修改其中的数据，而是用将引用对象改为值对象令其直接替换整个数据结构</p>
+<h4 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h4><p>使用以管道取代循环，管道操作（如filter和map）可以帮助我们更快地看清被处理的元素以及处理它们的动作</p>
+<h4 id="过大的类"><a href="#过大的类" class="headerlink" title="过大的类"></a>过大的类</h4><p>是把多余的东西消弭于类内部。如果有5个“百行函数”，它们之中很多代码都相同，那么或许你可以把它们变成5个“十行函数”和10个提炼出来的“双行函数”。</p>
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><p>当你感觉需要撰写注释时，请先尝试重构，试着让所有注释都变得多余。</p>
+<p>如果你需要注释来解释一块代码做了什么，试试提炼函数；如果函数已经提炼出来，但还是需要注释来解释其行为，试试用改变函数声明为它改名；如果你需要注释说明某些系统的需求规格，试试引入断言。</p>
+<p>应该添加的情况：如果你不知道该做什么，记述将来的打算，标记你并无十足把握的区域，写下自己“为什么做某某事”。这类信息可以帮助将来的修改者，尤其是那些健忘的家伙。</p>
+<h2 id="Chapter-4-测试"><a href="#Chapter-4-测试" class="headerlink" title="Chapter 4 测试"></a>Chapter 4 测试</h2><h4 id="WHY-1"><a href="#WHY-1" class="headerlink" title="WHY"></a>WHY</h4><ul>
 <li><p>编写代码的时间仅占所有时间中很少的一部分。有些时间用来决定下一步干什么，有些时间花在设计上，但是，<strong>花费在调试上的时间是最多的</strong></p>
 </li>
 <li><p>修复bug通常是比较快的，但<strong>找出bug所在却是一场噩梦</strong>。当修复一个bug时，常常会引起另一个bug，却在很久之后才会注意到它。那时，你又要花上大把时间去定位问题。</p>
@@ -437,6 +483,1415 @@
 <p>有时还需要回顾已有的测试：它们足够清晰吗？我需要重构它们，以帮助我更好地理解吗？我拥有的测试是有价值的吗？</p>
 <p>代码足够清晰吗？我需要重构它们，以帮助我更好地理解吗？</p>
 <h4 id="什么时候应该添加测试"><a href="#什么时候应该添加测试" class="headerlink" title="什么时候应该添加测试"></a>什么时候应该添加测试</h4><p>每当你收到bug报告，请先写一个<strong>单元测试来暴露这个bug</strong>。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http:/2019/10/08/machine-learning/feature-engineering-for-machine-learning/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joseph.Fan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SAILOR">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/10/08/machine-learning/feature-engineering-for-machine-learning/" class="post-title-link" itemprop="url">Feature Engineering</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-08 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-08T00:00:00+08:00">2019-10-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-09 01:29:50" itemprop="dateModified" datetime="2019-10-09T01:29:50+08:00">2019-10-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/ml/" itemprop="url" rel="index"><span itemprop="name">ml</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Feature-Engineering"><a href="#Feature-Engineering" class="headerlink" title="Feature Engineering"></a>Feature Engineering</h2><h2 id="Charpter-2-简单数字的奇特技巧"><a href="#Charpter-2-简单数字的奇特技巧" class="headerlink" title="Charpter 2 简单数字的奇特技巧"></a>Charpter 2 简单数字的奇特技巧</h2><h3 id="二值化-０，１"><a href="#二值化-０，１" class="headerlink" title="二值化　０，１"></a>二值化　０，１</h3><h3 id="量化或装箱"><a href="#量化或装箱" class="headerlink" title="量化或装箱　　"></a>量化或装箱　　</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>small_counts</span><br><span class="line">array([<span class="number">30</span>, <span class="number">64</span>, <span class="number">49</span>, <span class="number">26</span>, <span class="number">69</span>, <span class="number">23</span>, <span class="number">56</span>, <span class="number">7</span>, <span class="number">69</span>, <span class="number">67</span>, <span class="number">87</span>, <span class="number">14</span>, <span class="number">67</span>, <span class="number">33</span>, <span class="number">88</span>, <span class="number">77</span>, <span class="number">75</span>, <span class="number">47</span>, <span class="number">44</span>, <span class="number">93</span>])</span><br><span class="line"><span class="comment">### Map to evenly spaced bins 0-9 by division</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.floor_divide(small_counts, <span class="number">10</span>)</span><br><span class="line">array([<span class="number">3</span>, <span class="number">6</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">7</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">9</span>], dtype=int32)</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>large_counts = [<span class="number">296</span>, <span class="number">8286</span>, <span class="number">64011</span>, <span class="number">80</span>, <span class="number">3</span>, <span class="number">725</span>, <span class="number">867</span>, <span class="number">2215</span>, <span class="number">7689</span>, <span class="number">11495</span>, <span class="number">91897</span>, <span class="number">44</span>, <span class="number">28</span>, <span class="number">7971</span>, <span class="number">926</span>, <span class="number">122</span>, <span class="number">22222</span>]</span><br><span class="line"><span class="comment">### Map to exponential-width bins via the log function</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.floor(np.log10(large_counts))</span><br><span class="line">array([ <span class="number">2.</span>, <span class="number">3.</span>, <span class="number">4.</span>, <span class="number">1.</span>, <span class="number">0.</span>, <span class="number">2.</span>, <span class="number">2.</span>, <span class="number">3.</span>, <span class="number">3.</span>, <span class="number">4.</span>, <span class="number">4.</span>, <span class="number">1.</span>, <span class="number">1.</span>, <span class="number">3.</span>, <span class="number">2.</span>, <span class="number">2.</span>, <span class="number">4.</span>])</span><br></pre></td></tr></table></figure>
+<h3 id="分位数装箱"><a href="#分位数装箱" class="headerlink" title="分位数装箱"></a>分位数装箱</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### Map the counts to quartiles</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pd.qcut(large_counts, <span class="number">4</span>, labels=<span class="keyword">False</span>)</span><br><span class="line">array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">3</span>], dtype=int64)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>large_counts_series.quantile([<span class="number">0.25</span>, <span class="number">0.5</span>, <span class="number">0.75</span>])</span><br><span class="line"><span class="number">0.25</span> <span class="number">122.0</span></span><br><span class="line"><span class="number">0.50</span> <span class="number">926.0</span></span><br><span class="line"><span class="number">0.75</span> <span class="number">8286.0</span></span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure>
+<h3 id="对数转换"><a href="#对数转换" class="headerlink" title="对数转换"></a>对数转换</h3><p>线性回归模型的训练过程假定预测误差分布得像高斯，对数变换，这是一种功率变换，将变量的分布接近高斯。</p>
+<p>对数变换是处理具有重尾分布的正数的有力工具。（重尾分布在尾部范围内的概率比高斯分布的概率大）</p>
+<p><img src="/2019/10/08/machine-learning/feature-engineering-for-machine-learning/2-8.png" alt="img"></p>
+<p>使用$R^2$评分来评估，好的模型有较高的 R 方分数。一个完美的模型得到最高分1， 一个坏的模型可以得到一个任意低的负评分。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scores_log = cross_val_score(m_log, biz_df[[<span class="string">'log_review_count'</span>]], biz_df[<span class="string">'stars'</span>], cv=<span class="number">10</span>)</span><br><span class="line">scores_log.mean()  <span class="comment"># R^2</span></span><br></pre></td></tr></table></figure>
+<p><img src="/2019/10/08/machine-learning/feature-engineering-for-machine-learning/2-9.png" alt="img"></p>
+<p>对数变换将较大的离群值压缩到一个更小的范围内</p>
+<h3 id="Box-Cox-transformation"><a href="#Box-Cox-transformation" class="headerlink" title="Box-Cox transformation"></a>Box-Cox transformation</h3><p>???</p>
+<p>概率图(probplot)是一种直观地比较数据分布与理论分布的简单方法。</p>
+<h3 id="特征缩放-Scaling-或归一化-Normalization"><a href="#特征缩放-Scaling-或归一化-Normalization" class="headerlink" title="特征缩放(Scaling)或归一化(Normalization)"></a>特征缩放(Scaling)或归一化(Normalization)</h3><h4 id="minmaxscaler"><a href="#minmaxscaler" class="headerlink" title="minmaxscaler　"></a>minmaxscaler　</h4><p>$x’=\frac{x-min}{max-min}$</p>
+<p>Min-max缩放压缩（或拉伸）所有特征值到[0, 1 ]的范围内</p>
+<p><img src="https://github.com/apachecn/fe4ml-zh/raw/master/images/chapter2/2-15.png" alt="img"></p>
+<h4 id="Standardization"><a href="#Standardization" class="headerlink" title="Standardization"></a>Standardization</h4><p>$x’=\frac{x-\overline{x}}{\sigma}$</p>
+<p>缩放后的特征的平均值为0, 方差为1。如果原始特征具有高斯分布, 则缩放特征为标准高斯</p>
+<p><img src="/2019/10/08/machine-learning/feature-engineering-for-machine-learning/2-16.png" alt="img"></p>
+<p>最小最大缩放和标准化都从原始特征值中减去一个数量，将稀疏特征的向量转换为一个稠密的向量。</p>
+<h3 id="L2-Normalization"><a href="#L2-Normalization" class="headerlink" title="L2 Normalization"></a>L2 Normalization</h3><p>$x’=\frac{x}{\sqrt{\sum_{j} x_j^2}}$</p>
+<p><img src="/2019/10/08/machine-learning/feature-engineering-for-machine-learning/2-17.png" alt="img"></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http:/2019/09/07/statitics/R/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joseph.Fan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SAILOR">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/09/07/statitics/R/" class="post-title-link" itemprop="url">R notes</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-07 00:00:00" itemprop="dateCreated datePublished" datetime="2019-09-07T00:00:00+08:00">2019-09-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-09 01:30:37" itemprop="dateModified" datetime="2019-10-09T01:30:37+08:00">2019-10-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/ml/" itemprop="url" rel="index"><span itemprop="name">ml</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/ml/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http:/2019/08/26/System and Network/iptables/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joseph.Fan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SAILOR">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/08/26/System and Network/iptables/" class="post-title-link" itemprop="url">iptables</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-26 00:00:00" itemprop="dateCreated datePublished" datetime="2019-08-26T00:00:00+08:00">2019-08-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-09 01:30:37" itemprop="dateModified" datetime="2019-10-09T01:30:37+08:00">2019-10-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Newtork/" itemprop="url" rel="index"><span itemprop="name">Newtork</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Iptables"><a href="#Iptables" class="headerlink" title="Iptables"></a>Iptables</h2><p><a href="https://www.youtube.com/watch?v=iP8YWcvKDr0&amp;list=PLRRzkFBzCR3v-UefO69M7snZVzSnVlJKZ&amp;index=1" target="_blank" rel="noopener">https://www.youtube.com/watch?v=iP8YWcvKDr0&amp;list=PLRRzkFBzCR3v-UefO69M7snZVzSnVlJKZ&amp;index=1</a></p>
+<p><img src="/2019/08/26/System and Network/iptables/1566825018363.png" alt="1566825018363"></p>
+<h2 id="NAT"><a href="#NAT" class="headerlink" title="NAT"></a>NAT</h2><ol>
+<li><p>SNAT, Source NAT</p>
+<ul>
+<li>改变 outgoing packet 的源 IP</li>
+<li>跟踪链接，改变 reply packet 的目的 IP</li>
+<li>可用作一组静态 IP addresses 的负载均衡</li>
+</ul>
+<p><img src="/2019/08/26/System and Network/iptables/1566826419768.png" alt="1566826419768"></p>
+</li>
+<li><p>DNAT, Destination NAT</p>
+<ul>
+<li>改变 incoming packet 的目的 IP，转发到其他设备</li>
+<li>跟踪链接，改变 reply packet 的源 IP (由其他设备的源 IP 变为当前 DNAT 系统的源 IP)</li>
+</ul>
+<p>通常用在 inbound packets 的端口转发</p>
+<p>只能用在 nat table, 和 PREROUTING and OUTPUT chains</p>
+</li>
+</ol>
+<p><em>DMZ, 隔离区，DNAT 系统隔离的区域</em></p>
+<p><img src="/2019/08/26/System and Network/iptables/1566826925512.png" alt="1566826925512"></p>
+<ol start="3">
+<li>IP Masquerading</li>
+</ol>
+<ul>
+<li>A NAT route masquerades a private network</li>
+<li>SNAT use outgoing intreface as the address for rewriting</li>
+</ul>
+<p><em>广泛用作 IPV4 的扩展</em></p>
+<ul>
+<li>private LAN using private IP address behind a NAT router, 所有流量都被视作来自 NAT router</li>
+<li>所有来自private LAN 的流量都 NAT 到 NAT router 为源 IP</li>
+<li>所有来自公网的流量都 NAT 处理后返回 private LAN devices</li>
+</ul>
+<h2 id="Iptables-Command"><a href="#Iptables-Command" class="headerlink" title="Iptables Command"></a>Iptables Command</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -A append to `INPUT` chain</span></span><br><span class="line"><span class="comment"># -m match, match against packet `state`</span></span><br><span class="line"><span class="comment"># -j jump, jump to `ACCEPT` target</span></span><br><span class="line"><span class="comment"># Appends a rule to the INPUT chain that matches the state of RELATED or ESTABLISHED, jump to the ACCEPT target</span></span><br><span class="line">-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line"><span class="comment"># -p protocol</span></span><br><span class="line">-A INPUT -p ICMP -j ACCEPT</span><br><span class="line"><span class="comment"># -i interface</span></span><br><span class="line">-A INPUT -i lo -j ACCEPT</span><br><span class="line"><span class="comment"># allow incoming SSH, any new coming tcp with dport 22</span></span><br><span class="line">-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT</span><br><span class="line"><span class="comment"># send and explicit rejection message of ICMP host-prohibited back to the sender, instead of quietly dropping a packet</span></span><br><span class="line">-A INPUT -j REJECT --reject-with icmp-host-prohibited</span><br><span class="line">-A FORWARD -j REJECT --reject-with icmp-host-prohibited</span><br></pre></td></tr></table></figure>
+<h2 id="A-Basic-Router"><a href="#A-Basic-Router" class="headerlink" title="A Basic Router"></a>A Basic Router</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A Router</span><br><span class="line">LAN: enp0s8, 172.16.0.0/24, private addresses</span><br><span class="line">WAN: enp0s3, , public address</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">*nat  <span class="comment"># nat table</span></span><br><span class="line"><span class="comment"># policies on PREROUTING, POSTROUTING, OUTPUT chains</span></span><br><span class="line">:PREROUTING ACCEPT [0:0]</span><br><span class="line">:POSTROUTING ACCEPT [0:0]</span><br><span class="line">:OUTPUT ACCEPT [0:0]</span><br><span class="line"><span class="comment"># SNAT: WAN port</span></span><br><span class="line"><span class="comment"># all packets leaving this machine with enp0s3 to have the source IP address of interface enp0s3</span></span><br><span class="line">-A POSTROUTING -o enp0s3 -j MASQUERADE</span><br><span class="line">COMMIT</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">*filter  <span class="comment"># filter table</span></span><br><span class="line"><span class="comment"># default policies on INPUT, OUTPUT, FORWARD chains</span></span><br><span class="line">:INPUT DROP [0:0]</span><br><span class="line">:FORWARD DROP [0:0]</span><br><span class="line">:OUTPUT ACCEPT [0:0]</span><br><span class="line"><span class="comment"># INPUT chains, incomming connections from LAN side</span></span><br><span class="line"><span class="comment"># -s source, match source ip address in private LAN side addr range</span></span><br><span class="line">-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">-A INPUT -i lo -j ACCEPT</span><br><span class="line">-A INPUT -s 172.16.0.0/24 -i enp0s8 -p icmp -j ACCEPT</span><br><span class="line">-A INPUT -s 172.16.0.0/24 -i enp0s8 -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT</span><br><span class="line">-A INPUT -s 172.16.0.0/24 -i enp0s8 -p udp -m state --state NEW -m udp --dport 67 -j ACCEPT</span><br><span class="line"><span class="comment"># Condition Rejection</span></span><br><span class="line">-A INPUT -s 172.16.0.0/24 -i enp0s8 -j REJECT --reject-with icmp-host-prohibited</span><br><span class="line"><span class="comment"># if all above INPUT rules are not true, fall to the last rule: Drop all</span></span><br><span class="line">-A INPUT -j DROP</span><br><span class="line"></span><br><span class="line"><span class="comment"># FORWARD chains, FORWARD packets between LAN port and WAN port</span></span><br><span class="line"><span class="comment"># packets from LAN to LAN go directly, do not need route</span></span><br><span class="line">-A FORWARD -d 172.16.0.0/24 -i enp0s8 -j DROP</span><br><span class="line"><span class="comment"># ACCEPT all packets from LAN to WAN with source IP in the LAN,</span></span><br><span class="line"><span class="comment">#                and from WAN to LAN with detination IP in the LAN</span></span><br><span class="line">-A FORWARD -s 172.16.0.0/24 -i enp0s8 -j ACCEPT</span><br><span class="line">-A FORWARD -d 172.16.0.0/24 -i enp0s3 -j ACCEPT</span><br><span class="line">-A FORWARD -j DROP</span><br><span class="line"><span class="comment"># OUTPU chains, output packets </span></span><br><span class="line">-A OUTPUT -j ACCEPT</span><br><span class="line">COMMIT</span><br></pre></td></tr></table></figure>
+<h2 id="Packets-Processing"><a href="#Packets-Processing" class="headerlink" title="Packets Processing"></a>Packets Processing</h2><p>Netfilter component of Linux kernel recognizes and grouped packets into <strong>streams or flows</strong></p>
+<p>NAT rules are only determined for the 1st packet in a stream, the all subsequent packets receive the same processing</p>
+<h2 id="Tables-and-Chains"><a href="#Tables-and-Chains" class="headerlink" title="Tables and Chains"></a>Tables and Chains</h2><h4 id="Tables"><a href="#Tables" class="headerlink" title="Tables"></a>Tables</h4><ul>
+<li>filter</li>
+<li>NAT</li>
+<li>mangle</li>
+<li>raw</li>
+<li>security</li>
+</ul>
+<h4 id="Chains"><a href="#Chains" class="headerlink" title="Chains"></a>Chains</h4><ul>
+<li>PREROUTING</li>
+<li>INPUT</li>
+<li>FORWARD</li>
+<li>OUTPUT</li>
+<li>POSTROUTING</li>
+<li>User-defined Chains</li>
+</ul>
+<h3 id="Tables-and-built-in-chains"><a href="#Tables-and-built-in-chains" class="headerlink" title="Tables and built-in chains"></a>Tables and built-in chains</h3><h4 id="Filter-Access-Controls"><a href="#Filter-Access-Controls" class="headerlink" title="Filter:  Access Controls"></a>Filter:  Access Controls</h4><p>Built-in chains</p>
+<ul>
+<li>INPUT: handles packets <strong>destined for local sockets</strong></li>
+<li>FORWARD: handles packets <strong>routed through</strong> this host to another destination</li>
+<li>OUTPUT: handles <strong>locally generated</strong> packets</li>
+</ul>
+<h4 id="NAT-Consulted-whenever-a-packet-create-a-new-connection"><a href="#NAT-Consulted-whenever-a-packet-create-a-new-connection" class="headerlink" title="NAT: Consulted whenever a packet create a new connection"></a>NAT: Consulted whenever a packet create a new connection</h4><p>Built-in chains</p>
+<ul>
+<li>PREROUTING: alters packets <strong>arrive from</strong> the network interface</li>
+<li>OUTPUT: alters <strong>locally-generated</strong> packets <strong>before routing</strong> them</li>
+<li>POSTROUTING: alters packets about to be <strong>sent out</strong> from host</li>
+</ul>
+<h4 id="Mangle-specialized-packet-alteration"><a href="#Mangle-specialized-packet-alteration" class="headerlink" title="Mangle: specialized packet alteration"></a>Mangle: specialized packet alteration</h4><p>Built-in chains</p>
+<ul>
+<li>PREROUTING: mangling packets <strong>before routing</strong></li>
+<li>OUTPUT: mangling packets <strong>before sending</strong></li>
+<li>INPUT: mangling packets <strong>destined</strong> for this host</li>
+<li>FORWARD: mangling packets <strong>routed through</strong> the host</li>
+<li>POSTROUTING: mangling packets about <strong>to be sent</strong></li>
+</ul>
+<h4 id="Security-Consulted-after-the-filter-table-to-implement-Mandatory-Access-Control-network-rules"><a href="#Security-Consulted-after-the-filter-table-to-implement-Mandatory-Access-Control-network-rules" class="headerlink" title="Security: Consulted after the filter table to implement Mandatory Access Control network rules"></a>Security: Consulted after the filter table to implement Mandatory Access Control network rules</h4><p>Built-in chains</p>
+<ul>
+<li>INPUT: packets <strong>destined</strong> for the host</li>
+<li>OUTPUT: packets <strong>originating</strong> from the host</li>
+<li>FORWARD: packets <strong>forwarded through</strong> the host</li>
+</ul>
+<h4 id="Raw-rarely-used"><a href="#Raw-rarely-used" class="headerlink" title="Raw: rarely used"></a>Raw: rarely used</h4><p>Built-in chains</p>
+<ul>
+<li>PREROUTING: processes all incoming packets</li>
+<li>OUTPUT: processes outgoing packets generated by the host</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http:/2019/08/14/ElastiSearch/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joseph.Fan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SAILOR">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/08/14/ElastiSearch/" class="post-title-link" itemprop="url">未命名</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-14 00:57:36" itemprop="dateCreated datePublished" datetime="2019-08-14T00:57:36+08:00">2019-08-14</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h2><p>数据库</p>
+<p>数据分析平台</p>
+<h4 id="Document-APIs"><a href="#Document-APIs" class="headerlink" title="Document APIs"></a><a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.1/docs.html" target="_blank" rel="noopener">Document APIs</a></h4><table>
+<thead>
+<tr>
+<th>RDBMS</th>
+<th>Elastic Search</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Database</td>
+<td>index</td>
+</tr>
+<tr>
+<td>Table</td>
+<td><del>Type</del></td>
+</tr>
+<tr>
+<td>Row</td>
+<td>Document</td>
+</tr>
+<tr>
+<td>Column</td>
+<td>Field</td>
+</tr>
+<tr>
+<td>Schema</td>
+<td>Mapping</td>
+</tr>
+<tr>
+<td>Index</td>
+<td>Everything is indexed</td>
+</tr>
+<tr>
+<td>SQL</td>
+<td>DSL</td>
+</tr>
+<tr>
+<td>SELECT * FROM table …</td>
+<td>GET <em>Index</em>/_doc/<em>doc_name</em> {filter}</td>
+</tr>
+<tr>
+<td>UPDATE table SELECT …</td>
+<td>PUT <em>Index</em>/_doc/<em>doc_name</em> {data}</td>
+</tr>
+</tbody>
+</table>
+<p>RMDS（关系型数据库）: 事务性 / Join</p>
+<p>ElasticSearch: 相关性（Score）/　高性能全文检索</p>
+<p>Index 索引，一类文档的集合</p>
+<p>每个索引都有自己的 Mapping 定义，定义文档字段类型（string, number, list, object）</p>
+<p>7.0 以前，一个 Index 可以配置多个 Types</p>
+<p>6.0 开始，Type 已经被废除</p>
+<p>7.0 开始，一个索引只能创建一个 Type - “_doc”</p>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.0/removal-of-types.html" target="_blank" rel="noopener">Removal of types</a></p>
+<p>Mapping Type 由 Lucence field 决定，不同 Type 中的相同文档字段会共享同一个 Mapping.</p>
+<p>加入我需要删除 A Type 中的 user_name 字段而保留 B Type 中的 user_name 字段，这就会引起歧义。同时也会影响 Lucence 压缩文档的性能</p>
+<p>替代解决办法</p>
+<p>直接添加<strong>Type</strong>字段</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">PUT twitter</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"mappings"</span>: &#123;</span><br><span class="line">    <span class="attr">"_doc"</span>: &#123;</span><br><span class="line">      <span class="attr">"properties"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: &#123; <span class="attr">"type"</span>: <span class="string">"keyword"</span> &#125;, </span><br><span class="line">        <span class="attr">"name"</span>: &#123; <span class="attr">"type"</span>: <span class="string">"text"</span> &#125;,</span><br><span class="line">        <span class="attr">"user_name"</span>: &#123; <span class="attr">"type"</span>: <span class="string">"keyword"</span> &#125;,</span><br><span class="line">        <span class="attr">"email"</span>: &#123; <span class="attr">"type"</span>: <span class="string">"keyword"</span> &#125;,</span><br><span class="line">        <span class="attr">"content"</span>: &#123; <span class="attr">"type"</span>: <span class="string">"text"</span> &#125;,</span><br><span class="line">        <span class="attr">"tweeted_at"</span>: &#123; <span class="attr">"type"</span>: <span class="string">"date"</span> &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT twitter/_doc/user-kimchy</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"user"</span>, </span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"Shay Banon"</span>,</span><br><span class="line">  <span class="attr">"user_name"</span>: <span class="string">"kimchy"</span>,</span><br><span class="line">  <span class="attr">"email"</span>: <span class="string">"shay@kimchy.com"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT twitter/_doc/tweet-1</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"tweet"</span>, </span><br><span class="line">  <span class="attr">"user_name"</span>: <span class="string">"kimchy"</span>,</span><br><span class="line">  <span class="attr">"tweeted_at"</span>: <span class="string">"2017-10-24T09:00:00Z"</span>,</span><br><span class="line">  <span class="attr">"content"</span>: <span class="string">"Types are going away"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GET twitter/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"bool"</span>: &#123;</span><br><span class="line">      <span class="attr">"must"</span>: &#123;</span><br><span class="line">        <span class="attr">"match"</span>: &#123;</span><br><span class="line">          <span class="attr">"user_name"</span>: <span class="string">"kimchy"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"filter"</span>: &#123;</span><br><span class="line">        <span class="attr">"match"</span>: &#123;</span><br><span class="line">          <span class="attr">"type"</span>: <span class="string">"tweet"</span> </span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Bulk-API"><a href="#Bulk-API" class="headerlink" title="Bulk API"></a>Bulk API</h3><p>支持在一次 API 调用中，对不同的索引进行操作</p>
+<h2 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h2><p><strong>节点</strong>: 一个 ElasticSearch 实例</p>
+<p>Master-eligible nodes</p>
+<p>Master Node</p>
+<p>集群状态：Cluster Status</p>
+<p>Data Node 数据节点</p>
+<p>Coordinating Node，处理客户端请求，集群每个节点都起到 Coordinating Node 的作用，应对高并发</p>
+<p><strong>分片</strong>：一个 Lucence 实例，解决数据水平扩展问题，解决数据高可用问题（读取的吞吐，IO）</p>
+<h3 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h3><p>正排索引：目录，文档ID到文档内容</p>
+<p>倒排索引：索引页，单词到文档ID的索引</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http:/2019/07/22/statitics/entropy/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joseph.Fan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SAILOR">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/22/statitics/entropy/" class="post-title-link" itemprop="url">未命名</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-22 22:04:54" itemprop="dateCreated datePublished" datetime="2019-07-22T22:04:54+08:00">2019-07-22</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http:/2019/07/22/deep-learning/dropout/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joseph.Fan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SAILOR">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/22/deep-learning/dropout/" class="post-title-link" itemprop="url">未命名</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-22 22:03:46" itemprop="dateCreated datePublished" datetime="2019-07-22T22:03:46+08:00">2019-07-22</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http:/2019/07/22/machine-learning/feature-engineering/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joseph.Fan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SAILOR">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/22/machine-learning/feature-engineering/" class="post-title-link" itemprop="url">Feature Engineering</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-22 00:00:00" itemprop="dateCreated datePublished" datetime="2019-07-22T00:00:00+08:00">2019-07-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-09 01:20:20" itemprop="dateModified" datetime="2019-10-09T01:20:20+08:00">2019-10-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/ml/" itemprop="url" rel="index"><span itemprop="name">ml</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Feature-Engineering"><a href="#Feature-Engineering" class="headerlink" title="Feature Engineering"></a>Feature Engineering</h2><h1 id="1-数据预处理"><a href="#1-数据预处理" class="headerlink" title="1. 数据预处理"></a>1. 数据预处理</h1><p><strong>sklearn.preprocessing</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line">StandardScaler().fit_transform(iris.data)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th></th>
+<th>功能</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>StandardScaler</td>
+<td>$x’=\frac{x-\overline{x}}{\sigma}$</td>
+<td>标准化(无量纲化)</td>
+<td>基于特征矩阵的列，将特征值转换至服从标准正态分布 $x ~ \mathcal{N}[0,1]$</td>
+</tr>
+<tr>
+<td>MinMaxScaler</td>
+<td>$x’=\frac{x-min}{max-min}$</td>
+<td>(区间缩放)无量纲化</td>
+<td>基于最大最小值，将特征值转换到[0, 1]区间上</td>
+</tr>
+<tr>
+<td>Normalizer</td>
+<td>$x’=\frac{x}{\sqrt{\sum_{j} x_j^2}}$</td>
+<td>归一化</td>
+<td>基于特征矩阵的行，将样本向量转换为“单位向量”</td>
+</tr>
+<tr>
+<td>Binarizer</td>
+<td>$x’=\begin{cases}1, x&gt;threshhold \ 0, x \leq threshold\end{cases}$</td>
+<td>二值化</td>
+<td>基于给定阈值，将定量特征按阈值划分</td>
+</tr>
+<tr>
+<td>OneHotEncoder</td>
+<td>000100,001000,…</td>
+<td>哑编码(dummy)</td>
+<td>将定性数据编码为定量数据</td>
+</tr>
+<tr>
+<td>Imputer</td>
+<td></td>
+<td>缺失值计算(nan)</td>
+<td>计算缺失值，缺失值可填充为均值等</td>
+</tr>
+<tr>
+<td>PolynomialFeatures</td>
+<td>$(x_1,x_2)=(1,x_1^2,x_2^2,x_1x_2)$</td>
+<td>多项式数据转换</td>
+<td>多项式数据转换</td>
+</tr>
+<tr>
+<td>FunctionTransformer</td>
+<td>FunctionTransformer(log1p).fit_transform(iris.data)</td>
+<td>自定义单元数据转换</td>
+<td>使用单变元的函数来转换数据</td>
+</tr>
+</tbody>
+</table>
+<h1 id="2-特征选择"><a href="#2-特征选择" class="headerlink" title="2. 特征选择"></a>2. 特征选择</h1><table>
+<thead>
+<tr>
+<th>类</th>
+<th>所属方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VarianceThreshold</td>
+<td>Filter</td>
+<td>方差选择法</td>
+</tr>
+<tr>
+<td>SelectKBest</td>
+<td>Filter</td>
+<td>可选关联系数、卡方校验、最大信息系数作为得分计算的方法</td>
+</tr>
+<tr>
+<td>RFE</td>
+<td>Wrapper</td>
+<td>递归地训练基模型，将权值系数较小的特征从特征集合中消除</td>
+</tr>
+<tr>
+<td>SelectFromModel</td>
+<td>Embedded</td>
+<td>训练基模型，选择权值系数较高的特征</td>
+</tr>
+</tbody>
+</table>
+<h1 id="3-降维"><a href="#3-降维" class="headerlink" title="3.降维"></a>3.降维</h1><p>PCA是为了让映射后的样本具有最大的发散性；而LDA是为了让映射后的样本有最好的分类性能。所以说PCA是一种无监督的降维方法，而LDA是一种有监督的降维方法。</p>
+<table>
+<thead>
+<tr>
+<th>库</th>
+<th>类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>decomposition</td>
+<td>PCA</td>
+<td>主成分分析法</td>
+</tr>
+<tr>
+<td>lda</td>
+<td>LDA</td>
+<td>线性判别分析法</td>
+</tr>
+</tbody>
+</table>
+<p>References:</p>
+<ol>
+<li><a href="https://www.cnblogs.com/jasonfreak/p/5448385.html" target="_blank" rel="noopener">https://www.cnblogs.com/jasonfreak/p/5448385.html</a></li>
+<li><a href="https://sklearn.apachecn.org/#/docs/" target="_blank" rel="noopener">https://sklearn.apachecn.org/#/docs/</a></li>
+<li></li>
+</ol>
 
           
         
@@ -855,1630 +2310,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/06/19/deep-learning/batch_normalization/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joseph.Fan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SAILOR">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/06/19/deep-learning/batch_normalization/" class="post-title-link" itemprop="url">Batch Normalization</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-06-19 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-19T00:00:00+08:00">2019-06-19</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-03 01:14:38" itemprop="dateModified" datetime="2019-07-03T01:14:38+08:00">2019-07-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h2><p>批量归一化可以理解为在网络的每一层之前都做预处理，减少之前网络权重对数据的影响，保持每一层输出数据的分布（均值和标准差），使输出适应下一层网络，也使得每一层数据相对独立。</p>
-<p><img src="/2019/06/19/deep-learning/batch_normalization/1560779540116.png" alt="1560779540116"></p>
-<h2 id="Internal-Co-variate-Shift"><a href="#Internal-Co-variate-Shift" class="headerlink" title="Internal Co-variate Shift"></a>Internal Co-variate Shift</h2><p>Reference: <a href="https://zhuanlan.zhihu.com/p/34879333" target="_blank" rel="noopener">Batch Normalization原理与实战</a></p>
-<p>随着训练的进行，网络中的参数也随着梯度下降在不停更新。一方面，当底层网络中参数发生微弱变化时，由于每一层中的线性变换与非线性激活映射，这些微弱变化随着网络层数的加深而被放大（类似蝴蝶效应）；另一方面，参数的变化导致每一层的输入分布会发生改变，进而下一层的网络需要不停地去适应这些分布变化，使得我们的模型训练变得困难。上述这一现象叫做Internal Covariate Shift。</p>
-<p>原作定义：在深层网络训练的过程中，由于网络中参数变化而引起内部结点数据分布发生变化的这一过程被称作Internal Covariate Shift。</p>
-<p>随着梯度下降的进行，每一层的参数$W^{[l]}$与$b^{[l]}$都会被更新，那么$Z^{[l]}$的分布也就发生了改变，进而$A^{[l]}$也同样出现分布的改变。而$A^{[l]}$作为第 $l+1$ 层的输入，意味着 $l+1$ 层需要去不停适应这种数据分布的变化，这一过程叫做 Interval Covariate Shift.</p>
-<h3 id="带来的问题："><a href="#带来的问题：" class="headerlink" title="带来的问题："></a>带来的问题：</h3><ol>
-<li>上层网络需要不停调整来适应输入数据分布的变化，导致网络学习速度的降低</li>
-<li>网络的训练过程容易陷入梯度饱和区，减缓网络收敛速度（sigmoid, tanh）。 $Z^{[l]}$会逐渐更新并变大，陷入梯度饱和区。可以通过Normalization 使得激活函数输入分布在一个稳定的空间来避免他们陷入梯度饱和区。</li>
-</ol>
-<h3 id="如何减缓-Interval-Covariate-Shift"><a href="#如何减缓-Interval-Covariate-Shift" class="headerlink" title="如何减缓 Interval Covariate Shift"></a>如何减缓 Interval Covariate Shift</h3><ol>
-<li><p>白化。成本高，改变了网络每一层分布导致数据表达的特征信息丢失</p>
-<ul>
-<li>使得输入特征分布具有相同的均值与方差。其中PCA白化保证了所有特征分布均值为0，方差为1</li>
-<li>去除特征之间的相关性</li>
-</ul>
-</li>
-<li><p>Batch Normalization   简化加改进版的白化</p>
-<ul>
-<li>简化。让每个特征都有均值为0，方差为1的分布就OK。</li>
-<li>白化操作减弱了网络中每一层输入数据表达能力，那我就再加个线性变换操作，让这些数据再能够尽可能恢复本身的表达能力就好了。</li>
-</ul>
-</li>
-</ol>
-<p>##　算法</p>
-<p>   <img src="/2019/06/19/deep-learning/batch_normalization/1560779531173.png" alt="1560779531173"></p>
-<p>BN 引入了两个可学习的参数 $\gamma$ 和 $\beta$（<strong>变换重构</strong>）。这两个参数的引入是为了恢复数据本身的表达能力，对规范后的数据进行线性变换，即<strong>$y_i = \gamma \hat{x_i} + \beta_i$</strong>。 特别的，当 $\gamma^2=\sigma ^2$（方差）, $\beta = \mu$ （均值）时，可以实现等价变换并且保留原始输入特征的分布信息。</p>
-<h3 id="Batch-Normalization-的作用"><a href="#Batch-Normalization-的作用" class="headerlink" title="Batch Normalization 的作用"></a>Batch Normalization 的作用</h3><ol>
-<li><p>使得网络中每层输入数据的分布相对稳定，加快模型学习速度</p>
-</li>
-<li><p>使得模型对参数不那么敏感，减小初始化参数对模型学习的影响，可以选择更大的初始化值，学习率选择范围更大</p>
-<p>当学习率设置太高时，会使得参数更新步伐过大，容易出现震荡和不收敛。但是使用BN的网络将不会受到参数数值大小的影响。BN抑制了参数微小变化随着网络层数加深被放大的问题，使得网络对参数大小的适应能力更强</p>
-</li>
-<li><p>缓解梯度消失的问题</p>
-</li>
-<li><p>正则化效果，mini-batch 的mean/variance 作为总体样本的抽样估计，引入随机噪声</p>
-</li>
-</ol>
-<p><strong>BN通过将每一层网络的输入进行normalization，保证输入分布的均值与方差固定在一定范围内，减少了网络中的Internal Covariate Shift问题，并在一定程度上缓解了梯度消失，加速了模型收敛；并且BN使得网络对参数、激活函数更加具有鲁棒性，降低了神经网络模型训练和调参的复杂度；最后BN训练过程中由于使用mini-batch的mean/variance作为总体样本统计量估计，引入了随机噪声，在一定程度上对模型起到了正则化的效果。</strong></p>
-<h3 id="前向传播"><a href="#前向传播" class="headerlink" title="前向传播"></a>前向传播</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">batchnorm_forward</span><span class="params">(x, gamma, beta, bn_param)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Forward pass for batch normalization.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    running_mean = momentum * running_mean + (1 - momentum) * sample_mean</span></span><br><span class="line"><span class="string">    running_var = momentum * running_var + (1 - momentum) * sample_var</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Input:</span></span><br><span class="line"><span class="string">    - x: Data of shape (N, D)</span></span><br><span class="line"><span class="string">    - gamma: Scale parameter of shape (D,)</span></span><br><span class="line"><span class="string">    - beta: Shift paremeter of shape (D,)</span></span><br><span class="line"><span class="string">    - bn_param: Dictionary with the following keys:</span></span><br><span class="line"><span class="string">      - mode: 'train' or 'test'; required</span></span><br><span class="line"><span class="string">      - eps: Constant for numeric stability</span></span><br><span class="line"><span class="string">      - momentum: Constant for running mean / variance.</span></span><br><span class="line"><span class="string">      - running_mean: Array of shape (D,) giving running mean of features</span></span><br><span class="line"><span class="string">      - running_var Array of shape (D,) giving running variance of features</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns a tuple of:</span></span><br><span class="line"><span class="string">    - out: of shape (N, D)</span></span><br><span class="line"><span class="string">    - cache: A tuple of values needed in the backward pass</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    mode = bn_param[<span class="string">'mode'</span>]</span><br><span class="line">    eps = bn_param.get(<span class="string">'eps'</span>, <span class="number">1e-5</span>)</span><br><span class="line">    momentum = bn_param.get(<span class="string">'momentum'</span>, <span class="number">0.9</span>)</span><br><span class="line"></span><br><span class="line">    N, D = x.shape</span><br><span class="line">    running_mean = bn_param.get(<span class="string">'running_mean'</span>, np.zeros(D, dtype=x.dtype))</span><br><span class="line">    running_var = bn_param.get(<span class="string">'running_var'</span>, np.zeros(D, dtype=x.dtype))</span><br><span class="line"></span><br><span class="line">    out, cache = <span class="keyword">None</span>, <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">if</span> mode == <span class="string">'train'</span>:</span><br><span class="line">        <span class="comment">##########################################</span></span><br><span class="line">        mu = np.mean(x, axis=<span class="number">0</span>)</span><br><span class="line">        var = np.var(x, axis=<span class="number">0</span>)</span><br><span class="line">        x_norm = (x - mu) / np.sqrt(var + eps)</span><br><span class="line">        out = gamma * x_norm + beta</span><br><span class="line">        <span class="comment">##########################################</span></span><br><span class="line"></span><br><span class="line">        cache = (x, mu, var, eps, x_norm, gamma, beta, out)</span><br><span class="line">        </span><br><span class="line">        running_mean = momentum * running_mean + (<span class="number">1</span> - momentum) * mu</span><br><span class="line">        running_var  = momentum * running_var  + (<span class="number">1</span> - momentum) * var</span><br><span class="line">    <span class="keyword">elif</span> mode == <span class="string">'test'</span>:</span><br><span class="line">        x_norm = (x - running_mean) / np.sqrt(running_var + eps)</span><br><span class="line">       </span><br><span class="line">    	<span class="comment"># 训练超参数 gamma/beta，重构数据分布</span></span><br><span class="line">    	out = gamma * x_norm + beta</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">'Invalid forward batchnorm mode "%s"'</span> % mode)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Store the updated running means back into bn_param</span></span><br><span class="line">    bn_param[<span class="string">'running_mean'</span>] = running_mean</span><br><span class="line">    bn_param[<span class="string">'running_var'</span>] = running_var</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> out, cache</span><br></pre></td></tr></table></figure>
-<h4 id="反向传播指示图"><a href="#反向传播指示图" class="headerlink" title="反向传播指示图"></a>反向传播指示图</h4><p><img src="/2019/06/19/deep-learning/batch_normalization/BNcircuit-1561283729951.png" alt="BNcircuit"></p>
-<p><img src="/2019/06/19/deep-learning/batch_normalization/1560779531173.png" alt="1560779531173"></p>
-<p>损失函数对$y_i$的梯度为 $\frac{\partial L}{\partial y_i}$，由　$y_i = \gamma \hat{x_i} + \beta$ 得到：</p>
-<p>$$\frac{\partial L}{\partial \beta} = \sum_{i=1}^{N} \frac{\partial L}{\partial y_i}$$</p>
-<p>$$\frac{\partial L}{\partial \gamma} = \sum_{i=1}^{N} \frac{\partial L}{\partial y_i} \hat{x_i}​$$</p>
-<p>$$\frac{\partial L}{\partial \hat{x_i}} = \frac{\partial L}{\partial y_i} \gamma$$</p>
-<p>$$\frac{\partial L}{\partial \mu} = \frac{\partial L}{\partial \hat{x_i}} \frac{\partial \hat{x_i}}{\partial \mu} +  \frac{\partial L}{\partial \sigma^2} \frac{\partial {\sigma^2}}{\partial \mu}  \  =  -\frac{\partial L}{\partial \hat{x_i}} \frac{1}{\sqrt{\sigma^2 + \epsilon}} + \frac{\partial L}{\partial \sigma^2} (- \frac{2}{N} \sum_{i=1}^{N} (x_i-\mu)) $$</p>
-<p>$$\frac{\partial L}{\partial \sigma^2} =  \frac{\partial L}{\partial \hat{x_i}} \frac{\partial \hat{x_i}}{\partial \sigma^2} \  = \frac{\partial L}{\partial \hat{x_i}} (-\frac{1}{2} )({\sigma^2+\epsilon})^{-\frac{3}{2}}$$</p>
-<p>$$\frac{\partial L}{\partial x_i} =  \frac{\partial L}{\partial \hat{x_i}} \frac{\partial \hat{x_i}}{\partial {x_i}} +   \frac{\partial L}{\partial \sigma^2} \frac{\partial \sigma^2}{\partial {x_i}} + \frac{\partial L}{\partial \mu}\frac{\partial \mu}{\partial x_i} \ = \frac{\partial L}{\partial \hat{x_i}} \frac{1}{\sqrt{\sigma^2 + \epsilon}} + \frac{\partial L}{\partial \sigma^2} \frac{2(x_i - \mu)}{N}  + \frac{\partial L}{\partial \mu} \frac{1}{N} $$</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">batchnorm_backward_alt</span><span class="params">(dout, cache)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Alternative backward pass for batch normalization.     </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    (x, mu, var, eps, x_norm, gamma, beta, out) = cache</span><br><span class="line">    N,D = dout.shape</span><br><span class="line">    </span><br><span class="line">    dx_norm = dout * gamma</span><br><span class="line">    dgamma = np.sum(dout * x_norm, axis=<span class="number">0</span>)</span><br><span class="line">    dbeta  = np.sum(dout, axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    dvar = np.sum(dx_norm * (x - mu) * (<span class="number">-0.5</span>) * np.power(var + eps, <span class="number">-3</span>/<span class="number">2</span>), axis=<span class="number">0</span>)</span><br><span class="line">    dmu = -np.sum(dx_norm / np.sqrt(var + eps), axis=<span class="number">0</span>) + dvar * (<span class="number">-2</span>) * np.sum(x - mu, axis=<span class="number">0</span>) / N</span><br><span class="line">    dx  =  dx_norm / np.sqrt(var + eps) + dvar * <span class="number">2</span> * (x - mu) / N  + dmu / N     </span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dx, dgamma, dbeta</span><br></pre></td></tr></table></figure>
-<p>分步计算损失函数梯度的方法参考 Reference 2</p>
-<p>Refereces:</p>
-<ol>
-<li><a href="https://www.adityaagrawal.net/blog/deep_learning/bprop_batch_norm" target="_blank" rel="noopener">https://www.adityaagrawal.net/blog/deep_learning/bprop_batch_norm</a></li>
-<li><a href="https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html" target="_blank" rel="noopener">https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html</a></li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/06/17/deep-learning/nn_cs231n_note/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joseph.Fan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SAILOR">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/06/17/deep-learning/nn_cs231n_note/" class="post-title-link" itemprop="url">Neuron Network</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">2019-06-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-04 00:45:18" itemprop="dateModified" datetime="2019-07-04T00:45:18+08:00">2019-07-04</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="深度学习和神经网络-CS231n-Note"><a href="#深度学习和神经网络-CS231n-Note" class="headerlink" title="深度学习和神经网络(CS231n Note)"></a>深度学习和神经网络(CS231n Note)</h2><ul>
-<li><a href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%92%8C%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCS231n-Note">深度学习和神经网络(CS231n Note)</a></li>
-<li><a href="#1-%E7%A5%9E%E7%BB%8F%E5%85%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8BNeuron-Network-Unit">1. 神经元模型与数学模型（Neuron Network Unit）</a></li>
-<li><a href="#2-%E5%B8%B8%E7%94%A8%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0">2. 常用激活函数</a><ul>
-<li><a href="#sigmoid">sigmoid</a></li>
-<li><a href="#tanh">tanh</a></li>
-<li><a href="#relu">relu</a></li>
-<li><a href="#Leaky-Relu">Leaky Relu</a></li>
-<li><a href="#ELU">ELU</a></li>
-<li><a href="#Maxout">Maxout</a></li>
-</ul>
-</li>
-<li><a href="#3-%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86">3. 数据预处理</a><ul>
-<li><a href="#%E5%BD%92%E4%B8%80%E5%8C%96-Normalization">归一化 Normalization</a></li>
-<li><a href="#PCA-%E7%99%BD%E5%8C%96%E5%BE%88%E5%B0%91%E5%9C%A8%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E4%BD%BF%E7%94%A8">PCA 白化（很少在深度学习中使用）</a></li>
-<li><a href="#CIFAR-%E6%95%B0%E6%8D%AEPCA">CIFAR 数据PCA</a></li>
-</ul>
-</li>
-<li><a href="#4-%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96">4. 权重初始化</a><ul>
-<li><a href="#%E5%B0%8F%E9%9A%8F%E6%9C%BA%E6%95%B0%E5%88%9D%E5%A7%8B%E5%8C%96">小随机数初始化</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8frac1sqrtn-%E6%A0%A1%E5%87%86%E6%96%B9%E5%B7%AE">使用$\frac{1}{\sqrt{n}} $校准方差</a></li>
-<li><a href="#He-Normal">He Normal</a></li>
-<li><a href="#%E5%81%8F%E7%BD%AE%E5%88%9D%E5%A7%8B%E5%8C%96-biases">偏置初始化 biases</a></li>
-</ul>
-</li>
-<li><a href="#5-%E6%AD%A3%E5%88%99%E5%8C%96">5. 正则化</a><ul>
-<li><a href="#L1-%E6%AD%A3%E5%88%99">L1 正则</a></li>
-<li><a href="#L2%E6%AD%A3%E5%88%99">L2正则</a></li>
-</ul>
-</li>
-</ul>
-<h2 id="1-神经元模型与数学模型（Neuron-Network-Unit）"><a href="#1-神经元模型与数学模型（Neuron-Network-Unit）" class="headerlink" title="1. 神经元模型与数学模型（Neuron Network Unit）"></a>1. 神经元模型与数学模型（Neuron Network Unit）</h2><p>大脑的基本计算单位是神经元（neuron<strong>）</strong>。人类的神经系统中大约有860亿个神经元，它们被大约$10^{14}-10^{15}$个<strong>突触（synapses）</strong>连接起来。下面图表的左边展示了一个生物学的神经元，右边展示了一个常用的数学模型。每个神经元都从它的<strong>树突</strong>获得输入信号，然后沿着它唯一的<strong>轴突（axon）</strong>产生输出信号。轴突在末端会逐渐分枝，通过突触和其他神经元的树突相连。</p>
-<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/d0cbce2f2654b8e70fe201fec2982c7d_hd.png" alt="img"></p>
-<p>神经元（Neuron）通过树突（Dendrites）接收输入信号，沿着轴突（axon）产生输出信号。轴突在末端分叉，通过突触和其他神经元的树突相连。</p>
-<p>输入信号（$x_0,x_1,…,x_n$）传递到其他神经元的树突，基于突触的突触强度相乘（$w_0x_0,w_1x_1,…,w_nx_n$）。突触的强度（权重$w$）可以控制一个神经元对另一个神经元的影响强度，使其兴奋（正权重）或抑制（负权重）。输出信号如果高于阈值，则神经元激活（对应于激活函数$f(\sum_{i}w_ix_i+b)$）。</p>
-<ol>
-<li><p>1 多层感知机</p>
-<p>输入层  -&gt; 隐藏层 -&gt; 输出层</p>
-<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/ccb56c1fb267bc632d6d88459eb14ace_hd.png" alt="img"></p>
-</li>
-</ol>
-<h2 id="2-常用激活函数"><a href="#2-常用激活函数" class="headerlink" title="2. 常用激活函数"></a>2. 常用激活函数</h2><table>
-<thead>
-<tr>
-<th></th>
-<th>函数</th>
-<th>值域</th>
-<th>导数</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>sigmoid</td>
-<td>$ \sigma(x)=\frac{1}{1+e^{-x}} $</td>
-<td>[0,1]</td>
-<td>[0, 0.25]   $\sigma’(x)=\sigma(x)(1-\sigma(x))$</td>
-<td>分类概率</td>
-</tr>
-<tr>
-<td>tanh</td>
-<td>$tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$</td>
-<td>[-1,1]</td>
-<td>[0, 1]  $tanh’(x)=1-(tan(x))^2$</td>
-<td></td>
-</tr>
-<tr>
-<td>relu</td>
-<td>$relu(x)=max(0, x)$</td>
-<td>$[0,+\infty]$</td>
-<td>$f’_x=\begin{cases}0, x&lt;0\1, x&gt;0\undefinded, x=0\end{cases}$</td>
-</tr>
-</tbody>
-</table>
-<h4 id="sigmoid"><a href="#sigmoid" class="headerlink" title="sigmoid"></a>sigmoid</h4><p>优点：</p>
-<ol>
-<li>分类概率</li>
-</ol>
-<p>缺点</p>
-<ol>
-<li>梯度容易饱和而丢失，激活函数在接近0,1时会饱和，如果权重过大，很容易失去梯度</li>
-<li>函数不经过0，不以0点对称，在中间点0.5附近的的梯度较小（0.25），梯度总体较小，不利于梯度传播</li>
-<li>激活值永远全为正（负），下一神经元的输入总是正数（负数），则反向传播过程中梯度更新呈z字型</li>
-<li>exp指数函数计算复杂</li>
-</ol>
-<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1560776135809.png" alt="1560776135809"></p>
-<h4 id="tanh"><a href="#tanh" class="headerlink" title="tanh"></a>tanh</h4><p>$tanh(x)=2\sigma(2x)-1$</p>
-<p>优点：</p>
-<ol>
-<li>范围更大 [0, 1]</li>
-<li>以 0 为中心点</li>
-<li>中间部分梯度更大，有利于梯度传播</li>
-</ol>
-<p>缺点：</p>
-<ol>
-<li>梯度饱和而丢失的情况仍然存在</li>
-</ol>
-<h4 id="relu"><a href="#relu" class="headerlink" title="relu"></a>relu</h4><p>优点</p>
-<ol>
-<li>收敛速度更快（e.g. 6x than sigmoid/tanh)</li>
-<li>计算简单</li>
-<li>梯度不会饱和</li>
-</ol>
-<p>缺点</p>
-<ol>
-<li>可能导致部分神经元“死掉”，永远不会被激活。输出值始终为负，激活值为0，梯度为0，反向传播不更新此神经元的梯度。降低学习率来降低神经元“死掉”的概率。</li>
-</ol>
-<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/677187e96671a4cac9c95352743b3806_hd.png" alt="677187e96671a4cac9c95352743b3806_hd"></p>
-<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/42.png" alt="img"></p>
-<h4 id="Leaky-Relu"><a href="#Leaky-Relu" class="headerlink" title="Leaky Relu"></a>Leaky Relu</h4><p>解决Relu死亡的问题</p>
-<p>$$f(x)=\begin{cases}x, x&gt;0\\alpha x, x&lt;0\end{cases}$$, $\alpha=0.01​$</p>
-<h4 id="ELU"><a href="#ELU" class="headerlink" title="ELU"></a>ELU</h4><p>$$f(x)=\begin{cases} x, x&gt;0\ \alpha(e^x-1), x\leq0\end{cases}$$</p>
-<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1560776449074.png" alt="1560776449074"></p>
-<h4 id="Maxout"><a href="#Maxout" class="headerlink" title="Maxout"></a>Maxout</h4><p>$$max(w_{1}^Tx+b_1, w_{2}^Tx+b_2)$$</p>
-<h2 id="3-数据预处理"><a href="#3-数据预处理" class="headerlink" title="3. 数据预处理"></a>3. 数据预处理</h2><h3 id="归一化-Normalization"><a href="#归一化-Normalization" class="headerlink" title="归一化 Normalization"></a>归一化 Normalization</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 数据归一化</span><br><span class="line">X = X / np.std(X, axis=0)</span><br><span class="line"># 维度归一化</span><br><span class="line">X = X / np.std(X, axis=1)</span><br></pre></td></tr></table></figure>
-<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/e743b6777775b1671c3b5503d7afbbc4_hd.png" alt="img"></p>
-<h3 id="PCA-白化（很少在深度学习中使用）"><a href="#PCA-白化（很少在深度学习中使用）" class="headerlink" title="PCA 白化（很少在深度学习中使用）"></a>PCA 白化（很少在深度学习中使用）</h3><p>PCA/白化。<strong>左边</strong>是二维的原始数据。<strong>中间</strong>：经过PCA操作的数据。可以看出数据首先是零中心的，然后变换到了数据协方差矩阵的基准轴上。这样就对数据进行了解相关（协方差矩阵变成对角阵）。<strong>右边</strong>：每个维度都被特征值调整数值范围，将数据协方差矩阵变为单位矩阵。从几何上看，就是对数据在各个方向上拉伸压缩，使之变成服从高斯分布的一个数据点分布。</p>
-<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/aae11de6e6a29f50d46b9ea106fbb02a_hd.png" alt="img"></p>
-<h3 id="CIFAR-数据PCA"><a href="#CIFAR-数据PCA" class="headerlink" title="CIFAR 数据PCA"></a>CIFAR 数据PCA</h3><p>nx3072 维向量（图片32x32x3）,协方差矩阵：3072x3072</p>
-<p><img src="/2019/06/17/deep-learning/nn_cs231n_note/8608c06086fc196228f4dda78499a2d9_hd.png" alt="img"></p>
-<p>1: 49张图片。2: 3072个特征值向量中的前144个。3: 49张PCA降维的图片（U.transpose()[:144,:]）。4: 白化后的数据。144个维度的方差都压缩到相同的数值范围（U.transpose()[:144,:]）。现在较低的频率（代表了大多数方差）可以忽略不计了，较高的频率（代表相对少的方差）就被夸大了。</p>
-<h2 id="4-权重初始化"><a href="#4-权重初始化" class="headerlink" title="4. 权重初始化"></a>4. 权重初始化</h2><h4 id="小随机数初始化"><a href="#小随机数初始化" class="headerlink" title="小随机数初始化"></a>小随机数初始化</h4><p>基于均值为0，标准差为1的高斯分布</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">W = 0.01 * np.random.randn(N, D)</span><br></pre></td></tr></table></figure>
-<h4 id="使用-frac-1-sqrt-n-校准方差"><a href="#使用-frac-1-sqrt-n-校准方差" class="headerlink" title="使用$\frac{1}{\sqrt{n}} $校准方差"></a>使用$\frac{1}{\sqrt{n}} $校准方差</h4><p>数据量增大，随机初始化的神经元输出数据分布的方差也增大</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">W = np.random.randn(N, D) / np.sqrt(N)</span><br></pre></td></tr></table></figure>
-<h4 id="He-Normal"><a href="#He-Normal" class="headerlink" title="He Normal"></a>He Normal</h4><p>网络中神经元的方差应该是$\frac{2}{n}$</p>
-<p>当前的推荐是使用ReLU激活函数，并且使用<strong>w = np.random.randn(n) * sqrt(2.0/n)</strong>来进行权重初始化</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">W = np.random.randn(n) * sqrt(<span class="number">2.0</span>/n)</span><br></pre></td></tr></table></figure>
-<h4 id="偏置初始化-biases"><a href="#偏置初始化-biases" class="headerlink" title="偏置初始化 biases"></a>偏置初始化 biases</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b = np.zeros(n,)</span><br></pre></td></tr></table></figure>
-<h2 id="5-正则化"><a href="#5-正则化" class="headerlink" title="5. 正则化"></a>5. 正则化</h2><h4 id="L1-正则"><a href="#L1-正则" class="headerlink" title="L1 正则"></a>L1 正则</h4><h4 id="L2正则"><a href="#L2正则" class="headerlink" title="L2正则"></a>L2正则</h4><p><img src="/2019/06/17/deep-learning/nn_cs231n_note/1561037588255.png" alt="1561037588255"></p>
-<p>References:</p>
-<ol>
-<li><a href="https://zhuanlan.zhihu.com/p/21930884" target="_blank" rel="noopener">cs231n课程笔记中文翻译</a></li>
-<li><a href="https://github.com/theBigDataDigest/Stanford-CS231n-assignments-in-Chinese" target="_blank" rel="noopener">cs231n Assignments 解答 - 大数据文摘</a></li>
-<li></li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/06/17/deep-learning/rnn/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joseph.Fan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SAILOR">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/06/17/deep-learning/rnn/" class="post-title-link" itemprop="url">Dropout</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">2019-06-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-02 23:27:40" itemprop="dateModified" datetime="2019-07-02T23:27:40+08:00">2019-07-02</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Recurrent-Neuro-Network"><a href="#Recurrent-Neuro-Network" class="headerlink" title="Recurrent Neuro Network"></a>Recurrent Neuro Network</h2><p><strong>循环神经网络</strong>可以更好地处理序列信息（如一句话），允许记忆信息（在时序上传递输入的有效信息），可以解决长期依赖的问题（Long-term Dependencies）</p>
-<h2 id="RNN结构"><a href="#RNN结构" class="headerlink" title="RNN结构"></a>RNN结构</h2><p><img src="/2019/06/17/deep-learning/rnn/v2-71652d6a1eee9def631c18ea5e3c7605_hd.jpg" alt="img"></p>
-<p><img src="/2019/06/17/deep-learning/rnn/v2-b0175ebd3419f9a11a3d0d8b00e28675_hd.jpg" alt="img"></p>
-<p>$$O_t = g(VS_t)$$                     # 在时间点 t 的输出</p>
-<p>$$S_t = f(UX_t + WS_{t-1})$$     # 在时间点 t 的状态</p>
-<p>W,V,U: 权重</p>
-<p>g,f: 激活函数</p>
-<h4 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h4><p><img src="/2019/06/17/deep-learning/rnn/1562068950392.png" alt="1562068950392"></p>
-<p>输出值 $O_t$ 受前面历次输入值 $x_t, x_{t-1}, x_{t-2}…$ 的影响，相当于一定程度上记忆之前任意时间段的有效信息，从而在时序上累积输入 $X_t$，解决长期依赖问题。</p>
-<p><em>疑问： S作为一个固定大小的矩阵如何记忆有效信息？</em></p>
-<p><img src="/2019/06/17/deep-learning/rnn/2256672-3b20294694c3904b.png" alt="点击查看大图"></p>
-<h2 id="BPTT"><a href="#BPTT" class="headerlink" title="BPTT"></a>BPTT</h2><p>损失函数对权重 $W$ 的梯度是各个时刻梯度之和：</p>
-<p>$$\nabla_W L = \sum_{i=1}^{t} \nabla_{W_i} L$$</p>
-<h2 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h2><p><img src="/2019/06/17/deep-learning/rnn/lstm.png" alt="lstm"></p>
-<h2 id="GRU"><a href="#GRU" class="headerlink" title="GRU"></a>GRU</h2><p><img src="/2019/06/17/deep-learning/rnn/42741-dd3d241fa44a71c0.webp" alt="img"></p>
-<p>References:</p>
-<ol>
-<li><a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="noopener">Understanding-LSTMs colah</a></li>
-<li><a href="https://www.jianshu.com/p/9dc9f41f0b29" target="_blank" rel="noopener">理解LSTM（1的翻译）</a></li>
-<li><a href="https://zybuluo.com/hanbingtao/note/541458" target="_blank" rel="noopener">零基础入门深度学习(5) - 循环神经网络</a></li>
-<li></li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/06/17/deep-learning/dropout/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joseph.Fan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SAILOR">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/06/17/deep-learning/dropout/" class="post-title-link" itemprop="url">Dropout</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">2019-06-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-02 23:51:21" itemprop="dateModified" datetime="2019-07-02T23:51:21+08:00">2019-07-02</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h2><p><img src="/2019/06/17/deep-learning/dropout/nn_cs231n_note/63fcf4cc655cb04f21a37e86aca333cf_hd.png" alt="img"></p>
-<ol>
-<li>Bagging 集成模型，随机抽样神经网络的子集。很多个<strong>共享参数</strong>的子网络组成。</li>
-<li>增强单个神经元<strong>独立学习特征的能力</strong>，减少神经元之间的依赖（避免学习某些固定组合才产生的特征，有意识的让神经网络去学习一些普遍的共性）</li>
-<li>加性噪声</li>
-</ol>
-<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><h4 id="前向传播"><a href="#前向传播" class="headerlink" title="前向传播"></a>前向传播</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dropout_forward</span><span class="params">(X, mode)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">	反向随机失活: 推荐实现方式。</span></span><br><span class="line"><span class="string">	确保某单元的期望输出与没有dropout时期望输出大致相同</span></span><br><span class="line"><span class="string">	在训练的时候drop和调整数值范围，测试时不做任何事.</span></span><br><span class="line"><span class="string">	"""</span></span><br><span class="line">    p = <span class="number">0.5</span> 	<span class="comment"># 激活神经元的概率. p值更高 = 随机失活更弱</span></span><br><span class="line">    </span><br><span class="line">  	<span class="comment"># 神经元以p的概率失活 [0, 1]随机分布 P(rand(x)) &lt; p = p</span></span><br><span class="line">  	<span class="comment"># 第一个随机失活掩码. 注意/p! inverted dropout, 保持当前层输出期望一致</span></span><br><span class="line">  	<span class="keyword">if</span> mode == <span class="string">'train'</span>:</span><br><span class="line">    	mask = (np.random.rand(*H1.shape) &lt; p) / p</span><br><span class="line">  		out = x * mask</span><br><span class="line">    <span class="keyword">elif</span> mode == <span class="string">'test'</span>:</span><br><span class="line">        out = x</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> out, mask</span><br></pre></td></tr></table></figure>
-<h4 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dropout_backward</span><span class="params">(dout, mode, mask)</span>:</span>    </span><br><span class="line">    <span class="keyword">if</span> mode == <span class="string">'train'</span>:</span><br><span class="line">        dx = dout * mask</span><br><span class="line">    <span class="keyword">elif</span> mode == <span class="string">'test'</span>:</span><br><span class="line">        dx = dout</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> dx</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/06/17/deep-learning/optimization/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joseph.Fan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SAILOR">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/06/17/deep-learning/optimization/" class="post-title-link" itemprop="url">Dropout</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">2019-06-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-02 01:32:15" itemprop="dateModified" datetime="2019-07-02T01:32:15+08:00">2019-07-02</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Optimization"><a href="#Optimization" class="headerlink" title="Optimization"></a>Optimization</h2><ul>
-<li><a href="#Optimization">Optimization</a></li>
-<li><a href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0">损失函数</a><ul>
-<li><a href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0-Loss-function--%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0-Cost-function">损失函数 Loss function / 代价函数 Cost function</a></li>
-<li><a href="#%E5%9D%87%E6%96%B9%E6%8D%9F%E5%A4%B1">均方损失</a></li>
-<li><a href="#%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1cross-entropy-loss">交叉熵损失（cross-entropy loss)</a></li>
-<li><a href="#Softmax-%E5%87%BD%E6%95%B0">Softmax 函数</a></li>
-<li><a href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%8F%AF%E8%A7%86%E5%8C%96">损失函数可视化</a></li>
-</ul>
-</li>
-<li><a href="#%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D">梯度下降</a><ul>
-<li><a href="#%E5%85%A8%E5%B1%80%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D-Batch-Gradient-Descent">全局梯度下降　Batch Gradient Descent</a></li>
-<li><a href="#%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8DSGD-Stochastic-Gradient-Descent">随机梯度下降SGD　Stochastic Gradient Descent</a></li>
-<li><a href="#%E5%B0%8F%E6%89%B9%E9%87%8F%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D-%EF%BC%ADini-batch-Gradient-Descent">小批量梯度下降　Ｍini-batch Gradient Descent</a></li>
-<li><a href="#Challange">Challange</a></li>
-</ul>
-</li>
-<li><a href="#%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95">优化算法</a><ul>
-<li><a href="#%E7%89%9B%E9%A1%BF%E6%B3%95">牛顿法</a></li>
-<li><a href="#BFGS-L-BFGS">BFGS, L-BFGS</a></li>
-<li><a href="#%E6%A2%AF%E5%BA%A6%E8%A1%B0%E5%87%8F%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB">梯度衰减(模拟退火)</a></li>
-<li><a href="#%EF%BC%ADomentum">Ｍomentum</a></li>
-<li><a href="#NAG-Neterov-Accelerated-Gradient">NAG Neterov Accelerated Gradient</a></li>
-<li><a href="#Adagrad">Adagrad</a></li>
-<li><a href="#Adadelta">Adadelta</a></li>
-<li><a href="#RMSProp">RMSProp</a></li>
-<li><a href="#Adam">Adam</a></li>
-<li><a href="#Nadam">Nadam</a><ul>
-<li><a href="#%E5%90%84%E7%A7%8D%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%E5%8A%A8%E6%80%81%E5%9B%BE">各种优化方法动态图</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h2><h4 id="损失函数-Loss-function-代价函数-Cost-function"><a href="#损失函数-Loss-function-代价函数-Cost-function" class="headerlink" title="损失函数 Loss function / 代价函数 Cost function"></a>损失函数 Loss function / 代价函数 Cost function</h4><p><img src="/2019/06/17/deep-learning/optimization/03b3eccf18ee3760e219f9f95ec14305_hd.png" alt="img"></p>
-<h4 id="均方损失"><a href="#均方损失" class="headerlink" title="均方损失"></a>均方损失</h4><p>$$L(x)=\sum_{i}(y_i - y_j)^2$$</p>
-<h4 id="交叉熵损失（cross-entropy-loss"><a href="#交叉熵损失（cross-entropy-loss" class="headerlink" title="交叉熵损失（cross-entropy loss)"></a>交叉熵损失（cross-entropy loss)</h4><p>$$L(x)=\sum_{i}p_i\log \frac{1}{q_i}$$</p>
-<p>交叉熵作为代价函数可以避免均方代价函数带来的学习减速(nelson)</p>
-<h4 id="Softmax-函数"><a href="#Softmax-函数" class="headerlink" title="Softmax 函数"></a>Softmax 函数</h4><p><img src="/2019/06/17/deep-learning/optimization/1561034699845.png" alt="1561034699845"></p>
-<p>$$y_i=\frac{e^{z_i}}{\sum_{i}{e^{z_i}}}$$</p>
-<p>Softmax 分类器为每一个分类都提供了“可能性（概率）”</p>
-<p>输出值$z_i$ =&gt; 概率$y_i$</p>
-<p><strong>决策函数</strong>：$$\hat{y}=argmax_{i}(y=y_i|Z)$$  (y所属类别$\hat{y}$)</p>
-<h4 id="损失函数可视化"><a href="#损失函数可视化" class="headerlink" title="损失函数可视化"></a>损失函数可视化</h4><p>颜色越深，损失函数越小</p>
-<p><img src="/2019/06/17/deep-learning/optimization/94dd0714f65ef94b3cbfff4780b1988d_hd.png" alt="img"></p>
-<h2 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h2><p>损失函数 L 的 3D 图：</p>
-<p><img src="/2019/06/17/deep-learning/optimization/1561035128653.png" alt="1561035128653"></p>
-<p>Gradient: 损失函数 L 在某一点的梯度（斜率，一阶导数）</p>
-<p><img src="/2019/06/17/deep-learning/optimization/1561035151992.png" alt="1561035151992"></p>
-<p><img src="/2019/06/17/deep-learning/optimization/v2-bcdf4fdd7d2f7a8784a2cfe098f14a8c_r-1561050312112.jpg" alt="preview"></p>
-<p>梯度下降法：某一点沿着斜坡在当前点梯度最大的方向($f’(x)​$)移动一个步长(learning rate)，在下一次更新中就会更接近最小点。</p>
-<p>$$w = w - \eta dw$$</p>
-<p><img src="/2019/06/17/deep-learning/optimization/d8b52b9b9ca31e2132c436c39af2943c_hd.jpg" alt="img"></p>
-<p>白箭头为（负梯度方向），是损失函数下降最陡峭的方向。沿着梯度方向逐步下降更新参数，就是深度学习中的梯度下降学习方法。</p>
-<p><img src="/2019/06/17/deep-learning/optimization/1561186124221.png" alt="1561186124221"></p>
-<h4 id="全局梯度下降-Batch-Gradient-Descent"><a href="#全局梯度下降-Batch-Gradient-Descent" class="headerlink" title="全局梯度下降　Batch Gradient Descent"></a>全局梯度下降　Batch Gradient Descent</h4><p>$$\theta = \theta-\eta \nabla_{\theta} J(\theta)$$</p>
-<p>优点：保证每次更新梯度都朝着正确的方向进行，保证收敛到局部最小点</p>
-<p>缺点：每次需计算整个训练集数据，成本比较高</p>
-<h4 id="随机梯度下降SGD-Stochastic-Gradient-Descent"><a href="#随机梯度下降SGD-Stochastic-Gradient-Descent" class="headerlink" title="随机梯度下降SGD　Stochastic Gradient Descent"></a>随机梯度下降SGD　Stochastic Gradient Descent</h4><p>$$\theta = \theta-\eta \nabla_{\theta} J(\theta;x_i,y_i)$$</p>
-<p>优点：每次只选择一个样本来学习，成本低，可以进行在线更新; 不容易陷入某个局部</p>
-<p>缺点：优化过程中波动较大，收敛速度慢；可能在沟壑两边持续震荡，停留在一个局部最优点</p>
-<h4 id="小批量梯度下降-Mini-batch-Gradient-Descent"><a href="#小批量梯度下降-Mini-batch-Gradient-Descent" class="headerlink" title="小批量梯度下降　Ｍini-batch Gradient Descent"></a>小批量梯度下降　Ｍini-batch Gradient Descent</h4><p>$$\theta = \theta-\eta \nabla_{\theta} J(\theta;x_{i:i+n},y_{i,i+n})$$</p>
-<p>n的大小通常为50-256</p>
-<p>优点：相对于随机梯度下降(SGD)，降低收敛波动性（降低参数更新的方差），使得收敛过程更加稳定。相对于全量梯度下降，提高了每次学习的速度。</p>
-<h4 id="Challange"><a href="#Challange" class="headerlink" title="Challange"></a>Challange</h4><ul>
-<li><strong>学习速率</strong>的选择，过小则收敛很慢，过大则在极值点附近震荡</li>
-<li>学习速率调整（模拟退火）一般使用事先设定的策略或者每次迭代中衰减一个阈值。都需要事先固定设置，无法<strong>自适应</strong>数据集的特点</li>
-<li>所有的<strong>参数每次更新都使用相同的学习速率</strong>。如果数据特征稀疏或者取值空间分布不同，就不应该使用同样的学习速率，对于很少出现的特征应该使用一个较大的学习速率</li>
-<li>对于非凸损失函数，容易陷入局部最小点，更严重的问题在于<strong>鞍点</strong>，附近点的梯度在所有维度上都接近于０</li>
-</ul>
-<h2 id="优化算法"><a href="#优化算法" class="headerlink" title="优化算法"></a>优化算法</h2><h4 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h4><p>$x = x -[Hf(x)]^{-1}\nabla f(x)$</p>
-<p>$Hf(x)$: Hessian 矩阵，描述损失函数的局部曲率</p>
-<p>$[Hf(x)]^{-1}$让最优化过程在曲率小的时候大步前进，在曲率大的时候小步前进</p>
-<p>而且，没有学习率这个超参数</p>
-<p>但是，Hessian矩阵计算成本很高</p>
-<h4 id="BFGS-L-BFGS"><a href="#BFGS-L-BFGS" class="headerlink" title="BFGS, L-BFGS"></a>BFGS, L-BFGS</h4><h4 id="梯度衰减-模拟退火"><a href="#梯度衰减-模拟退火" class="headerlink" title="梯度衰减(模拟退火)"></a>梯度衰减(模拟退火)</h4><ul>
-<li><p>随步数减半：没５个周期减半，每20个周期减少到之前0.1</p>
-</li>
-<li><p>指数衰减：$\alpha=\alpha_{0}e^{-kt}$</p>
-</li>
-<li>1/t衰减：$\alpha=\frac{\alpha_0}{1+kt}$</li>
-</ul>
-<h4 id="Momentum"><a href="#Momentum" class="headerlink" title="Ｍomentum"></a>Ｍomentum</h4><p>累积之前的下降方向，并略微偏向当前时刻的下降方向</p>
-<p><img src="/2019/06/17/deep-learning/optimization/1561186187105.png" alt="1561186187105"></p>
-<p>引入动量，<strong>累积之前的动量(梯度的指数衰减)</strong>，速度越来越快。</p>
-<p>$$v_t = \gamma v_{t-1} + \eta \nabla_\theta J(\theta)$$</p>
-<p>$$\theta = \theta - v_t$$</p>
-<p>$$\gamma$$通常使用0.9</p>
-<p>加上动量后，就像从山顶往下滚的球。更新过程中，与上一次梯度方向相同的参数更新加强，在这个方向下降更快；与上一次梯度方向不同的参数更新减弱，在这个方向下降减慢。因此获得更快的收敛速度并减少震荡。</p>
-<p><img src="/2019/06/17/deep-learning/optimization/1561196522519.png" alt="1561196522519"></p>
-<h4 id="NAG-Neterov-Accelerated-Gradient"><a href="#NAG-Neterov-Accelerated-Gradient" class="headerlink" title="NAG Neterov Accelerated Gradient"></a>NAG Neterov Accelerated Gradient</h4><p>往标准动量方法添加一个修正因子(当前梯度衰减$\eta v_{t-1}$)，阻止过快更新</p>
-<p>$$v_t = \gamma v_{t-1} + \eta \nabla_\theta J(\theta-\gamma v_{t-1})$$</p>
-<p>$$\theta = \theta - v_t$$</p>
-<p><img src="/2019/06/17/deep-learning/optimization/nesterov_update_vector.png" alt="SGD fluctuation"></p>
-<p>核心思路：</p>
-<p>当参数向量位于某个位置ｘ时，动量部分衰减$\gamma v_{t-1}$，向前一步$\theta-\gamma v_{t-1}$得到下一步要到达的位置，<strong>向前看</strong>在<strong>下一步</strong>的位置计算梯度。<img src="/2019/06/17/deep-learning/optimization/412afb713ddcff0ba9165ab026563304_hd.png" alt="img"></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x_ahead = x + mu * v</span><br><span class="line"><span class="comment"># 计算dx_ahead(在x_ahead处的梯度，而不是在x处的梯度)</span></span><br><span class="line">v = mu * v - learning_rate * dx_ahead</span><br><span class="line">x += v</span><br></pre></td></tr></table></figure>
-<p><strong>通过上面的两种方法，可以做到每次学习过程中能够根据损失函数的斜率做到自适应更新来加速SGD的收敛</strong>。</p>
-<p>接下来引入二阶动量，希望同时解决<strong>不同参数应该使用不同学习速率的问题</strong>。对于经常更新的参数，我们已经积累了大量关于它的知识，不希望被单个样本影响太大，希望学习速率慢一些；对于偶尔更新的参数，我们了解的信息太少，希望能从每个偶然出现的样本身上多学一些，即学习速率大一些。</p>
-<p>怎么样去度量历史更新频率呢？</p>
-<p>那就是二阶动量——该维度上，迄今为止所有梯度值的平方和：</p>
-<p>$$V_t=\sum_{\tau=1}^{t} g_{\tau}^2$$</p>
-<h4 id="Adagrad"><a href="#Adagrad" class="headerlink" title="Adagrad"></a>Adagrad</h4><p><strong>累积平方梯度</strong></p>
-<p>$$g_{t} = \nabla_{\theta} J(\theta)$$</p>
-<p>$$r=r + g \odot g$$</p>
-<p>$$\theta_{t+1}=\theta_{t}-\frac{\eta}{\sqrt{r+\epsilon}}\odot g$$</p>
-<p>优点：</p>
-<ul>
-<li><p>适合处理稀疏梯度。自适应不同的学习速率，对稀疏特征，得到更大的学习更新；对非稀疏特征，得到更小的学习更新　　特征出现越多，累积平方梯度ｒ越大，分母$\sqrt{r+\epsilon}$越大，更新越慢</p>
-</li>
-<li><p>前期$g_t$较小，校正因子较大，能够放大梯度，累积势越小，更新越快</p>
-</li>
-<li><p>后期$g_t$较大，校正因子较大，能够约束梯度，累积势越大，更新越慢</p>
-</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>依赖学习速率</li>
-<li>学习速率$\eta$不能过大，否则导致对梯度调节过大</li>
-<li>单调的学习率被证明通常<strong>过于激进且过早停止学习</strong>。后期如果梯度的平方累积($r$)过大，导致更新很小，接近于０，使得训练提前结束</li>
-</ul>
-<p>由于AdaGrad单调递减的学习率变化过于激进，我们考虑一个改变二阶动量计算方法的策略：不累积全部历史梯度，而只关注过去一段时间窗口的下降梯度。这也就是AdaDelta名称中Delta的来历。</p>
-<p>引入指数移动平均值：</p>
-<p>$$r_t=\gamma r_{t-1}+(1-\gamma)g_{t}^2$$</p>
-<h4 id="Adadelta"><a href="#Adadelta" class="headerlink" title="Adadelta"></a>Adadelta</h4><p>对Adagrad的扩展</p>
-<p>$$g_{t} = \nabla_{\theta} J(\theta)$$</p>
-<p>$$r=\gamma r + (1-\gamma) g \odot g$$</p>
-<p>$$g’<em>t=\sqrt{\frac{\Delta x</em>{t-1} +\epsilon}{r+\epsilon}}\odot g$$                   # 使用<strong>状态变量$\Delta x_{t-1}$替代学习速率$\eta$</strong></p>
-<p>$$\theta_{t+1}=\theta_{t}-g’_t$$</p>
-<p>$$\Delta x_t=\gamma \Delta x_{t-1}+(1-\gamma)g’_t\odot g’<em>t $$   # 使用$\Delta x</em>{t-1}$记录自变量变化量$g′_t$按元素平方的指数加权移动平均</p>
-<p>优点：</p>
-<ul>
-<li>不再依赖学习率，使用梯度平方的指数加权累积得到状态变量$\Delta x_{t-1}$替代学习速率$\eta$</li>
-<li>训练初中期，加速效果好</li>
-<li>训练后期，反复在局部最小值附近抖动</li>
-</ul>
-<h4 id="RMSProp"><a href="#RMSProp" class="headerlink" title="RMSProp"></a>RMSProp</h4><p><strong>累积指数加权的平方梯度</strong></p>
-<p>$$E[g^2]<em>t=\gamma E[g^2]</em>{t-1}+(1-\gamma)g_t^2$$          # 梯度平方的滑动平均</p>
-<p>$$\theta_{t-1}=\theta_{t} - \frac{\eta}{\sqrt{E[g^2]_t+\epsilon}}\odot g_t$$</p>
-<p>$\gamma=0.9, \eta=0.001$</p>
-<ul>
-<li>RMSProp 是 Adagrad 的一种发展，和 Adadelta 的变体，效果趋于二者之间，<strong>降低了 Adagrad 中学习速率衰减过快</strong>的问题</li>
-<li>适合处理非平稳目标（RNN）</li>
-</ul>
-<p>接下来，整合前面所有方法，就得到 Adam。SGD-Momentum 在 SGD 的基础上增加了一阶动量，AdaGrad 和 AdaDelta 在 SGD 的基础上增加了二阶动量。结合一阶动量和二阶动量，就是 Adam (Adaptive+Momentum). 再加上 Neterov，就是 Nadam。</p>
-<h4 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h4><p>Adaptive Moment Estimation(Adam)</p>
-<p><strong>累积指数加权的梯度和平方梯度</strong></p>
-<p>$$m_t=\beta_1 m_{t-1} + (1-\beta_1)g_t$$   # 一阶累积</p>
-<p>$$r_t = \beta_2 r_{t-1} + (1-\beta_2)g_{t}^2$$　　# 二阶累积</p>
-<p>$$\hat{m_t}=\frac{m_t}{1-\beta_1^t}$$　　　　　　　　　# 校正因子，$m_t$接近与０(初始0, $\beta$ 接近１)</p>
-<p>$$\hat{v_t}=\frac{v_t}{1-\beta_2^t}$$</p>
-<p>$$\theta_{t+1}=\theta_t - \eta\frac{\hat{m_t}}{\sqrt{\hat{v_t} + \epsilon}}$$</p>
-<p>$\beta_1=0.9,\beta_2=0.999,\epsilon=10^{-8}$</p>
-<h4 id="Nadam"><a href="#Nadam" class="headerlink" title="Nadam"></a>Nadam</h4><p>$$g_t=\nabla_{\theta_t} J(\theta_t - m_t)$$</p>
-<p>优点：</p>
-<ul>
-<li>结合 Adagrad 善于处理稀疏梯度和 RMSProp 善于处理非平稳目标的问题</li>
-<li>适用于大数据集和高维空间</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>二阶动量是固定时间窗口内的累积，随着时间窗口的变化，遇到的数据可能发生巨变，使得 <img src="/2019/06/17/deep-learning/optimization/equation.svg" alt="[公式]"> 可能会时大时小，不是单调变化。这就可能在训练后期引起学习率的震荡，导致模型无法收敛。</li>
-<li>可能错过全局最优解</li>
-</ul>
-<p><em>cs231n: The two recommended updates to use are either SGD+Nesterov Momentum or Adam</em></p>
-<h3 id="各种优化方法动态图"><a href="#各种优化方法动态图" class="headerlink" title="各种优化方法动态图"></a>各种优化方法动态图</h3><p><img src="http://ruder.io/content/images/2016/09/contours_evaluation_optimizers.gif" alt="SGD without momentum"></p>
-<p> Adagrad、Adadelta与RMSprop在损失曲面上能够立即转移到正确的移动方向上达到快速的收敛。而Momentum 与NAG会导致偏离(off-track)。同时NAG能够在偏离之后快速修正其路线，因为其根据梯度修正来提高响应性</p>
-<p><img src="/2019/06/17/deep-learning/optimization/20160909001936276" alt="saddle_point_evaluation_optimizers"></p>
-<p>从上图可以看出，在鞍点（saddle points）处(即某些维度上梯度为零，某些维度上梯度不为零)，SGD、Momentum与NAG一直在鞍点梯度为零的方向上振荡，很难打破鞍点位置的对称性；Adagrad、RMSprop与Adadelta能够很快地向梯度不为零的方向上转移。<br>   从上面两幅图可以看出，自适应学习速率方法(Adagrad、Adadelta、RMSprop与Adam)在这些场景下具有更好的收敛速度与收敛性。</p>
-<p>References:</p>
-<ol>
-<li><a href="http://ruder.io/optimizing-gradient-descent/index.html" target="_blank" rel="noopener">An overview of gradient descent optimization algorithms</a></li>
-<li><a href="https://blog.csdn.net/heyongluoyao8/article/details/52478715" target="_blank" rel="noopener">梯度下降优化算法综述(1的翻译)</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/32230623" target="_blank" rel="noopener">一个框架看懂优化算法之异同 SGD/AdaGrad/Adam - Juliuszh的文章 - 知乎</a></li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/04/29/statitics/estimate/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joseph.Fan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SAILOR">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/29/statitics/estimate/" class="post-title-link" itemprop="url">无偏估计和有偏估计</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-29 22:43:59" itemprop="dateCreated datePublished" datetime="2019-04-29T22:43:59+08:00">2019-04-29</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/03/25/statitics/entropy/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joseph.Fan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SAILOR">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/25/statitics/entropy/" class="post-title-link" itemprop="url">entropy</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-25 23:18:46" itemprop="dateCreated datePublished" datetime="2019-03-25T23:18:46+08:00">2019-03-25</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-20 11:29:28" itemprop="dateModified" datetime="2019-07-20T11:29:28+08:00">2019-07-20</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/math/" itemprop="url" rel="index"><span itemprop="name">math</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="信息量"><a href="#信息量" class="headerlink" title="信息量"></a>信息量</h3><p>信息量是对事件发生概率的度量</p>
-<p>$log\frac{1}{p}​$</p>
-<p>一个事件发生的概率越低，则这个事件包含的信息量越大，比如说越稀奇新闻包含的信息量越大，因为这种新闻出现的概率低。</p>
-<p>引用：一本五十万字的中文书平均有多少信息量？（$\log_2m$）  《数学之美 -  吴军》<br>我们知道常用的汉字（一级二级国标）大约有 7000 字。假如每个字等概率，那么我们大约需要 13 个比特（即 13 位二进制数）表示一个汉字［这里把汉字作为一个随机变量，那么汉字系统的熵就是约13bit］ 。但汉字的使用是不平衡的。实际上，前 10% 的汉字占文本的 95% 以上。因此，即使不考虑上下文的相关性，而只考虑每个汉字的独立的概率，那么，每个汉字的信息熵大约也只有 8-9 个比特。如果我们再考虑上下文相关性，每个汉字的信息熵［其实指的是汉字变量取特定汉字作为值时候具有的信息量］ 只有5比特左右。所以，一本五十万字的中文书，信息量大约是 250 万比特［这个时候的信息量就是每个汉字的信息量和数目相乘，指的都是汉字变量取具体值的信息量］ 。如果用一个好的算法压缩一下，整本书可以存成一个 320KB 的文件。如果我们直接用两字节的国标编码存储这本书，大约需要 1MB 大小，是压缩文件的三倍。这两个数量的差距，在信息论中称作“冗余度”（redundancy)。 需要指出的是我们这里讲的 250 万比特是个平均数，同样长度的书，所含的信息量可以差很多。如果一本书重复的内容很多，它的信息量就小，冗余度就大。</p>
-<h3 id="熵（Entropy）"><a href="#熵（Entropy）" class="headerlink" title="熵（Entropy）"></a>熵（Entropy）</h3><p><strong>信息论中，熵是接收每条消息中包含的信息量($\log\frac{1}{p}$)的平均值。</strong></p>
-<p>熵定义为<strong>信息的期望值</strong>（香农 shannon）：</p>
-<p>$$\begin{align} H(X) &amp; = E[I(X)] \ &amp; = E[log(\frac{1}{P(X)})]  \ &amp; = -\sum\limits_{i}^n P(x_i)logP(x_i)\end{align} $$</p>
-<p>表示样本的不确定性量度。在信息世界，熵越高，则能传输越多的信息，熵越低，则意味着传输的信息越少。</p>
-<p>单位：</p>
-<p>熵的单位通常为比特, bit 或者sh(annon) (基于2)，但也用nat(基于自然对数)、Hart（基于10）计量，取决于定义用到对数的底。</p>
-<ul>
-<li>离散均匀分布</li>
-</ul>
-<p>$H(X)=log_2{m}$</p>
-<p>例：抛掷三枚硬币</p>
-<p>信息量：可以得到$2^3=8$种情况</p>
-<p>不确定性：$log_2{8}=3\ bit$</p>
-<ul>
-<li>离散分布</li>
-</ul>
-<p>$H(X)=\sum\limits_{i}^nP(x_i)log\frac{1}{P(x_i)}$</p>
-<p>例：选项ABCD</p>
-<p>信息量：$H(X)=\sum\limits_{i}^n\frac{1}{4}log_2(\frac{1}{4})=2 bit$</p>
-<p>给定A是错的，信息量变为：$H(X)=\sum\limits_{i}^n\frac{1}{3}log_2(\frac{1}{3})=1.585 bit$</p>
-<p>“A是错的”，提供了$2-1.585=0.415bit​$的信息</p>
-<p>例：编码</p>
-<p>分布p=(1/2, 1/2, 0, 0)，即A和B出现的概率均为1/2，C和D出现的概率都为0。计算H(p)为1，即只需要1位编码即可识别A和B</p>
-<p>分布q=(1/4, 1/4, 1/4, 1/4)来编码则得到H(q)=2，即需要2位编码来识别A和B，还有C和D</p>
-<h3 id="交叉熵"><a href="#交叉熵" class="headerlink" title="交叉熵"></a><a href="https://zh.wikipedia.org/wiki/%E4%BA%A4%E5%8F%89%E7%86%B5" target="_blank" rel="noopener">交叉熵</a></h3><p><strong>使用分布 q 来预测真实分布 p 的平均编码长度</strong></p>
-<p>$H(p,q)= E_p[\log  \frac{1}{q(i)}] = \sum\limits_{i}^{} p(i)*log\frac{1}{q(i)} $</p>
-<p>交叉熵可以看作每个信息片段在错误分布 q 下的期望编码位长度，而信息实际分布为 p。</p>
-<p>现有关于样本集的2个概率分布p和q，其中p为真实分布，q预测分布。</p>
-<p>按照真实分布p来衡量识别一个样本的所需要的编码长度的期望(即平均编码长度)为：$H(p)=\sum\limits_{i}^{} p(i)*log\frac{1}{p(i)}$</p>
-<p>使用预测分布q来表示来自真实分布p的平均编码长度，则应该是：$H(p,q)=\sum\limits_{i}^{} p(i)*log\frac{1}{q(i)} $</p>
-<p>因为用q来编码的样本来自实际分布p，所以期望H(p,q)中概率是p(i)。H(p,q)我们称之为“交叉熵”。</p>
-<p>比如含有4个字母(A,B,C,D)的数据集中，真实分布p=(1/2, 1/2, 0, 0)，即A和B出现的概率均为1/2，C和D出现的概率都为0，计算H(p)为1，即只需要1位编码即可识别A和B。如果使用分布Q=(1/4, 1/4, 1/4, 1/4)来编码则得到H(p,q)=2，即需要2位编码来识别A和B(C和D并不会出现)。</p>
-<p>根据非真实分布q得到的平均编码长度H(p,q)大于根据真实分布p得到的平均编码长度H(p)。事实上，根据<a href="https://link.zhihu.com/?target=https%3A//en.wikipedia.org/wiki/Gibbs%2527_inequality" target="_blank" rel="noopener">Gibbs’ inequality</a>可知，H(p,q)&gt;=H(p)恒成立，当q为真实分布p时取等号。</p>
-<h3 id="KL散度（相对熵）"><a href="#KL散度（相对熵）" class="headerlink" title="KL散度（相对熵）"></a>KL散度（相对熵）</h3><p><strong>衡量分布 p 和 q 的差异，使用分布 q 来近似分布 p</strong>　　$D_{KL}(p||q) \ge 0$</p>
-<p><img src="/2019/03/25/statitics/entropy/1562775971102.png" alt="1562775971102"></p>
-<p>$D_{KL}(p||q)=E_{x ~ p}[\frac{\log p(i)}{\log q(i)}]=H(p,q)-H(p) = \sum\limits_{i}^{} p(i)<em>\log\frac{1}{q(i)} - \sum\limits_{i}^{} p(i) </em>\log\frac{1}{p(i)} = \sum\limits_{i}^{} p(i)*\log\frac{p(i)}{q(i)}$</p>
-<p>我们将由q得到的平均编码长度比由p得到的平均编码长度多出的bit数称为“相对熵”，又被称为KL散度(Kullback–Leibler divergence，KLD) <a href="https://link.zhihu.com/?target=https%3A//en.wikipedia.org/wiki/Kullback%25E2%2580%2593Leibler_divergence" target="_blank" rel="noopener">Kullback–Leibler divergence</a>。它表示2个函数或概率分布的差异性：差异越大则相对熵越大，差异越小则相对熵越小，二者分布相同则相对熵为0。</p>
-<p>可以得到，交叉熵 $H(p,q)= E_p[\log  \frac{1}{q(i)}] = H(p) + D_{KL}(p||q)$</p>
-<p>其中 $H(p)$ 是 $p$ 的<a href="https://zh.wikipedia.org/wiki/%E4%BF%A1%E6%81%AF%E7%86%B5" target="_blank" rel="noopener">熵</a>，$D_{KL}(p|q)$ 是从 $p$ 到 $q$ 的<a href="https://zh.wikipedia.org/w/index.php?title=KL%E6%95%A3%E5%BA%A6&amp;action=edit&amp;redlink=1" target="_blank" rel="noopener">KL散度</a>(也被称为<em>p</em>相对于<em>q</em>的<em>相对熵</em>)。</p>
-<p>通常“相对熵”也可称为“交叉熵”，因为真实分布p是固定的，D(p||q)由H(p,q)决定。当然也有特殊情况，彼时2者须区别对待。</p>
-<h3 id="交叉熵作为损失函数"><a href="#交叉熵作为损失函数" class="headerlink" title="交叉熵作为损失函数"></a>交叉熵作为损失函数</h3><p>交叉熵可在神经网络(机器学习)中作为损失函数，p表示真实标记的分布，q则为训练后的模型的预测标记分布，交叉熵损失函数可以衡量p与q的相似性。</p>
-<p>交叉熵和均方误差都可以作为神经网络的损失函数，他们的区别在于：</p>
-<ol>
-<li>交叉熵适用于分类问题，结果是离散的类别（如图片分类），而均方误差适用于回归问题，结果是一个连续的数值（如雨量预测）【实际上均方误差也可以用于分类问题】</li>
-<li>在使用 sigmod 激活函数时，如果使用均方误差作为损失函数，反向传播的导数（直接影响学习速度）会包含 sigmod函数的梯度，这个梯度随着变量的增大会趋向于0，导致学习速度迅速降低(梯度消失)；而如果使用交叉熵作为损失函数，就不存在这个问题，反向传播的导数包含 sigmod 函数，而不包含 sigmod 函数的导数。</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># softmax_cross_entropy_with_logits计算后，矩阵的每一行数据计算出一个交叉熵，三行数据共计算出三个交叉熵</span></span><br><span class="line">cross_entropy_lst = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y_)</span><br><span class="line"><span class="comment"># 通过reduce_sum进行累加，计算出一个batch的交叉熵</span></span><br><span class="line">cross_entropy = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y_))</span><br><span class="line"><span class="comment"># 将batch里每条记录的交叉熵求均值，作为损失</span></span><br><span class="line">cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y_))</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">[ <span class="number">0.40760595</span>  <span class="number">0.40760595</span>  <span class="number">0.40760595</span>]</span><br><span class="line"><span class="number">1.22282</span></span><br><span class="line"><span class="number">0.407606</span></span><br></pre></td></tr></table></figure>
-<p>References:</p>
-<ul>
-<li><a href="https://www.zhihu.com/question/41252833" target="_blank" rel="noopener">https://www.zhihu.com/question/41252833</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E4%BA%A4%E5%8F%89%E7%86%B5" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E4%BA%A4%E5%8F%89%E7%86%B5</a></li>
-<li><a href="https://www.jianshu.com/p/92220ab37ea3" target="_blank" rel="noopener">https://www.jianshu.com/p/92220ab37ea3</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2526,7 +2357,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2545,7 +2376,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">分类</span>
                   
                 </div>
@@ -2568,7 +2403,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>

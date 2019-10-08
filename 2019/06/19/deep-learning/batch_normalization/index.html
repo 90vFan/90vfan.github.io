@@ -108,7 +108,7 @@
 <meta property="og:image" content="http:/2019/06/19/deep-learning/batch_normalization/1560779531173.png">
 <meta property="og:image" content="http:/2019/06/19/deep-learning/batch_normalization/BNcircuit-1561283729951.png">
 <meta property="og:image" content="http:/2019/06/19/deep-learning/batch_normalization/1560779531173.png">
-<meta property="og:updated_time" content="2019-07-02T17:14:38.478Z">
+<meta property="og:updated_time" content="2019-10-08T17:30:37.222Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Batch Normalization">
 <meta name="twitter:description" content="Batch Normalization批量归一化可以理解为在网络的每一层之前都做预处理，减少之前网络权重对数据的影响，保持每一层输出数据的分布（均值和标准差），使输出适应下一层网络，也使得每一层数据相对独立。  Internal Co-variate ShiftReference: Batch Normalization原理与实战 随着训练的进行，网络中的参数也随着梯度下降在不停更新。一方面，当底">
@@ -392,7 +392,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-03 01:14:38" itemprop="dateModified" datetime="2019-07-03T01:14:38+08:00">2019-07-03</time>
+                <time title="修改时间：2019-10-09 01:30:37" itemprop="dateModified" datetime="2019-10-09T01:30:37+08:00">2019-10-09</time>
               
             
           </span>
@@ -495,7 +495,7 @@
 <p><img src="/2019/06/19/deep-learning/batch_normalization/1560779531173.png" alt="1560779531173"></p>
 <p>损失函数对$y_i$的梯度为 $\frac{\partial L}{\partial y_i}$，由　$y_i = \gamma \hat{x_i} + \beta$ 得到：</p>
 <p>$$\frac{\partial L}{\partial \beta} = \sum_{i=1}^{N} \frac{\partial L}{\partial y_i}$$</p>
-<p>$$\frac{\partial L}{\partial \gamma} = \sum_{i=1}^{N} \frac{\partial L}{\partial y_i} \hat{x_i}​$$</p>
+<p>$$\frac{\partial L}{\partial \gamma} = \sum_{i=1}^{N} \frac{\partial L}{\partial y_i} \hat{x_i}$$</p>
 <p>$$\frac{\partial L}{\partial \hat{x_i}} = \frac{\partial L}{\partial y_i} \gamma$$</p>
 <p>$$\frac{\partial L}{\partial \mu} = \frac{\partial L}{\partial \hat{x_i}} \frac{\partial \hat{x_i}}{\partial \mu} +  \frac{\partial L}{\partial \sigma^2} \frac{\partial {\sigma^2}}{\partial \mu}  \  =  -\frac{\partial L}{\partial \hat{x_i}} \frac{1}{\sqrt{\sigma^2 + \epsilon}} + \frac{\partial L}{\partial \sigma^2} (- \frac{2}{N} \sum_{i=1}^{N} (x_i-\mu)) $$</p>
 <p>$$\frac{\partial L}{\partial \sigma^2} =  \frac{\partial L}{\partial \hat{x_i}} \frac{\partial \hat{x_i}}{\partial \sigma^2} \  = \frac{\partial L}{\partial \hat{x_i}} (-\frac{1}{2} )({\sigma^2+\epsilon})^{-\frac{3}{2}}$$</p>
@@ -627,7 +627,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -646,7 +646,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">分类</span>
                   
                 </div>
@@ -669,7 +673,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>

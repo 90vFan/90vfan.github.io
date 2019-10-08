@@ -96,17 +96,17 @@
 
 
 
-  <meta name="description" content="Beyes$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}​$$ H: hyposis 假设事件，D: data 数据  $P(H|D)$ : 后验概率, the probability of observing event H given that D is true $P(H)​$ : 先验概率, the probability of observing ev">
+  <meta name="description" content="Beyes$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}$$ H: hyposis 假设事件，D: data 数据  $P(H|D)$ : 后验概率, the probability of observing event H given that D is true $P(H)$ : 先验概率, the probability of observing even">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Statistic">
 <meta property="og:url" content="http:/2019/01/06/statitics/Statistics/index.html">
 <meta property="og:site_name" content="SAILOR">
-<meta property="og:description" content="Beyes$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}​$$ H: hyposis 假设事件，D: data 数据  $P(H|D)$ : 后验概率, the probability of observing event H given that D is true $P(H)​$ : 先验概率, the probability of observing ev">
+<meta property="og:description" content="Beyes$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}$$ H: hyposis 假设事件，D: data 数据  $P(H|D)$ : 后验概率, the probability of observing event H given that D is true $P(H)$ : 先验概率, the probability of observing even">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-29T14:43:59.497Z">
+<meta property="og:updated_time" content="2019-10-08T17:30:37.250Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Statistic">
-<meta name="twitter:description" content="Beyes$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}​$$ H: hyposis 假设事件，D: data 数据  $P(H|D)$ : 后验概率, the probability of observing event H given that D is true $P(H)​$ : 先验概率, the probability of observing ev">
+<meta name="twitter:description" content="Beyes$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}$$ H: hyposis 假设事件，D: data 数据  $P(H|D)$ : 后验概率, the probability of observing event H given that D is true $P(H)$ : 先验概率, the probability of observing even">
 
 
 
@@ -386,7 +386,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-29 22:43:59" itemprop="dateModified" datetime="2019-04-29T22:43:59+08:00">2019-04-29</time>
+                <time title="修改时间：2019-10-09 01:30:37" itemprop="dateModified" datetime="2019-10-09T01:30:37+08:00">2019-10-09</time>
               
             
           </span>
@@ -427,15 +427,32 @@
       
 
       
-        <h3 id="Beyes"><a href="#Beyes" class="headerlink" title="Beyes"></a>Beyes</h3><p>$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}​$$</p>
+        <h2 id="Beyes"><a href="#Beyes" class="headerlink" title="Beyes"></a>Beyes</h2><p>$$P(H|D) = \frac{P(H) \cdot P(D|H)}{P(D)}$$</p>
 <p>H: hyposis 假设事件，D: data 数据</p>
 <ul>
 <li>$P(H|D)$ : 后验概率, the probability of observing event H given that D is true</li>
-<li>$P(H)​$ : 先验概率, the probability of observing event H</li>
+<li>$P(H)$ : 先验概率, the probability of observing event H</li>
 <li>$P(D|H)$: 似然度　</li>
 <li>$P(D)$ :   the probability of data D</li>
 </ul>
-<p>例：在判断垃圾邮件的算法中:<br>  $P(H)​$ : 所有邮件中，垃圾邮件的概率。<br>  $P(D)​$ : 出现某个单词的概率。<br>  $P(D|H)​$ : 垃圾邮件中，出现某个单词的概率。<br>  $P(H|D)​$ : 出现某个单词的邮件，是垃圾邮件的概率。</p>
+<p>例：在判断垃圾邮件的算法中:<br>  $P(H)$ : 所有邮件中，垃圾邮件的概率。<br>  $P(D)$ : 出现某个单词的概率。<br>  $P(D|H)$ : 垃圾邮件中，出现某个单词的概率。<br>  $P(H|D)$ : 出现某个单词的邮件，是垃圾邮件的概率。</p>
+<h2 id="概率是已知模型和参数，推数据。统计是已知数据，推模型和参数。"><a href="#概率是已知模型和参数，推数据。统计是已知数据，推模型和参数。" class="headerlink" title="概率是已知模型和参数，推数据。统计是已知数据，推模型和参数。"></a>概率是已知模型和参数，推数据。统计是已知数据，推模型和参数。</h2><p>$P(x|\theta)$</p>
+<p>如果$\theta$是已知确定的，$x$是变量，这个函数叫做概率函数(probability function)，它描述不同的样本点$x$出现概率是多少。</p>
+<p>如果$x$是已知确定的，$\theta$是变量，这个函数叫做似然函数(likelihood function), 它描述对于不同的模型参数$\theta$，出现$x$这个样本点的概率是多少</p>
+<h2 id="判别模型和生成模型"><a href="#判别模型和生成模型" class="headerlink" title="判别模型和生成模型"></a>判别模型和生成模型</h2><ul>
+<li>判别模型，判别y类型，学习条件分布$P(y|x)$</li>
+<li>生成模型，生成y分布，学习联合分布$P(x, y)$，使用贝叶斯定理得出结论$P(y|x)$</li>
+</ul>
+<p>两个小朋友判断图片是的动物是狮子还是大象</p>
+<ol>
+<li>A小朋友画出两只动物，表示图片和狮子更像，<strong>生成模型</strong></li>
+<li>B小朋友根据鼻子体型等特征，判断图片是狮子，<strong>判别模型</strong></li>
+</ol>
+<p>References:</p>
+<ol>
+<li><a href="https://blog.csdn.net/u011508640/article/details/72815981" target="_blank" rel="noopener">https://blog.csdn.net/u011508640/article/details/72815981</a></li>
+<li></li>
+</ol>
 
       
     </div>
@@ -544,7 +561,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -563,7 +580,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">分类</span>
                   
                 </div>
@@ -586,7 +607,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
@@ -622,7 +643,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Beyes"><span class="nav-number">1.</span> <span class="nav-text">Beyes</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Beyes"><span class="nav-number">1.</span> <span class="nav-text">Beyes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率是已知模型和参数，推数据。统计是已知数据，推模型和参数。"><span class="nav-number">2.</span> <span class="nav-text">概率是已知模型和参数，推数据。统计是已知数据，推模型和参数。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判别模型和生成模型"><span class="nav-number">3.</span> <span class="nav-text">判别模型和生成模型</span></a></li></ol></div>
             
 
           </div>
