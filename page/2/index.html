@@ -323,234 +323,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http:/2019/06/19/deep-learning/batch_normalization/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Joseph.Fan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SAILOR">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/06/19/deep-learning/batch_normalization/" class="post-title-link" itemprop="url">Batch Normalization</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-06-19 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-19T00:00:00+08:00">2019-06-19</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-10-09 01:30:37" itemprop="dateModified" datetime="2019-10-09T01:30:37+08:00">2019-10-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/dl/" itemprop="url" rel="index"><span itemprop="name">dl</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h2><p>批量归一化可以理解为在网络的每一层之前都做预处理，减少之前网络权重对数据的影响，保持每一层输出数据的分布（均值和标准差），使输出适应下一层网络，也使得每一层数据相对独立。</p>
-<p><img src="/2019/06/19/deep-learning/batch_normalization/1560779540116.png" alt="1560779540116"></p>
-<h2 id="Internal-Co-variate-Shift"><a href="#Internal-Co-variate-Shift" class="headerlink" title="Internal Co-variate Shift"></a>Internal Co-variate Shift</h2><p>Reference: <a href="https://zhuanlan.zhihu.com/p/34879333" target="_blank" rel="noopener">Batch Normalization原理与实战</a></p>
-<p>随着训练的进行，网络中的参数也随着梯度下降在不停更新。一方面，当底层网络中参数发生微弱变化时，由于每一层中的线性变换与非线性激活映射，这些微弱变化随着网络层数的加深而被放大（类似蝴蝶效应）；另一方面，参数的变化导致每一层的输入分布会发生改变，进而下一层的网络需要不停地去适应这些分布变化，使得我们的模型训练变得困难。上述这一现象叫做Internal Covariate Shift。</p>
-<p>原作定义：在深层网络训练的过程中，由于网络中参数变化而引起内部结点数据分布发生变化的这一过程被称作Internal Covariate Shift。</p>
-<p>随着梯度下降的进行，每一层的参数$W^{[l]}$与$b^{[l]}$都会被更新，那么$Z^{[l]}$的分布也就发生了改变，进而$A^{[l]}$也同样出现分布的改变。而$A^{[l]}$作为第 $l+1$ 层的输入，意味着 $l+1$ 层需要去不停适应这种数据分布的变化，这一过程叫做 Interval Covariate Shift.</p>
-<h3 id="带来的问题："><a href="#带来的问题：" class="headerlink" title="带来的问题："></a>带来的问题：</h3><ol>
-<li>上层网络需要不停调整来适应输入数据分布的变化，导致网络学习速度的降低</li>
-<li>网络的训练过程容易陷入梯度饱和区，减缓网络收敛速度（sigmoid, tanh）。 $Z^{[l]}$会逐渐更新并变大，陷入梯度饱和区。可以通过Normalization 使得激活函数输入分布在一个稳定的空间来避免他们陷入梯度饱和区。</li>
-</ol>
-<h3 id="如何减缓-Interval-Covariate-Shift"><a href="#如何减缓-Interval-Covariate-Shift" class="headerlink" title="如何减缓 Interval Covariate Shift"></a>如何减缓 Interval Covariate Shift</h3><ol>
-<li><p>白化。成本高，改变了网络每一层分布导致数据表达的特征信息丢失</p>
-<ul>
-<li>使得输入特征分布具有相同的均值与方差。其中PCA白化保证了所有特征分布均值为0，方差为1</li>
-<li>去除特征之间的相关性</li>
-</ul>
-</li>
-<li><p>Batch Normalization   简化加改进版的白化</p>
-<ul>
-<li>简化。让每个特征都有均值为0，方差为1的分布就OK。</li>
-<li>白化操作减弱了网络中每一层输入数据表达能力，那我就再加个线性变换操作，让这些数据再能够尽可能恢复本身的表达能力就好了。</li>
-</ul>
-</li>
-</ol>
-<p>##　算法</p>
-<p>   <img src="/2019/06/19/deep-learning/batch_normalization/1560779531173.png" alt="1560779531173"></p>
-<p>BN 引入了两个可学习的参数 $\gamma$ 和 $\beta$（<strong>变换重构</strong>）。这两个参数的引入是为了恢复数据本身的表达能力，对规范后的数据进行线性变换，即<strong>$y_i = \gamma \hat{x_i} + \beta_i$</strong>。 特别的，当 $\gamma^2=\sigma ^2$（方差）, $\beta = \mu$ （均值）时，可以实现等价变换并且保留原始输入特征的分布信息。</p>
-<h3 id="Batch-Normalization-的作用"><a href="#Batch-Normalization-的作用" class="headerlink" title="Batch Normalization 的作用"></a>Batch Normalization 的作用</h3><ol>
-<li><p>使得网络中每层输入数据的分布相对稳定，加快模型学习速度</p>
-</li>
-<li><p>使得模型对参数不那么敏感，减小初始化参数对模型学习的影响，可以选择更大的初始化值，学习率选择范围更大</p>
-<p>当学习率设置太高时，会使得参数更新步伐过大，容易出现震荡和不收敛。但是使用BN的网络将不会受到参数数值大小的影响。BN抑制了参数微小变化随着网络层数加深被放大的问题，使得网络对参数大小的适应能力更强</p>
-</li>
-<li><p>缓解梯度消失的问题</p>
-</li>
-<li><p>正则化效果，mini-batch 的mean/variance 作为总体样本的抽样估计，引入随机噪声</p>
-</li>
-</ol>
-<p><strong>BN通过将每一层网络的输入进行normalization，保证输入分布的均值与方差固定在一定范围内，减少了网络中的Internal Covariate Shift问题，并在一定程度上缓解了梯度消失，加速了模型收敛；并且BN使得网络对参数、激活函数更加具有鲁棒性，降低了神经网络模型训练和调参的复杂度；最后BN训练过程中由于使用mini-batch的mean/variance作为总体样本统计量估计，引入了随机噪声，在一定程度上对模型起到了正则化的效果。</strong></p>
-<h3 id="前向传播"><a href="#前向传播" class="headerlink" title="前向传播"></a>前向传播</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">batchnorm_forward</span><span class="params">(x, gamma, beta, bn_param)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Forward pass for batch normalization.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    running_mean = momentum * running_mean + (1 - momentum) * sample_mean</span></span><br><span class="line"><span class="string">    running_var = momentum * running_var + (1 - momentum) * sample_var</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Input:</span></span><br><span class="line"><span class="string">    - x: Data of shape (N, D)</span></span><br><span class="line"><span class="string">    - gamma: Scale parameter of shape (D,)</span></span><br><span class="line"><span class="string">    - beta: Shift paremeter of shape (D,)</span></span><br><span class="line"><span class="string">    - bn_param: Dictionary with the following keys:</span></span><br><span class="line"><span class="string">      - mode: 'train' or 'test'; required</span></span><br><span class="line"><span class="string">      - eps: Constant for numeric stability</span></span><br><span class="line"><span class="string">      - momentum: Constant for running mean / variance.</span></span><br><span class="line"><span class="string">      - running_mean: Array of shape (D,) giving running mean of features</span></span><br><span class="line"><span class="string">      - running_var Array of shape (D,) giving running variance of features</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns a tuple of:</span></span><br><span class="line"><span class="string">    - out: of shape (N, D)</span></span><br><span class="line"><span class="string">    - cache: A tuple of values needed in the backward pass</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    mode = bn_param[<span class="string">'mode'</span>]</span><br><span class="line">    eps = bn_param.get(<span class="string">'eps'</span>, <span class="number">1e-5</span>)</span><br><span class="line">    momentum = bn_param.get(<span class="string">'momentum'</span>, <span class="number">0.9</span>)</span><br><span class="line"></span><br><span class="line">    N, D = x.shape</span><br><span class="line">    running_mean = bn_param.get(<span class="string">'running_mean'</span>, np.zeros(D, dtype=x.dtype))</span><br><span class="line">    running_var = bn_param.get(<span class="string">'running_var'</span>, np.zeros(D, dtype=x.dtype))</span><br><span class="line"></span><br><span class="line">    out, cache = <span class="keyword">None</span>, <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">if</span> mode == <span class="string">'train'</span>:</span><br><span class="line">        <span class="comment">##########################################</span></span><br><span class="line">        mu = np.mean(x, axis=<span class="number">0</span>)</span><br><span class="line">        var = np.var(x, axis=<span class="number">0</span>)</span><br><span class="line">        x_norm = (x - mu) / np.sqrt(var + eps)</span><br><span class="line">        out = gamma * x_norm + beta</span><br><span class="line">        <span class="comment">##########################################</span></span><br><span class="line"></span><br><span class="line">        cache = (x, mu, var, eps, x_norm, gamma, beta, out)</span><br><span class="line">        </span><br><span class="line">        running_mean = momentum * running_mean + (<span class="number">1</span> - momentum) * mu</span><br><span class="line">        running_var  = momentum * running_var  + (<span class="number">1</span> - momentum) * var</span><br><span class="line">    <span class="keyword">elif</span> mode == <span class="string">'test'</span>:</span><br><span class="line">        x_norm = (x - running_mean) / np.sqrt(running_var + eps)</span><br><span class="line">       </span><br><span class="line">    	<span class="comment"># 训练超参数 gamma/beta，重构数据分布</span></span><br><span class="line">    	out = gamma * x_norm + beta</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">'Invalid forward batchnorm mode "%s"'</span> % mode)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Store the updated running means back into bn_param</span></span><br><span class="line">    bn_param[<span class="string">'running_mean'</span>] = running_mean</span><br><span class="line">    bn_param[<span class="string">'running_var'</span>] = running_var</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> out, cache</span><br></pre></td></tr></table></figure>
-<h4 id="反向传播指示图"><a href="#反向传播指示图" class="headerlink" title="反向传播指示图"></a>反向传播指示图</h4><p><img src="/2019/06/19/deep-learning/batch_normalization/BNcircuit-1561283729951.png" alt="BNcircuit"></p>
-<p><img src="/2019/06/19/deep-learning/batch_normalization/1560779531173.png" alt="1560779531173"></p>
-<p>损失函数对$y_i$的梯度为 $\frac{\partial L}{\partial y_i}$，由　$y_i = \gamma \hat{x_i} + \beta$ 得到：</p>
-<p>$$\frac{\partial L}{\partial \beta} = \sum_{i=1}^{N} \frac{\partial L}{\partial y_i}$$</p>
-<p>$$\frac{\partial L}{\partial \gamma} = \sum_{i=1}^{N} \frac{\partial L}{\partial y_i} \hat{x_i}$$</p>
-<p>$$\frac{\partial L}{\partial \hat{x_i}} = \frac{\partial L}{\partial y_i} \gamma$$</p>
-<p>$$\frac{\partial L}{\partial \mu} = \frac{\partial L}{\partial \hat{x_i}} \frac{\partial \hat{x_i}}{\partial \mu} +  \frac{\partial L}{\partial \sigma^2} \frac{\partial {\sigma^2}}{\partial \mu}  \  =  -\frac{\partial L}{\partial \hat{x_i}} \frac{1}{\sqrt{\sigma^2 + \epsilon}} + \frac{\partial L}{\partial \sigma^2} (- \frac{2}{N} \sum_{i=1}^{N} (x_i-\mu)) $$</p>
-<p>$$\frac{\partial L}{\partial \sigma^2} =  \frac{\partial L}{\partial \hat{x_i}} \frac{\partial \hat{x_i}}{\partial \sigma^2} \  = \frac{\partial L}{\partial \hat{x_i}} (-\frac{1}{2} )({\sigma^2+\epsilon})^{-\frac{3}{2}}$$</p>
-<p>$$\frac{\partial L}{\partial x_i} =  \frac{\partial L}{\partial \hat{x_i}} \frac{\partial \hat{x_i}}{\partial {x_i}} +   \frac{\partial L}{\partial \sigma^2} \frac{\partial \sigma^2}{\partial {x_i}} + \frac{\partial L}{\partial \mu}\frac{\partial \mu}{\partial x_i} \ = \frac{\partial L}{\partial \hat{x_i}} \frac{1}{\sqrt{\sigma^2 + \epsilon}} + \frac{\partial L}{\partial \sigma^2} \frac{2(x_i - \mu)}{N}  + \frac{\partial L}{\partial \mu} \frac{1}{N} $$</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">batchnorm_backward_alt</span><span class="params">(dout, cache)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Alternative backward pass for batch normalization.     </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    (x, mu, var, eps, x_norm, gamma, beta, out) = cache</span><br><span class="line">    N,D = dout.shape</span><br><span class="line">    </span><br><span class="line">    dx_norm = dout * gamma</span><br><span class="line">    dgamma = np.sum(dout * x_norm, axis=<span class="number">0</span>)</span><br><span class="line">    dbeta  = np.sum(dout, axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    dvar = np.sum(dx_norm * (x - mu) * (<span class="number">-0.5</span>) * np.power(var + eps, <span class="number">-3</span>/<span class="number">2</span>), axis=<span class="number">0</span>)</span><br><span class="line">    dmu = -np.sum(dx_norm / np.sqrt(var + eps), axis=<span class="number">0</span>) + dvar * (<span class="number">-2</span>) * np.sum(x - mu, axis=<span class="number">0</span>) / N</span><br><span class="line">    dx  =  dx_norm / np.sqrt(var + eps) + dvar * <span class="number">2</span> * (x - mu) / N  + dmu / N     </span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dx, dgamma, dbeta</span><br></pre></td></tr></table></figure>
-<p>分步计算损失函数梯度的方法参考 Reference 2</p>
-<p>Refereces:</p>
-<ol>
-<li><a href="https://www.adityaagrawal.net/blog/deep_learning/bprop_batch_norm" target="_blank" rel="noopener">https://www.adityaagrawal.net/blog/deep_learning/bprop_batch_norm</a></li>
-<li><a href="https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html" target="_blank" rel="noopener">https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html</a></li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http:/2019/06/17/deep-learning/nn_cs231n_note/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1562,6 +1334,235 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http:/2019/03/25/statitics/entropy/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Joseph.Fan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SAILOR">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/25/statitics/entropy/" class="post-title-link" itemprop="url">entropy</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-25 23:18:46" itemprop="dateCreated datePublished" datetime="2019-03-25T23:18:46+08:00">2019-03-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-22 22:04:54" itemprop="dateModified" datetime="2019-07-22T22:04:54+08:00">2019-07-22</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/math/" itemprop="url" rel="index"><span itemprop="name">math</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="信息量"><a href="#信息量" class="headerlink" title="信息量"></a>信息量</h3><p>信息量是对事件发生概率的度量</p>
+<p>$log\frac{1}{p}​$</p>
+<p>一个事件发生的概率越低，则这个事件包含的信息量越大，比如说越稀奇新闻包含的信息量越大，因为这种新闻出现的概率低。</p>
+<p>引用：一本五十万字的中文书平均有多少信息量？（$\log_2m$）  《数学之美 -  吴军》<br>我们知道常用的汉字（一级二级国标）大约有 7000 字。假如每个字等概率，那么我们大约需要 13 个比特（即 13 位二进制数）表示一个汉字［这里把汉字作为一个随机变量，那么汉字系统的熵就是约13bit］ 。但汉字的使用是不平衡的。实际上，前 10% 的汉字占文本的 95% 以上。因此，即使不考虑上下文的相关性，而只考虑每个汉字的独立的概率，那么，每个汉字的信息熵大约也只有 8-9 个比特。如果我们再考虑上下文相关性，每个汉字的信息熵［其实指的是汉字变量取特定汉字作为值时候具有的信息量］ 只有5比特左右。所以，一本五十万字的中文书，信息量大约是 250 万比特［这个时候的信息量就是每个汉字的信息量和数目相乘，指的都是汉字变量取具体值的信息量］ 。如果用一个好的算法压缩一下，整本书可以存成一个 320KB 的文件。如果我们直接用两字节的国标编码存储这本书，大约需要 1MB 大小，是压缩文件的三倍。这两个数量的差距，在信息论中称作“冗余度”（redundancy)。 需要指出的是我们这里讲的 250 万比特是个平均数，同样长度的书，所含的信息量可以差很多。如果一本书重复的内容很多，它的信息量就小，冗余度就大。</p>
+<h3 id="熵（Entropy）"><a href="#熵（Entropy）" class="headerlink" title="熵（Entropy）"></a>熵（Entropy）</h3><p><strong>信息论中，熵是接收每条消息中包含的信息量($\log\frac{1}{p}$)的平均值。</strong></p>
+<p>熵定义为<strong>信息的期望值</strong>（香农 shannon）：</p>
+<p>$$\begin{align} H(X) &amp; = E[I(X)] \ &amp; = E[log(\frac{1}{P(X)})]  \ &amp; = -\sum\limits_{i}^n P(x_i)logP(x_i)\end{align} $$</p>
+<p>表示样本的不确定性量度。在信息世界，熵越高，则能传输越多的信息，熵越低，则意味着传输的信息越少。</p>
+<p>单位：</p>
+<p>熵的单位通常为比特, bit 或者sh(annon) (基于2)，但也用nat(基于自然对数)、Hart（基于10）计量，取决于定义用到对数的底。</p>
+<ul>
+<li>离散均匀分布</li>
+</ul>
+<p>$H(X)=log_2{m}$</p>
+<p>例：抛掷三枚硬币</p>
+<p>信息量：可以得到$2^3=8$种情况</p>
+<p>不确定性：$log_2{8}=3\ bit$</p>
+<ul>
+<li>离散分布</li>
+</ul>
+<p>$H(X)=\sum\limits_{i}^nP(x_i)log\frac{1}{P(x_i)}$</p>
+<p>例：选项ABCD</p>
+<p>信息量：$H(X)=\sum\limits_{i}^n\frac{1}{4}log_2(\frac{1}{4})=2 bit$</p>
+<p>给定A是错的，信息量变为：$H(X)=\sum\limits_{i}^n\frac{1}{3}log_2(\frac{1}{3})=1.585 bit$</p>
+<p>“A是错的”，提供了$2-1.585=0.415bit​$的信息</p>
+<p>例：编码</p>
+<p>分布p=(1/2, 1/2, 0, 0)，即A和B出现的概率均为1/2，C和D出现的概率都为0。计算H(p)为1，即只需要1位编码即可识别A和B</p>
+<p>分布q=(1/4, 1/4, 1/4, 1/4)来编码则得到H(q)=2，即需要2位编码来识别A和B，还有C和D</p>
+<h3 id="交叉熵"><a href="#交叉熵" class="headerlink" title="交叉熵"></a><a href="https://zh.wikipedia.org/wiki/%E4%BA%A4%E5%8F%89%E7%86%B5" target="_blank" rel="noopener">交叉熵</a></h3><p><strong>使用分布 q 来预测真实分布 p 的平均编码长度</strong></p>
+<p>$H(p,q)= E_p[\log  \frac{1}{q(i)}] = \sum\limits_{i}^{} p(i)*log\frac{1}{q(i)} $</p>
+<p>交叉熵可以看作每个信息片段在错误分布 q 下的期望编码位长度，而信息实际分布为 p。</p>
+<p>现有关于样本集的2个概率分布p和q，其中p为真实分布，q预测分布。</p>
+<p>按照真实分布p来衡量识别一个样本的所需要的编码长度的期望(即平均编码长度)为：$H(p)=\sum\limits_{i}^{} p(i)*log\frac{1}{p(i)}$</p>
+<p>使用预测分布q来表示来自真实分布p的平均编码长度，则应该是：$H(p,q)=\sum\limits_{i}^{} p(i)*log\frac{1}{q(i)} $</p>
+<p>因为用q来编码的样本来自实际分布p，所以期望H(p,q)中概率是p(i)。H(p,q)我们称之为“交叉熵”。</p>
+<p>比如含有4个字母(A,B,C,D)的数据集中，真实分布p=(1/2, 1/2, 0, 0)，即A和B出现的概率均为1/2，C和D出现的概率都为0，计算H(p)为1，即只需要1位编码即可识别A和B。如果使用分布Q=(1/4, 1/4, 1/4, 1/4)来编码则得到H(p,q)=2，即需要2位编码来识别A和B(C和D并不会出现)。</p>
+<p>根据非真实分布q得到的平均编码长度H(p,q)大于根据真实分布p得到的平均编码长度H(p)。事实上，根据<a href="https://link.zhihu.com/?target=https%3A//en.wikipedia.org/wiki/Gibbs%2527_inequality" target="_blank" rel="noopener">Gibbs’ inequality</a>可知，H(p,q)&gt;=H(p)恒成立，当q为真实分布p时取等号。</p>
+<h3 id="KL散度（相对熵）"><a href="#KL散度（相对熵）" class="headerlink" title="KL散度（相对熵）"></a>KL散度（相对熵）</h3><p><strong>衡量分布 p 和 q 的差异，使用分布 q 来近似分布 p</strong>　　$D_{KL}(p||q) \ge 0$</p>
+<p><img src="/2019/03/25/statitics/entropy/1562775971102.png" alt="1562775971102"></p>
+<p>$D_{KL}(p||q)=E_{x ~ p}[\frac{\log p(i)}{\log q(i)}]=H(p,q)-H(p) = \sum\limits_{i}^{} p(i)<em>\log\frac{1}{q(i)} - \sum\limits_{i}^{} p(i) </em>\log\frac{1}{p(i)} = \sum\limits_{i}^{} p(i)*\log\frac{p(i)}{q(i)}$</p>
+<p>我们将由q得到的平均编码长度比由p得到的平均编码长度多出的bit数称为“相对熵”，又被称为KL散度(Kullback–Leibler divergence，KLD) <a href="https://link.zhihu.com/?target=https%3A//en.wikipedia.org/wiki/Kullback%25E2%2580%2593Leibler_divergence" target="_blank" rel="noopener">Kullback–Leibler divergence</a>。它表示2个函数或概率分布的差异性：差异越大则相对熵越大，差异越小则相对熵越小，二者分布相同则相对熵为0。</p>
+<p>可以得到，交叉熵 $H(p,q)= E_p[\log  \frac{1}{q(i)}] = H(p) + D_{KL}(p||q)$</p>
+<p>其中 $H(p)$ 是 $p$ 的<a href="https://zh.wikipedia.org/wiki/%E4%BF%A1%E6%81%AF%E7%86%B5" target="_blank" rel="noopener">熵</a>，$D_{KL}(p|q)$ 是从 $p$ 到 $q$ 的<a href="https://zh.wikipedia.org/w/index.php?title=KL%E6%95%A3%E5%BA%A6&amp;action=edit&amp;redlink=1" target="_blank" rel="noopener">KL散度</a>(也被称为<em>p</em>相对于<em>q</em>的<em>相对熵</em>)。</p>
+<p>通常“相对熵”也可称为“交叉熵”，因为真实分布p是固定的，D(p||q)由H(p,q)决定。当然也有特殊情况，彼时2者须区别对待。</p>
+<h3 id="交叉熵作为损失函数"><a href="#交叉熵作为损失函数" class="headerlink" title="交叉熵作为损失函数"></a>交叉熵作为损失函数</h3><p>交叉熵可在神经网络(机器学习)中作为损失函数，p表示真实标记的分布，q则为训练后的模型的预测标记分布，交叉熵损失函数可以衡量p与q的相似性。</p>
+<p>交叉熵和均方误差都可以作为神经网络的损失函数，他们的区别在于：</p>
+<ol>
+<li>交叉熵适用于分类问题，结果是离散的类别（如图片分类），而均方误差适用于回归问题，结果是一个连续的数值（如雨量预测）【实际上均方误差也可以用于分类问题】</li>
+<li>在使用 sigmod 激活函数时，如果使用均方误差作为损失函数，反向传播的导数（直接影响学习速度）会包含 sigmod函数的梯度，这个梯度随着变量的增大会趋向于0，导致学习速度迅速降低(梯度消失)；而如果使用交叉熵作为损失函数，就不存在这个问题，反向传播的导数包含 sigmod 函数，而不包含 sigmod 函数的导数。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># softmax_cross_entropy_with_logits计算后，矩阵的每一行数据计算出一个交叉熵，三行数据共计算出三个交叉熵</span></span><br><span class="line">cross_entropy_lst = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y_)</span><br><span class="line"><span class="comment"># 通过reduce_sum进行累加，计算出一个batch的交叉熵</span></span><br><span class="line">cross_entropy = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y_))</span><br><span class="line"><span class="comment"># 将batch里每条记录的交叉熵求均值，作为损失</span></span><br><span class="line">cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y_))</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">[ <span class="number">0.40760595</span>  <span class="number">0.40760595</span>  <span class="number">0.40760595</span>]</span><br><span class="line"><span class="number">1.22282</span></span><br><span class="line"><span class="number">0.407606</span></span><br></pre></td></tr></table></figure>
+<p>References:</p>
+<ul>
+<li><a href="https://www.zhihu.com/question/41252833" target="_blank" rel="noopener">https://www.zhihu.com/question/41252833</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E4%BA%A4%E5%8F%89%E7%86%B5" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E4%BA%A4%E5%8F%89%E7%86%B5</a></li>
+<li><a href="https://www.jianshu.com/p/92220ab37ea3" target="_blank" rel="noopener">https://www.jianshu.com/p/92220ab37ea3</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http:/2019/01/31/machine-learning/decision-tree/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1985,7 +1986,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   
                 </div>
@@ -2008,7 +2009,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
